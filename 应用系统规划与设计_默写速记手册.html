@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>应用系统规划与设计 · 默写速记手册</title>
+<style>
+:root{
+  --bg:#0e1116; --bg2:#151a21; --bg3:#1c232c; --line:#2a3340;
+  --txt:#e6eaf0; --txt2:#9aa7b8; --txt3:#6b7889;
+  --accent:#4da3ff; --accent2:#7c5cff;
+  --red:#ff5c5c; --green:#2ecc71; --amber:#ffb020; --teal:#00d4aa;
+  --code:'JetBrains Mono','Cascadia Code',Consolas,'Microsoft YaHei',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--txt);
+  font-family:-apple-system,'Segoe UI','Microsoft YaHei',system-ui,sans-serif;
+  font-size:14px; line-height:1.75; padding:0 0 80px;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+
+header{
+  background:linear-gradient(135deg,#141b26 0%,#101720 60%,#0e1116 100%);
+  border-bottom:1px solid var(--line); padding:26px 0 20px; margin-bottom:0;
+  position:sticky; top:0; z-index:50; backdrop-filter:blur(8px);
+}
+h1{font-size:21px;font-weight:700;letter-spacing:.5px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+h1 .badge{font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;
+  background:rgba(77,163,255,.14);color:var(--accent);border:1px solid rgba(77,163,255,.35)}
+.sub{color:var(--txt2);font-size:12.5px;margin-top:6px}
+.topbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.tab{
+  padding:7px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;
+  background:var(--bg3);border:1px solid var(--line);color:var(--txt2);transition:.16s;user-select:none;
+}
+.tab:hover{color:var(--txt);border-color:#3a4657}
+.tab.on{background:linear-gradient(135deg,#2b6cb0,#4a3ba8);color:#fff;border-color:transparent;
+  box-shadow:0 3px 14px rgba(77,163,255,.25)}
+.progline{display:flex;align-items:center;gap:12px;margin-top:14px;font-size:12px;color:var(--txt2)}
+.pbar{flex:1;height:6px;background:var(--bg3);border-radius:6px;overflow:hidden;border:1px solid var(--line)}
+.pbar>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--teal));
+  transition:width .35s ease;border-radius:6px}
+.btn{background:var(--bg3);border:1px solid var(--line);color:var(--txt2);border-radius:7px;
+  padding:5px 12px;font-size:12px;cursor:pointer;transition:.15s;font-family:inherit}
+.btn:hover{color:var(--txt);border-color:#455263}
+.btn.pri{background:linear-gradient(135deg,#2b6cb0,#4a3ba8);color:#fff;border-color:transparent}
+
+.panel{display:none;padding-top:26px}
+.panel.on{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+.howto{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:24px}
+.howto h3{font-size:14px;color:var(--accent);margin-bottom:10px;letter-spacing:.5px}
+.howto ol{margin-left:20px;color:var(--txt2);font-size:13px}
+.howto li{margin-bottom:5px}
+.howto b{color:var(--txt)}
+
+.mod{margin-bottom:18px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--bg2)}
+.mod>summary{
+  list-style:none;cursor:pointer;padding:14px 18px;display:flex;align-items:center;gap:12px;
+  background:linear-gradient(90deg,rgba(77,163,255,.07),transparent);font-weight:700;font-size:15px;
+}
+.mod>summary::-webkit-details-marker{display:none}
+.mod>summary .no{
+  font-family:var(--code);font-size:12px;color:#fff;background:linear-gradient(135deg,#2b6cb0,#4a3ba8);
+  padding:2px 8px;border-radius:6px;letter-spacing:.5px
+}
+.mod>summary .cnt{margin-left:auto;font-size:11.5px;color:var(--txt3);font-weight:500}
+.mod>summary .arw{color:var(--txt3);transition:.2s;font-size:12px}
+.mod[open]>summary .arw{transform:rotate(90deg)}
+.modbody{padding:4px 14px 16px}
+
+.card{border:1px solid var(--line);border-radius:10px;margin:12px 0;background:var(--bg3);overflow:hidden}
+.card.ok{border-color:rgba(46,204,113,.45);background:rgba(46,204,113,.05)}
+.chead{padding:11px 14px;display:flex;align-items:flex-start;gap:10px}
+.q{font-weight:650;font-size:13.5px;flex:1;color:#fff}
+.q .n{color:var(--txt3);font-family:var(--code);font-size:11.5px;margin-right:6px}
+.mn{display:flex;gap:7px;flex-wrap:wrap;padding:0 14px 10px}
+.chip{
+  font-family:var(--code);font-size:12px;padding:3px 10px;border-radius:6px;
+  background:rgba(255,176,32,.12);color:var(--amber);border:1px solid rgba(255,176,32,.3);
+  letter-spacing:.6px;white-space:nowrap
+}
+.chip.b{background:rgba(0,212,170,.1);color:var(--teal);border-color:rgba(0,212,170,.3)}
+.chip.p{background:rgba(124,92,255,.13);color:#b39dff;border-color:rgba(124,92,255,.33)}
+.ans{padding:0 14px 14px;display:none}
+.card.open .ans{display:block}
+.ans ol{margin:4px 0 0 22px}
+.ans li{margin-bottom:3px;font-size:13px;color:var(--txt)}
+.ans .note{margin-top:9px;font-size:12.5px;color:var(--txt2);background:rgba(77,163,255,.07);
+  border-left:3px solid var(--accent);padding:7px 11px;border-radius:0 6px 6px 0}
+.cfoot{padding:0 14px 12px;display:flex;gap:8px;align-items:center}
+.mini{font-size:11.5px;padding:4px 10px;border-radius:6px;cursor:pointer;border:1px solid var(--line);
+  background:var(--bg2);color:var(--txt2);font-family:inherit;transition:.15s}
+.mini:hover{color:var(--txt);border-color:#455263}
+.mini.on{background:rgba(46,204,113,.16);color:var(--green);border-color:rgba(46,204,113,.45)}
+
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;
+  background:var(--bg2);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+th{background:var(--bg3);padding:10px 13px;text-align:left;font-size:12.5px;color:var(--accent);
+  font-weight:700;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:9px 13px;border-bottom:1px solid rgba(42,51,64,.6);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:rgba(77,163,255,.045)}
+td.k{font-family:var(--code);color:var(--amber);font-weight:600;white-space:nowrap}
+td.c{font-family:var(--code);color:var(--teal);font-weight:700;text-align:center;white-space:nowrap}
+td.mn{font-family:var(--code);color:#b39dff;white-space:nowrap;font-size:12.5px}
+
+.qbox{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:22px;margin-bottom:16px}
+.qstem{font-size:15.5px;font-weight:700;color:#fff;margin-bottom:6px;line-height:1.6}
+.qmeta{font-size:12px;color:var(--txt3);margin-bottom:14px;display:flex;gap:14px;flex-wrap:wrap}
+.qmeta span{font-family:var(--code)}
+textarea{
+  width:100%;min-height:130px;background:var(--bg);border:1px solid var(--line);border-radius:9px;
+  color:var(--txt);padding:12px;font-family:var(--code);font-size:13px;line-height:1.85;resize:vertical;outline:none
+}
+textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(77,163,255,.13)}
+.qactions{display:flex;gap:9px;margin-top:12px;flex-wrap:wrap;align-items:center}
+.result{margin-top:16px;display:none}
+.result.on{display:block;animation:fade .25s}
+.score{font-size:26px;font-weight:800;font-family:var(--code);letter-spacing:-1px}
+.score.g{color:var(--green)} .score.a{color:var(--amber)} .score.r{color:var(--red)}
+.rlist{margin-top:12px;display:flex;flex-direction:column;gap:5px}
+.ritem{display:flex;gap:9px;align-items:flex-start;font-size:13px;padding:5px 9px;border-radius:6px}
+.ritem.hit{background:rgba(46,204,113,.09);color:#b8f0cf}
+.ritem.miss{background:rgba(255,92,92,.09);color:#ffc0c0}
+.ritem .tag{font-family:var(--code);font-size:11px;flex-shrink:0;margin-top:1px}
+.hintbar{font-family:var(--code);font-size:13px;color:var(--teal);letter-spacing:3px;margin-top:8px;
+  background:rgba(0,212,170,.07);border:1px dashed rgba(0,212,170,.35);border-radius:8px;padding:9px 12px;
+  display:none;word-break:break-all;line-height:2}
+.hintbar.on{display:block}
+.stats{display:flex;gap:18px;flex-wrap:wrap;font-size:12.5px;color:var(--txt2)}
+.stats b{color:var(--txt);font-family:var(--code);font-size:15px}
+
+.legend{font-size:12px;color:var(--txt3);margin:8px 0 16px;line-height:1.9}
+.legend code{font-family:var(--code);color:var(--amber);background:rgba(255,176,32,.1);padding:1px 6px;border-radius:4px}
+h2.sec{font-size:16px;margin:26px 0 10px;color:#fff;display:flex;align-items:center;gap:9px}
+h2.sec::before{content:'';width:3px;height:16px;background:linear-gradient(180deg,var(--accent),var(--accent2));border-radius:2px}
+@media(max-width:640px){
+  body{font-size:13px} h1{font-size:17px} .wrap{padding:0 12px}
+  td.mn{display:none} .tab{padding:6px 11px;font-size:12px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1>应用系统规划与设计 · 默写速记手册 <span class="badge">系统规划与管理师</span></h1>
+    <div class="sub">五项内容 · 五段过程 · 可行性 8 步 / 详细调研 6 活动 —— 数字定骨架，口诀做钩子，默写验成色</div>
+    <div class="topbar">
+      <div class="tab on" data-p="p1">📖 骨架 + 口诀</div>
+      <div class="tab" data-p="p2">🔢 数字速查</div>
+      <div class="tab" data-p="p3">⚖️ 易混对比</div>
+      <div class="tab" data-p="p4">✍️ 默写闯关</div>
+      <div class="tab" data-p="p5">📅 复习计划</div>
+    </div>
+    <div class="progline">
+      <span>掌握进度</span>
+      <div class="pbar"><i id="pbar"></i></div>
+      <span id="ptxt">0 / 0</span>
+      <button class="btn" id="reset">重置进度</button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- ============ P1 ============ -->
+<div class="panel on" id="p1">
+  <div class="howto">
+    <h3>这一章为什么容易"背了但写错"</h3>
+    <ol>
+      <li><b>本章的坑是"两套流程长得几乎一样"。</b><b>可行性研究 8 步</b>和<b>详细调研 6 活动</b>里都有"收集/研究现状、导出评价方案、最后请人审查"，中间还夹着一个<b>初步调研 5 项</b>。三兄弟一慌就串行，必须用"标志词"区分（见易混页）。</li>
+      <li><b>本章有两条主线。</b>主线一：<b>五项主要内容</b>（生命周期 / 体系结构 / 接口 / 数据 / 构件）——回答"规划与设计要定义什么"；主线二：<b>五段主要过程</b>（初步调研 → 可行性 → 详细调研 → 系统分析 → 系统设计）——回答"按什么顺序做"。先把这两条线钉死，其余全是挂件。</li>
+      <li><b>顺序比内容更容易丢分。</b>"可行性研究在详细调研<b>之前</b>"、"输出设计在输入设计<b>之前</b>"，这类前后关系就是阅卷点，背的时候要念出"先……再……"。</li>
+      <li><b>默写检验 &gt; 反复阅读。</b>本页答案默认折叠，必须先自己复述再展开对照。</li>
+    </ol>
+  </div>
+  <div class="legend">
+    标记说明：<code>橙底口诀</code> = 核心记忆钩子 &nbsp;|&nbsp; <code>青底</code> = 步骤分组 / 结构钩子 &nbsp;|&nbsp; <code>紫底</code> = 与你原笔记口径的差异提醒
+  </div>
+  <div id="mods"></div>
+</div>
+
+<!-- ============ P2 ============ -->
+<div class="panel" id="p2">
+  <h2 class="sec">数字 → 答案 速查表（最高频失分点）</h2>
+  <div class="legend">用法：遮住右两列，看数字 + 主题名秒答。答不出来就回「骨架+口诀」页定位。</div>
+  <div id="numtable"></div>
+</div>
+
+<!-- ============ P3 ============ -->
+<div class="panel" id="p3">
+  <h2 class="sec">最容易写混的六组对比</h2>
+  <div class="legend">这六组是阅卷时"看起来对但拿不到分"的重灾区，必须逐字区分。</div>
+
+  <h2 class="sec">① 初步调研 vs 可行性研究 vs 详细调研（三兄弟）</h2>
+  <table>
+    <thead><tr><th>对比项</th><th>初步调研</th><th>可行性研究</th><th>详细调研</th></tr></thead>
+    <tbody>
+      <tr><td class="k">顺序</td><td class="c">第 1 段</td><td class="c">第 2 段</td><td class="c">第 3 段</td></tr>
+      <tr><td class="k">回答什么</td><td><b>大概是什么情况</b></td><td><b>值不值得做</b></td><td><b>到底要什么</b></td></tr>
+      <tr><td class="k">条数</td><td>5 项内容</td><td>4 方面 + 8 步骤（+ 报告 6 内容）</td><td>6 项活动 + 5 种方法</td></tr>
+      <tr><td class="k">口诀</td><td class="mn">概·环·现·态·资</td><td class="mn">经技社管 / 复研模定评推计文</td><td class="mn">收模优原方审 / 收表会访实</td></tr>
+      <tr><td class="k">独有标志词</td><td>组织概况、<b>各方面态度</b>、系统研制资源</td><td><b>高层逻辑模型</b>、<b>重新定义问题</b>、草拟开发计划</td><td><b>系统需求建模</b>、<b>需求优先级划分</b>、<b>构建系统原型</b></td></tr>
+    </tbody>
+  </table>
+  <div class="legend">一句话定位：<code>初步调研 = 摸底（粗），可行性 = 算账（值不值），详细调研 = 建模（细）</code>。<br>
+  <b>⚠️ 顺序陷阱</b>：可行性研究在<b>详细调研之前</b>——先判断值不值得做，再花大力气细查。写成"详细调研 → 可行性"直接丢结构分。</div>
+
+  <h2 class="sec">② 可行性研究 8 步 vs 详细调研 6 活动（本章第一大坑）</h2>
+  <table>
+    <thead><tr><th>对比项</th><th>可行性研究 8 步</th><th>详细调研 6 活动</th></tr></thead>
+    <tbody>
+      <tr><td class="k">起手</td><td><b>复查系统目标和规模</b>（回头看）</td><td><b>收集信息</b>（往外拿）</td></tr>
+      <tr><td class="k">收尾</td><td><b>书写文档并提交审查</b></td><td><b>与管理部门一起复查各种建议</b></td></tr>
+      <tr><td class="k">有没有"模型"</td><td>导出新系统的<b>高层逻辑模型</b></td><td><b>系统需求建模</b>（需求模型）</td></tr>
+      <tr><td class="k">有没有"原型"</td><td>没有</td><td><b>有</b>——构建系统原型，检验可行性并发现问题</td></tr>
+      <tr><td class="k">有没有"优先级"</td><td>没有</td><td><b>有</b>——需求优先级划分</td></tr>
+      <tr><td class="k">方案怎么说</td><td>导出和评价<b>可供选择的方案</b> → 推荐一个方案并<b>说明理由</b></td><td>产生和评估<b>候选方案</b></td></tr>
+    </tbody>
+  </table>
+  <div class="legend"><b>最强区分线索</b>：出现"原型""优先级""需求建模"一定是<b>详细调研</b>；出现"高层逻辑模型""重新定义问题""草拟开发计划""推荐方案并说明理由"一定是<b>可行性研究</b>。</div>
+
+  <h2 class="sec">③ 系统分析 vs 系统设计（做什么 vs 怎么做）</h2>
+  <table>
+    <thead><tr><th>对比项</th><th>系统分析</th><th>系统设计</th></tr></thead>
+    <tbody>
+      <tr><td class="k">回答</td><td><b>做什么</b>（需求）</td><td><b>怎么做</b>（方案）</td></tr>
+      <tr><td class="k">阶段</td><td>3 阶段：问题分析 → 需求分析 → 需求定义<br><span style="color:var(--txt3)">口诀「问·需·定」</span></td><td>2 阶段：总体设计 → 详细设计<br><span style="color:var(--txt3)">口诀「总·详」</span></td></tr>
+      <tr><td class="k">交付物</td><td><b>系统说明书</b>（引言 / 概述 / 实施计划）</td><td><b>系统设计说明书</b></td></tr>
+      <tr><td class="k">原则</td><td>（一般不考原则）</td><td><b>5 原则</b>：系统性 / 灵活性 / 可靠性 / 经济性 / 管理可接受</td></tr>
+    </tbody>
+  </table>
+  <div class="legend"><b>⚠️ 两个"说明书"别混</b>：系统分析出的是「<b>系统说明书</b>」（引言—概述—实施计划），系统设计写完出的是「<b>系统设计说明书</b>」，且它本身就是<b>系统设计 10 项内容的最后一项</b>。<br>
+  <b>⚠️ 原则别串</b>：系统设计 5 原则是「<b>系灵可经管</b>」，上一章技术体系 6 原则是「用安靠灵扩驾」——两组都有"灵"和"靠"，必须带主题名背。</div>
+
+  <h2 class="sec">④ 数据定义 5 步 vs 构件定义 7 任务（都叫"定义"）</h2>
+  <table>
+    <thead><tr><th>对比项</th><th>数据定义 5 步</th><th>构件定义 7 任务</th></tr></thead>
+    <tbody>
+      <tr><td class="k">口诀</td><td class="mn">需·概·逻·物·验</td><td class="mn">问·基·复·数·行·部·备</td></tr>
+      <tr><td class="k">走向</td><td><b>一条线下沉</b>：抽象 → 落地存储</td><td><b>由对象到部署</b>：找类 → 剔重 → 落地</td></tr>
+      <tr><td class="k">结构</td><td>需求 → 概念（与 DBMS 无关）→ 逻辑 → 物理 → <b>验证</b></td><td><b>2 + 1 + 4</b>：问题域类 + 基础设施类 → 细化<b>不需要作为可复用构件</b>的类 → 数据源 / 行为表示 / 部署图 / 备选方案</td></tr>
+      <tr><td class="k">易错</td><td>漏最后一步"验证"</td><td>第 3 步写成"确定可复用构件"（<b>恰恰相反</b>，是细分<b>不需要复用</b>的类）</td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="sec">⑤ 三个新考点防串：APA 6 步 / 流水线 6 内容 / 软件工厂 4 方法</h2>
+  <table>
+    <thead><tr><th>考点</th><th>条数</th><th>口诀</th><th>起手动词（最强锚）</th><th>收尾</th></tr></thead>
+    <tbody>
+      <tr><td class="k">应用系统组合法 APA</td><td class="c">6</td><td class="mn">清·评·析·策·施·监</td><td><b>应用系统清单</b>（盘点家底）</td><td>监测和评估</td></tr>
+      <tr><td class="k">流水线作业</td><td class="c">6</td><td class="mn">环·务·规·自·并·监</td><td><b>环节划分</b>（切工序）</td><td>监控和优化</td></tr>
+      <tr><td class="k">软件工厂建设</td><td class="c">4</td><td class="mn">组·资·业·体</td><td><b>组织建设</b>（建队伍）</td><td>体系保障机制</td></tr>
+    </tbody>
+  </table>
+  <div class="legend"><b>场景钩子</b>：APA 是"<b>盘点现有系统</b>"（管资产），流水线是"<b>切工序提效率</b>"（管过程），软件工厂是"<b>建队伍建制度</b>"（管产能）。三者主题完全不同，用"管什么"来定位就不会串。</div>
+
+  <h2 class="sec">⑥ 接口 3 类 vs 界面定义（用户接口 = 人机界面）</h2>
+  <table>
+    <thead><tr><th>层次</th><th>名称</th><th>内容</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td class="c">1</td><td><b>接口定义</b>（3 类）</td><td>用户接口 / 外部接口 / 内部接口</td><td>口诀「<b>人·外·内</b>」，是<b>顶层三分类</b></td></tr>
+      <tr><td class="c">2</td><td><b>界面定义</b>（用户接口的细化）</td><td>3 条原则 + 5 项核心活动</td><td>只管"<b>人与系统</b>"这一类</td></tr>
+      <tr><td class="c">3</td><td><b>人机界面设计</b></td><td>系统设计 10 项内容之一</td><td>落到设计阶段的产物</td></tr>
+    </tbody>
+  </table>
+  <div class="legend">一句话：<code>接口管三类边界，界面只管人机那一条；界面定义的原则和活动，是"用户接口"在设计层面的展开</code>。<br>
+  <b>外部接口</b> = 本系统与其他系统之间；<b>内部接口</b> = 系统内部构件 / 模块之间。</div>
+</div>
+
+<!-- ============ P4 ============ -->
+<div class="panel" id="p4">
+  <div class="howto">
+    <h3>默写闯关 · 判定规则</h3>
+    <ol>
+      <li>系统随机出题，你独立默写，<b>不看答案</b>。</li>
+      <li>提交后按<b>条目命中率</b>给分：每答中一条标准答案中的关键表述即算命中。</li>
+      <li><b>≥85% 通过</b>；60%~85% 需重写；&lt;60% 回「骨架+口诀」页重背。</li>
+      <li>拿到满分的条目会自动在「骨架+口诀」页标为已掌握。</li>
+    </ol>
+  </div>
+  <div class="qbox">
+    <div class="qstem" id="qstem">点击「出题」开始</div>
+    <div class="qmeta">
+      <span id="qmod"></span>
+      <span id="qcnt"></span>
+      <span id="qidx"></span>
+    </div>
+    <textarea id="uans" placeholder="在这里默写你的答案，一条一行更利于判分……"></textarea>
+    <div class="hintbar" id="hintbar"></div>
+    <div class="qactions">
+      <button class="btn pri" id="submit">提交判分</button>
+      <button class="btn" id="nex">出题 / 换题</button>
+      <button class="btn" id="hint">首字提示</button>
+      <button class="btn" id="showans">看标准答案</button>
+    </div>
+    <div class="result" id="res">
+      <div class="score" id="score">0%</div>
+      <div class="stats" style="margin-top:8px">
+        <span>命中 <b id="hit">0</b>/<b id="tot">0</b> 条</span>
+        <span>累计作答 <b id="attempts">0</b> 次</span>
+        <span>平均分 <b id="avg">0</b>%</span>
+      </div>
+      <div class="rlist" id="rlist"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ P5 ============ -->
+<div class="panel" id="p5">
+  <div class="howto">
+    <h3>这一章的 3 天打法</h3>
+    <ol>
+      <li><b>Day 1 上午（约 40 min）只背两条主线。</b>白纸默写「五项主要内容」（生·体·接·数·构）和「五段主要过程」（初·可·详·分·设）。这两条线是本章目录，背不熟就别往下走。</li>
+      <li><b>Day 1 下午（约 1.5h）攻三兄弟。</b>把<b>初步调研 5 项 / 可行性研究 8 步 / 详细调研 6 活动</b>分三块写，每块写完隔 10 分钟再写下一块。<b>重点练"标志词反推"</b>：随便说一个词（如"高层逻辑模型""构建系统原型"），立刻答出属于哪一块。</li>
+      <li><b>Day 2 攻系统设计 10 项 + 三个新考点。</b>系统设计用 <b>3-3-3-1</b> 分组（结构类 / 交互类 / 支撑类 / 收尾）反复默写；APA、流水线、软件工厂用"起手动词"三个锚（清单 / 环节划分 / 组织建设）定位。</li>
+      <li><b>Day 4 全量默写。</b>重点补"顺序分"：可行性在详细调研之前、输出在输入之前、先概念后逻辑再物理。</li>
+      <li><b>Day 7 / Day 15</b> 各做一次全量默写，只要求"条数全对 + 关键词全中"，不要求逐字一致。</li>
+    </ol>
+    <h3 style="margin-top:16px">考场三个提分技巧（本章专用）</h3>
+    <ol>
+      <li><b>先写编号再填词。</b>看到"可行性研究的步骤"，先在草稿纸写 ①~⑧ 八个圈，再往里填。条数对了，及格线就守住了。</li>
+      <li><b>先写两端再补中间。</b>长流程（8 步 / 6 活动）先写死"起手 + 收尾"两条，中间按逻辑链往回推：可行性是"复查→研究→模型→重定义→评价→推荐→计划→文档"，详细调研是"收集→建模→优先级→原型→候选方案→复查"。</li>
+      <li><b>同前缀批量输出。</b>本章大量条目同前缀：BSP 四步全是"定义 XX"（上一章）、界面定义 8 项里有 7 项是"XX 分析"、可行性 8 步里有 4 个"导出/推荐/草拟/书写"的产出动作。先在心里念一遍前缀，再补后缀，比一条条硬想快得多。</li>
+    </ol>
+  </div>
+  <h2 class="sec">已掌握清单</h2>
+  <div id="mastered" class="legend">还没有标记任何条目。</div>
+</div>
+
+</div>
+
+<script>
+/* =========================================================
+   数据：题干 q / 口诀 chips / 标准答案 a / 备注 note
+   ========================================================= */
+const MODULES = [
+{
+  no:'00', name:'总览 · 两项主线（五项主要内容 + 四/五种生命周期模型）',
+  items:[
+    { q:'应用系统规划与设计的主要内容（5 项）',
+      chips:[{t:'生·体·接·数·构',c:''},{t:'由过程到零件的降维',c:'b'}],
+      a:['生命周期选择',
+         '体系结构定义',
+         '接口定义',
+         '数据定义',
+         '构件定义'],
+      note:'顺序钩子（比口诀更好用）：<b>粒度由粗到细</b> —— 先定"怎么生"（<b>生命周期</b>）→ 定"骨架"（<b>体系结构</b>）→ 定"怎么连"（<b>接口</b>）→ 定"存什么"（<b>数据</b>）→ 定"用什么零件"（<b>构件</b>）。<br>盖房子类比：<b>工期模式 → 主体结构 → 门窗管线 → 材料清单 → 预制构件</b>。'
+    },
+    { q:'生命周期模型（4 种）',
+      chips:[{t:'瀑·V·迭·敏',c:''},{t:'前 2 预测型 / 后 2 适应型',c:'b'}],
+      a:['瀑布模型',
+         'V 模型',
+         '迭代模型',
+         '敏捷方法'],
+      note:'分组钩子：<b>瀑布 与 V 是预测型</b>（需求稳定、阶段串行、强调前期文档）；<b>迭代 与 敏捷是适应型</b>（需求易变、增量交付、快速反馈）。<br><b>V 模型 = 瀑布的加强版</b>：左边是开发阶段、右边是对应测试级别，强调"<b>开发与测试一一对应</b>"。<br><b>⚠️ 易错</b>：本章只考这 4 种，不要写"原型模型 / 螺旋模型"进来；另外你笔记里的"生民周期"应为"<b>生命周期</b>"。'
+    }
+  ]
+},
+{
+  no:'01', name:'体系结构定义 · 接口定义 · 界面定义',
+  items:[
+    { q:'体系结构定义的方法（2 种，及各自适用层次）',
+      chips:[{t:'流 = 概要',c:''},{t:'构 = 详细',c:'b'}],
+      a:['面向数据流的定义方法（用于概要设计）',
+         '面向数据结构的定义方法（用于详细设计）'],
+      note:'一句硬对应：<b>数据流 → 概要</b>（画系统"怎么流转"，定模块结构）；<b>数据结构 → 详细</b>（定模块内"怎么组织数据"）。<br>常考问法："哪一种方法用于概要设计？" → 面向<b>数据流</b>的定义方法。'
+    },
+    { q:'接口定义：包含哪 3 类接口',
+      chips:[{t:'人·外·内',c:''},{t:'由外到内的三层边界',c:'b'}],
+      a:['用户接口',
+         '外部接口',
+         '内部接口'],
+      note:'三类边界一次分清：<br><b>用户接口</b> = 人与系统之间（人机界面）<br><b>外部接口</b> = 本系统与其他系统之间<br><b>内部接口</b> = 系统内部各构件 / 模块之间<br>建议按"由外到内"（人 → 外部系统 → 内部构件）写；三类写全即得分，顺序不必纠结。'
+    },
+    { q:'界面定义活动的基本原则（3 条）',
+      chips:[{t:'控·记·一',c:''},{t:'Mandel 三原则',c:'b'}],
+      a:['置用户于控制之下',
+         '减少用户的记忆负担',
+         '保持界面一致'],
+      note:'白话谐音：<b>"让用户做主、别让用户背、别让用户懵"</b>。<br>这是经典的人机界面设计三大黄金原则（Theo Mandel），属于跨章节通用考点，几乎每年都会以案例形式出现。'
+    },
+    { q:'界面定义的核心活动（5 项）',
+      chips:[{t:'外·人·问·原·评',c:''},{t:'模型→分工→问题→原型→评估',c:'b'}],
+      a:['创建系统功能的外部模型',
+         '确定人和计算机各自的任务',
+         '考虑典型界面问题',
+         '借助 CASE 工具构造界面原型',
+         '评估界面质量'],
+      note:'逻辑链：<b>先画外部模型 → 再分工人机 → 再想典型问题 → 再做原型 → 最后评质量</b>。<br>高频漏项：第 3 条"<b>考虑典型界面问题</b>"；第 4 条里的采分词是 <b>CASE 工具</b>（不加"CASE"容易被判表述不完整）。'
+    }
+  ]
+},
+{
+  no:'02', name:'数据定义（5 步）与构件定义（7 任务）',
+  items:[
+    { q:'数据定义的步骤（5 步）',
+      chips:[{t:'需·概·逻·物·验',c:''},{t:'一条线下沉到存储',c:'b'}],
+      a:['需求分析',
+         '定义概念模型',
+         '定义逻辑模型',
+         '定义物理数据库',
+         '验证'],
+      note:'经典数据库设计五步，<b>逐层落地</b>：需求 → <b>概念</b>（ER 模型，与具体 DBMS 无关）→ <b>逻辑</b>（关系模式）→ <b>物理</b>（存储结构、索引）→ <b>验证</b>。<br>易漏的是最后一步"<b>验证</b>"，很多人写到物理数据库就停了。'
+    },
+    { q:'构件定义的典型任务（7 项）',
+      chips:[{t:'问·基·复·数·行·部·备',c:''},{t:'结构：2 + 1 + 4',c:'b'}],
+      a:['标识出所有与问题域对应的类',
+         '确定所有与基础设施域对应的类',
+         '细化所有不需要作为可复用构件的类',
+         '说明持久数据源（数据库和文件）并确定管理数据源所需要的类',
+         '开发并且细化类或构件的行为表示',
+         '细化部署图以提供额外的实现细节',
+         '考虑每个构件级定义表示，并且时刻考虑其他可选方案'],
+      note:'结构钩子 <b>2 + 1 + 4</b>：<br>① <b>找类（2 步）</b>：问题域的类 + 基础设施域的类<br>② <b>筛类（1 步）</b>：细化<b>不需要作为可复用构件</b>的类<br>③ <b>落地（4 步）</b>：持久数据源 / 行为表示 / 部署图 / 备选方案<br><b>⚠️ 最易错第 3 步</b>：是"细化<b>不需要作为可复用构件</b>的类"，方向恰恰相反，千万别写成"确定可复用构件"。'
+    }
+  ]
+},
+{
+  no:'03', name:'应用系统规划主要过程（5 段）与初步调研（5 项）',
+  items:[
+    { q:'应用系统规划的主要过程（5 个阶段）',
+      chips:[{t:'初·可·详·分·设',c:''},{t:'初可详，分设计',c:'b'}],
+      a:['初步调研',
+         '可行性研究',
+         '详细调研',
+         '系统分析',
+         '系统设计'],
+      note:'谐音句：<b>"初可详，分设计"</b>。<br>逻辑链：<b>粗看（初步调研）→ 值不值（可行性）→ 细看（详细调研）→ 做什么（系统分析）→ 怎么做（系统设计）</b>。<br><b>⚠️ 顺序陷阱</b>：可行性研究在<b>详细调研之前</b>——先算账判断值不值得做，再花大力气细查。'
+    },
+    { q:'初步调研的内容（5 项）',
+      chips:[{t:'概·环·现·态·资',c:''},{t:'由己及人及物',c:'b'}],
+      a:['组织概况',
+         '组织环境',
+         '现行系统概况',
+         '各方面态度',
+         '系统研制资源'],
+      note:'谐音句：<b>"概况环境现行，态度资源"</b>。<br>逻辑钩子：<b>自身（概况）→ 外部（环境）→ 现状（现行系统）→ 人（态度）→ 钱物（资源）</b>，由己及人及物。<br>特点：初步调研全是"<b>概况性</b>"的字眼，不出现"建模""原型""优先级"这类深入动作——出现就说明串到详细调研了。'
+    }
+  ]
+},
+{
+  no:'04', name:'可行性研究（4 方面 + 8 步骤 + 报告 6 内容）',
+  items:[
+    { q:'可行性研究从哪 4 个方面进行分析',
+      chips:[{t:'经·技·社·管',c:''},{t:'钱 / 技术 / 社会 / 管理',c:'b'}],
+      a:['经济可行性',
+         '技术可行性',
+         '社会可行性',
+         '管理可行性'],
+      note:'口诀「<b>经技社管</b>」。<br>常见问法陷阱：问"运行环境可行性 / 法律可行性 / 政策可行性"属于哪一类 → 都归入 <b>社会可行性</b>。<br>"<b>管理可行性</b>"指组织管理、人员、制度上能否支撑，是最容易漏的一条。'
+    },
+    { q:'可行性研究的 8 个步骤',
+      chips:[{t:'复·研·模·定·评·推·计·文',c:''},{t:'复研模定，评推计文',c:'b'}],
+      a:['复查系统目标和规模',
+         '研究目前正在使用的系统',
+         '导出新系统的高层逻辑模型',
+         '重新定义问题',
+         '导出和评价可供选择的方案',
+         '推荐一个方案并说明理由',
+         '草拟开发计划',
+         '书写文档并提交审查'],
+      note:'谐音句：<b>"复研模定，评推计文"</b>。<br>逻辑链：<b>回头看（复查目标、研究现状）→ 抽象（高层逻辑模型）→ 再定义问题 → 出方案（导出评价、推荐）→ 排计划 → 写文档</b>。<br><b>两个高频丢分点</b>：第 3 步是"<b>高层逻辑模型</b>"（不是物理模型）；第 4 步"<b>重新定义问题</b>"极易漏。'
+    },
+    { q:'可行性研究报告的内容（6 项）',
+      chips:[{t:'任·目·概·行·比·结',c:''},{t:'为什么做→做不做',c:'b'}],
+      a:['建设任务的提出',
+         '系统目标',
+         '初步调研概况',
+         '可行性研究',
+         '初步实施方案与比较',
+         '结论'],
+      note:'谐音句：<b>"任务目标概况研，方案比较出结论"</b>。<br>结构钩子（六个问号）：① 为什么做（<b>任务提出</b>）② 做到什么（<b>目标</b>）③ 现在啥样（<b>初步调研概况</b>）④ 能不能做（<b>可行性研究</b>）⑤ 怎么做（<b>初步实施方案与比较</b>）⑥ 做不做（<b>结论</b>）。'
+    }
+  ]
+},
+{
+  no:'05', name:'详细调研（6 活动 + 5 方法）与系统分析（3 阶段 + 说明书）',
+  items:[
+    { q:'详细调研必须完成的 6 项活动',
+      chips:[{t:'收·模·优·原·方·审',c:''},{t:'收模优，原方审',c:'b'}],
+      a:['收集信息',
+         '系统需求建模',
+         '需求优先级划分',
+         '构建系统原型，检验可行性并发现问题',
+         '产生和评估候选方案',
+         '与管理部门一起复查各种建议'],
+      note:'谐音句：<b>"收模优，原方审"</b>。<br>逻辑链：<b>收集 → 建模 → 排序 → 原型验证 → 出候选方案 → 与管理层复查</b>。<br><b>与可行性 8 步的区别</b>：这里有"<b>原型</b>"和"<b>优先级划分</b>"，可行性 8 步没有；可行性有"高层逻辑模型""重新定义问题""草拟开发计划"，这里没有。'
+    },
+    { q:'详细调研的方法（5 种）',
+      chips:[{t:'收·表·会·访·实',c:''},{t:'收表会，访实际',c:'b'}],
+      a:['收集资料',
+         '发调研表',
+         '开调研会',
+         '访问',
+         '深入实际'],
+      note:'谐音句：<b>"收表会，访实际"</b>。<br><b>⚠️ 与上一章"内部需求挖掘 5 方法"极易混</b>（收集资料 / 交流访谈 / 现有系统勘查 / 业务现场勘查 / 案头研究）——两者<b>只有"收集资料"是共同的</b>。<br>区分钩子：详细调研是"<b>表·会·访·实</b>"（发<b>表</b>、开<b>会</b>、<b>访</b>问、深入<b>实</b>际），全是<b>跑现场找人</b>的动作；内部需求挖掘偏"<b>文书 + 勘查</b>"（案头研究、两勘查）。'
+    },
+    { q:'系统分析的三个阶段',
+      chips:[{t:'问·需·定',c:''},{t:'由现象到定义',c:'b'}],
+      a:['问题分析',
+         '需求分析',
+         '需求定义'],
+      note:'口诀「<b>问·需·定</b>」。逻辑：<b>先弄清"有什么问题"→ 再弄清"需要什么"→ 最后把需求写死（定义）</b>，由现象到结论逐步收窄。<br>系统分析阶段回答的是"<b>做什么</b>"，不是"怎么做"。'
+    },
+    { q:'系统说明书通常包括哪三方面内容',
+      chips:[{t:'引·概·计',c:''},{t:'引言—概述—实施计划',c:'b'}],
+      a:['引言',
+         '概述',
+         '实施计划'],
+      note:'口诀「<b>引·概·计</b>」。<br><b>⚠️ 别与设计阶段的产物混</b>：系统分析交付「<b>系统说明书</b>」（引言 / 概述 / 实施计划）；系统设计收尾交付「<b>系统设计说明书</b>」，且它是系统设计 10 项内容的<b>最后一项</b>。'
+    }
+  ]
+},
+{
+  no:'06', name:'系统设计（5 原则 + 2 阶段 + 10 项内容）',
+  items:[
+    { q:'系统设计的原则（5 项）',
+      chips:[{t:'系·灵·可·经·管',c:''},{t:'系灵可，经管',c:'b'}],
+      a:['系统性',
+         '灵活性',
+         '可靠性',
+         '经济性',
+         '管理可接受'],
+      note:'谐音句：<b>"系灵可，经管"</b>。<br><b>⚠️ 最后一条是"管理可接受"</b>，别写成"可管理性"（那是技术体系原则里的"<b>可驾驭性</b>"）。<br>与上一章技术 6 原则（用·安·靠·灵·扩·驾）的区分：两组都含"灵"和"靠"，<b>必须带主题名一起背</b>。'
+    },
+    { q:'系统设计分为哪两个阶段',
+      chips:[{t:'总·详',c:''},{t:'总体 = 初步 = 概要',c:'b'}],
+      a:['总体设计（又称初步设计 / 概要设计）',
+         '详细设计'],
+      note:'<b>总体设计 = 初步设计 = 概要设计</b>，三个名字同一个阶段，考试常换着问。<br>分工：<b>总体设计</b>定"系统由哪些模块组成、模块之间什么关系"；<b>详细设计</b>定"每个模块内部用什么算法和数据结构"。'
+    },
+    { q:'系统设计的主要内容（10 项）',
+      chips:[{t:'结·流·码·界·出·入·库·安·配·书',c:''},{t:'分组：3 - 3 - 3 - 1',c:'b'}],
+      a:['系统总体结构设计',
+         '处理流程设计',
+         '代码设计',
+         '人机界面设计',
+         '输出设计',
+         '输入设计',
+         '数据库设计',
+         '安全保密设计',
+         '系统物理配置方案设计',
+         '编写系统设计说明书'],
+      note:'分组钩子 <b>3 - 3 - 3 - 1</b>：<br>① <b>结构类（3）</b>：总体结构 / 处理流程 / 代码<br>② <b>交互类（3）</b>：人机界面 / 输出 / 输入 —— 注意<b>先"输出"后"输入"</b>（先定要产出什么，再定怎么录入）<br>③ <b>支撑类（3）</b>：数据库 / 安全保密 / 物理配置<br>④ <b>收尾（1）</b>：编写系统设计说明书<br><b>⚠️ 顺序分</b>：输出设计在输入设计<b>之前</b>，这是常考的颠倒陷阱。'
+    }
+  ]
+},
+{
+  no:'07', name:'三个新考点：APA · 流水线作业 · 软件工厂',
+  items:[
+    { q:'应用系统组合法（APA）的步骤（6 步）',
+      chips:[{t:'清·评·析·策·施·监',c:''},{t:'清评析，策施监',c:'b'}],
+      a:['应用系统清单',
+         '评估应用系统',
+         '分析应用系统组合',
+         '制定优化策略',
+         '实施优化计划',
+         '监测和评估'],
+      note:'谐音句：<b>"清评析，策施监"</b>。<br>逻辑：<b>先盘点家底（清单）→ 逐个打分（评估）→ 整体看结构（分析组合）→ 出策略 → 实施 → 闭环监测</b>。<br>起手动词锚：<b>应用系统清单</b>（本章唯一以"清单"起手的流程）。'
+    },
+    { q:'流水线作业的内容（6 项）',
+      chips:[{t:'环·务·规·自·并·监',c:''},{t:'环务规，自并监',c:'b'}],
+      a:['环节划分',
+         '任务定义',
+         '流转规则',
+         '自动化支持',
+         '并行处理',
+         '监控和优化'],
+      note:'谐音句：<b>"环务规，自并监"</b>。<br>逻辑：<b>切环节 → 定任务 → 定规则 → 上自动化 → 开并行 → 持续优化</b>。<br>核心记忆点：流水线的两把刀就是"<b>自动化 + 并行</b>"，见到这两个词就锁定流水线。'
+    },
+    { q:'软件工厂建设的方法（4 项）',
+      chips:[{t:'组·资·业·体',c:''},{t:'人→物→活→制度',c:'b'}],
+      a:['组织建设',
+         '资源部署',
+         '业务管理',
+         '体系保障机制'],
+      note:'顺序钩子：<b>先有人（组织）→ 再有物（资源）→ 再有活（业务管理）→ 最后有制度（体系保障）</b>。<br><b>⚠️ 第 4 项是"体系保障机制"</b>，别漏"机制"二字，也别写成"安全保障"。'
+    }
+  ]
+}
+];
+
+/* =========================================================
+   渲染：骨架 + 口诀
+   ========================================================= */
+const LS='asd_v1';
+function loadState(){try{return JSON.parse(localStorage.getItem(LS))||{}}catch(e){return{}}}
+function saveState(s){try{localStorage.setItem(LS,JSON.stringify(s))}catch(e){}}
+let ST=loadState();
+if(!ST.mastered)ST.mastered={};
+if(!ST.attempts)ST.attempts=[];
+
+let QIDX=[];
+{
+  const box=document.getElementById('mods');
+  MODULES.forEach((m,mi)=>{
+    const d=document.createElement('details');
+    d.className='mod'; d.open=true;
+    const total=m.items.length;
+    d.innerHTML=`<summary><span class="no">${m.no}</span><span>${m.name}</span><span class="cnt">${total} 个考点</span><span class="arw">▶</span></summary><div class="modbody"></div>`;
+    const body=d.querySelector('.modbody');
+    m.items.forEach((it,ii)=>{
+      const id=`${mi}-${ii}`;
+      QIDX.push({id,mi,ii,m,it});
+      const c=document.createElement('div');
+      c.className='card'+(ST.mastered[id]?' ok':'');
+      c.dataset.id=id;
+      c.innerHTML=`
+        <div class="chead"><div class="q"><span class="n">${m.no}.${ii+1}</span>${it.q}</div></div>
+        <div class="mn">${it.chips.map(x=>`<span class="chip ${x.c||''}">${x.t}</span>`).join('')}</div>
+        <div class="ans"><ol>${it.a.map(t=>`<li>${t}</li>`).join('')}</ol>${it.note?`<div class="note">${it.note}</div>`:''}</div>
+        <div class="cfoot">
+          <button class="mini tog">展开答案</button>
+          <button class="mini tap">标记已掌握</button>
+          <span style="font-size:11.5px;color:var(--txt3);margin-left:auto">共 ${it.a.length} 条</span>
+        </div>`;
+      body.appendChild(c);
+    });
+    box.appendChild(d);
+  });
+}
+
+document.addEventListener('click',e=>{
+  const card=e.target.closest('.card'); if(!card)return;
+  if(e.target.classList.contains('tog')){
+    card.classList.toggle('open');
+    e.target.textContent=card.classList.contains('open')?'收起答案':'展开答案';
+  }
+  if(e.target.classList.contains('tap')){
+    const id=card.dataset.id;
+    ST.mastered[id]=!ST.mastered[id];
+    card.classList.toggle('ok',!!ST.mastered[id]);
+    e.target.classList.toggle('on',!!ST.mastered[id]);
+    saveState(ST);renderProgress();
+  }
+});
+{
+  const bar=document.createElement('div');
+  bar.style.cssText='display:flex;gap:8px;margin:0 0 14px';
+  bar.innerHTML=`<button class="btn" id="expandAll">全部展开答案</button>
+                 <button class="btn" id="collapseAll">全部折叠（纯回忆模式）</button>
+                 <button class="btn" id="markAll">全部标记已掌握</button>`;
+  document.getElementById('mods').before(bar);
+  bar.querySelector('#expandAll').onclick=()=>document.querySelectorAll('#mods .card').forEach(c=>{c.classList.add('open');const b=c.querySelector('.tog');if(b)b.textContent='收起答案';});
+  bar.querySelector('#collapseAll').onclick=()=>document.querySelectorAll('#mods .card').forEach(c=>{c.classList.remove('open');const b=c.querySelector('.tog');if(b)b.textContent='展开答案';});
+  bar.querySelector('#markAll').onclick=()=>{
+    QIDX.forEach(x=>ST.mastered[x.id]=true);saveState(ST);
+    document.querySelectorAll('#mods .card').forEach(c=>{c.classList.add('ok');const b=c.querySelector('.tap');if(b)b.classList.add('on');});
+    renderProgress();renderMastered();
+  };
+}
+
+function renderProgress(){
+  const tot=QIDX.length, done=QIDX.filter(x=>ST.mastered[x.id]).length;
+  document.getElementById('pbar').style.width=(tot?done/tot*100:0)+'%';
+  document.getElementById('ptxt').textContent=`${done} / ${tot}`;
+  renderMastered();
+}
+function renderMastered(){
+  const list=QIDX.filter(x=>ST.mastered[x.id]);
+  const el=document.getElementById('mastered');
+  if(!list.length){el.innerHTML='还没有标记任何条目。';return}
+  el.innerHTML=list.map(x=>`• <b>${x.m.no}.${x.ii+1}</b> ${x.it.q}`).join('<br>');
+}
+
+/* =========================================================
+   渲染：数字速查
+   ========================================================= */
+const NUM=[
+  ['5','应用系统规划与设计主要内容','生·体·接·数·构','生命周期选择 / 体系结构定义 / 接口定义 / 数据定义 / 构件定义'],
+  ['4','生命周期模型','瀑·V·迭·敏','瀑布模型 / V 模型 / 迭代模型 / 敏捷方法'],
+  ['2','体系结构定义方法','流=概要 · 构=详细','面向数据流的定义方法（概要设计）/ 面向数据结构的定义方法（详细设计）'],
+  ['3','接口定义的类型','人·外·内','用户接口 / 外部接口 / 内部接口'],
+  ['3','界面定义基本原则','控·记·一','置用户于控制之下 / 减少用户的记忆负担 / 保持界面一致'],
+  ['5','界面定义核心活动','外·人·问·原·评','创建系统功能的外部模型 / 确定人和计算机各自任务 / 考虑典型界面问题 / 借助 CASE 工具构造界面原型 / 评估界面质量'],
+  ['5','数据定义步骤','需·概·逻·物·验','需求分析 / 定义概念模型 / 定义逻辑模型 / 定义物理数据库 / 验证'],
+  ['7','构件定义典型任务','问·基·复·数·行·部·备','标识问题域类 / 确定基础设施域类 / 细化不需复用的类 / 说明持久数据源 / 细化行为表示 / 细化部署图 / 考虑可选方案'],
+  ['5','应用系统规划主要过程','初·可·详·分·设','初步调研 / 可行性研究 / 详细调研 / 系统分析 / 系统设计'],
+  ['5','初步调研内容','概·环·现·态·资','组织概况 / 组织环境 / 现行系统概况 / 各方面态度 / 系统研制资源'],
+  ['4','可行性研究分析方面','经·技·社·管','经济可行性 / 技术可行性 / 社会可行性 / 管理可行性'],
+  ['8','可行性研究步骤','复·研·模·定·评·推·计·文','复查系统目标和规模 / 研究正在使用的系统 / 导出新系统高层逻辑模型 / 重新定义问题 / 导出和评价可供选择的方案 / 推荐一个方案并说明理由 / 草拟开发计划 / 书写文档并提交审查'],
+  ['6','可行性研究报告内容','任·目·概·行·比·结','建设任务的提出 / 系统目标 / 初步调研概况 / 可行性研究 / 初步实施方案与比较 / 结论'],
+  ['6','详细调研活动','收·模·优·原·方·审','收集信息 / 系统需求建模 / 需求优先级划分 / 构建系统原型检验可行性并发现问题 / 产生和评估候选方案 / 与管理部门一起复查各种建议'],
+  ['5','详细调研方法','收·表·会·访·实','收集资料 / 发调研表 / 开调研会 / 访问 / 深入实际'],
+  ['3','系统分析阶段','问·需·定','问题分析 / 需求分析 / 需求定义'],
+  ['3','系统说明书内容','引·概·计','引言 / 概述 / 实施计划'],
+  ['5','系统设计原则','系·灵·可·经·管','系统性 / 灵活性 / 可靠性 / 经济性 / 管理可接受'],
+  ['2','系统设计阶段','总·详','总体设计（初步 / 概要设计）/ 详细设计'],
+  ['10','系统设计主要内容','结·流·码·界·出·入·库·安·配·书','总体结构 / 处理流程 / 代码 / 人机界面 / 输出 / 输入 / 数据库 / 安全保密 / 物理配置 / 编写系统设计说明书'],
+  ['6','APA 应用系统组合法步骤','清·评·析·策·施·监','应用系统清单 / 评估应用系统 / 分析应用系统组合 / 制定优化策略 / 实施优化计划 / 监测和评估'],
+  ['6','流水线作业内容','环·务·规·自·并·监','环节划分 / 任务定义 / 流转规则 / 自动化支持 / 并行处理 / 监控和优化'],
+  ['4','软件工厂建设方法','组·资·业·体','组织建设 / 资源部署 / 业务管理 / 体系保障机制']
+];
+{
+  const t=document.getElementById('numtable');
+  t.innerHTML=`<table><thead><tr><th>条数</th><th>考点</th><th>口诀</th><th>标准答案</th></tr></thead><tbody>
+  ${NUM.map(r=>`<tr><td class="c">${r[0]}</td><td><b>${r[1]}</b></td><td class="mn">${r[2]}</td><td style="color:var(--txt2)">${r[3]}</td></tr>`).join('')}
+  </tbody></table>`;
+}
+
+/* =========================================================
+   默写闯关
+   ========================================================= */
+const POOL=QIDX.filter(x=>x.it.a.length>=2);
+let cur=null;
+
+function pick(){
+  if(!POOL.length){document.getElementById('qstem').textContent='题库为空（暂无可出题的考点）';return;}
+  let n;
+  if(POOL.length<=1){n=POOL[0];}
+  else{let guard=0;do{n=POOL[Math.floor(Math.random()*POOL.length)];guard++;}while(cur&&n===cur&&guard<50);}
+  cur=n;
+  document.getElementById('qstem').textContent=cur.it.q;
+  document.getElementById('qmod').textContent='模块 '+cur.m.no+' · '+cur.m.name;
+  document.getElementById('qcnt').textContent='应写 '+cur.it.a.length+' 条';
+  document.getElementById('qidx').textContent='题库 '+POOL.length+' 题';
+  document.getElementById('uans').value='';
+  document.getElementById('hintbar').classList.remove('on');
+  document.getElementById('res').classList.remove('on');
+  document.getElementById('uans').focus();
+}
+function norm(s){return (s||'').replace(/[\s，。、；：,.;:!?！？（）()【】\[\]'"“”‘’—\-_/\\]/g,'').toLowerCase()}
+function keysOf(t){
+  const clean=t.replace(/^[①②③④⑤⑥⑦⑧⑨⑩⑪⑫\d\.\s]+/,'').split('：')[0].split('，')[0];
+  const out=new Set();
+  const push=v=>{if(v.length>=2)out.add(norm(v))};
+  push(clean);push(clean.slice(0,2));push(clean.slice(0,3));push(clean.slice(0,4));
+  t.split(/[、，,；;/]/).forEach(p=>{const q=p.replace(/^[①②③④⑤⑥⑦⑧⑨⑩⑪⑫\d\.\s]+/,'').split('：')[0];push(q);push(q.slice(0,3))});
+  return [...out];
+}
+function judge(){
+  if(!cur)return;
+  const u=norm(document.getElementById('uans').value);
+  const rows=cur.it.a.map(t=>{
+    const ks=keysOf(t);
+    const hit=ks.some(k=>u.includes(k));
+    return{t,hit};
+  });
+  const hits=rows.filter(r=>r.hit).length;
+  const pct=Math.round(hits/rows.length*100);
+  const sc=document.getElementById('score');
+  sc.textContent=pct+'%';
+  sc.className='score '+(pct>=85?'g':pct>=60?'a':'r');
+  document.getElementById('hit').textContent=hits;
+  document.getElementById('tot').textContent=rows.length;
+  document.getElementById('rlist').innerHTML=rows.map(r=>
+    `<div class="ritem ${r.hit?'hit':'miss'}"><span class="tag">${r.hit?'✓ 命中':'✗ 漏写'}</span><span>${r.t}</span></div>`).join('');
+  document.getElementById('res').classList.add('on');
+  ST.attempts.push(pct);
+  if(pct>=100){ST.mastered[cur.id]=true;const card=document.querySelector(`.card[data-id="${cur.id}"]`);
+    if(card){card.classList.add('ok');const b=card.querySelector('.tap');if(b)b.classList.add('on');}}
+  saveState(ST);renderProgress();renderAvg();
+}
+function renderAvg(){
+  const a=ST.attempts||[];
+  document.getElementById('attempts').textContent=a.length;
+  document.getElementById('avg').textContent=a.length?Math.round(a.reduce((x,y)=>x+y,0)/a.length):0;
+}
+document.getElementById('submit').onclick=judge;
+document.getElementById('nex').onclick=pick;
+document.getElementById('showans').onclick=()=>{
+  if(!cur)return;
+  document.getElementById('rlist').innerHTML=cur.it.a.map(t=>
+    `<div class="ritem" style="background:rgba(77,163,255,.08);color:#cfe3ff"><span class="tag">•</span><span>${t}</span></div>`).join('');
+  document.getElementById('res').classList.add('on');
+};
+document.getElementById('hint').onclick=()=>{
+  if(!cur)return;
+  const h=cur.it.a.map((t,i)=>`${i+1}.${t.replace(/^[①②③④⑤⑥⑦⑧⑨⑩⑪⑫\d\.\s]+/,'').slice(0,1)}○○…`).join('　');
+  const bar=document.getElementById('hintbar');
+  bar.textContent=h;bar.classList.add('on');
+};
+document.getElementById('uans').addEventListener('keydown',e=>{
+  if((e.ctrlKey||e.metaKey)&&e.key==='Enter')judge();
+});
+
+/* 页签 */
+document.querySelectorAll('.tab').forEach(t=>{
+  t.onclick=()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+    document.querySelectorAll('.panel').forEach(x=>x.classList.remove('on'));
+    t.classList.add('on');
+    document.getElementById(t.dataset.p).classList.add('on');
+    window.scrollTo({top:0,behavior:'smooth'});
+    if(t.dataset.p==='p4'&&!cur)pick();
+  };
+});
+document.getElementById('reset').onclick=()=>{
+  if(!confirm('确定清空全部掌握进度和答题记录吗？'))return;
+  ST={mastered:{},attempts:[]};saveState(ST);
+  document.querySelectorAll('#mods .card').forEach(c=>{c.classList.remove('ok');const b=c.querySelector('.tap');if(b)b.classList.remove('on');});
+  renderProgress();renderAvg();
+};
+
+renderProgress();renderAvg();pick();
+</script>
+</body>
+</html>

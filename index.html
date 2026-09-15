@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>系规学习中心</title>
+<style>
+:root {
+  --bg: #0e1116;
+  --bg2: #151a21;
+  --bg3: #1c232c;
+  --line: #2a3340;
+  --txt: #e6eaf0;
+  --txt2: #9aa7b8;
+  --accent: #4da3ff;
+  --accent2: #7c5cff;
+  --green: #2ecc71;
+  --amber: #ffb020;
+  --teal: #00d4aa;
+  --red: #ff5c5c;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--txt);
+  font-family: -apple-system, 'Segoe UI', 'Microsoft YaHei', system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.75;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Header */
+header {
+  background: linear-gradient(135deg, #141b26 0%, #101720 60%, #0e1116 100%);
+  border-bottom: 1px solid var(--line);
+  padding: 30px 0;
+  text-align: center;
+}
+
+header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+header p {
+  color: var(--txt2);
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+/* Stats */
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-item .num {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.stat-item .label {
+  font-size: 12px;
+  color: var(--txt2);
+  margin-top: 4px;
+}
+
+/* Course Grid */
+.courses {
+  padding: 40px 0 60px;
+}
+
+.courses h2 {
+  font-size: 20px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.courses h2::before {
+  content: '';
+  width: 4px;
+  height: 20px;
+  background: linear-gradient(180deg, var(--accent), var(--accent2));
+  border-radius: 2px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: var(--bg2);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 24px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(77, 163, 255, 0.15);
+}
+
+.card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.card:nth-child(1) .card-icon { background: linear-gradient(135deg, #2b6cb0, #4a3ba8); }
+.card:nth-child(2) .card-icon { background: linear-gradient(135deg, #2b8cb0, #3b7ba8); }
+.card:nth-child(3) .card-icon { background: linear-gradient(135deg, #6cb02b, #7ba83b); }
+.card:nth-child(4) .card-icon { background: linear-gradient(135deg, #b08b2b, #a87b3b); }
+.card:nth-child(5) .card-icon { background: linear-gradient(135deg, #b02b6c, #a83b7b); }
+
+.card h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.card p {
+  font-size: 13px;
+  color: var(--txt2);
+  flex: 1;
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--txt3);
+  margin-top: 8px;
+}
+
+.card-footer .tag {
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: rgba(77, 163, 255, 0.1);
+  color: var(--accent);
+  border: 1px solid rgba(77, 163, 255, 0.2);
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 20px 0;
+  border-top: 1px solid var(--line);
+  color: var(--txt3);
+  font-size: 12px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  header {
+    padding: 20px 0;
+  }
+
+  header h1 {
+    font-size: 22px;
+  }
+
+  header p {
+    font-size: 13px;
+  }
+
+  .stats {
+    gap: 20px;
+  }
+
+  .stat-item .num {
+    font-size: 20px;
+  }
+
+  .courses {
+    padding: 24px 0 40px;
+  }
+
+  .courses h2 {
+    font-size: 18px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .card {
+    padding: 20px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <h1>📚 西桂学习中心</h1>
+    <p>默写速记手册 · 高效学习平台</p>
+    <div class="stats">
+      <div class="stat-item">
+        <div class="num">5</div>
+        <div class="label">课程总数</div>
+      </div>
+      <div class="stat-item">
+        <div class="num">100%</div>
+        <div class="label">免费开放</div>
+      </div>
+      <div class="stat-item">
+        <div class="num">📱</div>
+        <div class="label">全端适配</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="courses">
+  <div class="container">
+    <h2>全部课程</h2>
+    <div class="grid">
+      <a href="信息系统规划_默写速记手册.html" class="card">
+        <div class="card-icon">📋</div>
+        <h3>信息系统规划</h3>
+        <p>信息系统规划相关知识点速记手册，涵盖规划方法、战略规划等内容</p>
+        <div class="card-footer">
+          <span class="tag">默写速记</span>
+          <span>点击学习 →</span>
+        </div>
+      </a>
+
+      <a href="信息系统服务管理_默写速记手册.html" class="card">
+        <div class="card-icon">🔧</div>
+        <h3>信息系统服务管理</h3>
+        <p>信息系统服务管理知识点速记，包含IT服务管理、运维管理等内容</p>
+        <div class="card-footer">
+          <span class="tag">默写速记</span>
+          <span>点击学习 →</span>
+        </div>
+      </a>
+
+      <a href="应用系统规划与设计_默写速记手册.html" class="card">
+        <div class="card-icon">💻</div>
+        <h3>应用系统规划与设计</h3>
+        <p>应用系统规划与设计知识点速记，涵盖系统设计、架构设计等内容</p>
+        <div class="card-footer">
+          <span class="tag">默写速记</span>
+          <span>点击学习 →</span>
+        </div>
+      </a>
+
+      <a href="数据资源规划与数据治理_默写速记手册.html" class="card">
+        <div class="card-icon">🗄️</div>
+        <h3>数据资源规划与数据治理</h3>
+        <p>数据资源规划与数据治理知识点速记，包含数据管理、数据治理等内容</p>
+        <div class="card-footer">
+          <span class="tag">默写速记</span>
+          <span>点击学习 →</span>
+        </div>
+      </a>
+
+      <a href="云资源网络与信息安全_默写速记手册.html" class="card">
+        <div class="card-icon">🔒</div>
+        <h3>云资源网络与信息安全</h3>
+        <p>云资源网络与信息安全知识点速记，涵盖网络安全、信息安全等内容</p>
+        <div class="card-footer">
+          <span class="tag">默写速记</span>
+          <span>点击学习 →</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <p>© 2026 西桂学习中心 · 随时随地高效学习</p>
+  </div>
+</footer>
+
+</body>
+</html>

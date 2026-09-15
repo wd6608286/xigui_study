@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>云资源 · 网络 · 信息安全 · 云原生 · 默写速记手册</title>
+<style>
+:root{
+  --bg:#0e1116; --bg2:#151a21; --bg3:#1c232c; --line:#2a3340;
+  --txt:#e6eaf0; --txt2:#9aa7b8; --txt3:#6b7889;
+  --accent:#4da3ff; --accent2:#7c5cff;
+  --red:#ff5c5c; --green:#2ecc71; --amber:#ffb020; --teal:#00d4aa;
+  --code:'JetBrains Mono','Cascadia Code',Consolas,'Microsoft YaHei',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--txt);
+  font-family:-apple-system,'Segoe UI','Microsoft YaHei',system-ui,sans-serif;
+  font-size:14px; line-height:1.75; padding:0 0 80px;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+
+header{
+  background:linear-gradient(135deg,#141b26 0%,#101720 60%,#0e1116 100%);
+  border-bottom:1px solid var(--line); padding:26px 0 20px; margin-bottom:0;
+  position:sticky; top:0; z-index:50; backdrop-filter:blur(8px);
+}
+h1{font-size:21px;font-weight:700;letter-spacing:.5px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+h1 .badge{font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;
+  background:rgba(77,163,255,.14);color:var(--accent);border:1px solid rgba(77,163,255,.35)}
+.sub{color:var(--txt2);font-size:12.5px;margin-top:6px}
+.topbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.tab{
+  padding:7px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;
+  background:var(--bg3);border:1px solid var(--line);color:var(--txt2);transition:.16s;user-select:none;
+}
+.tab:hover{color:var(--txt);border-color:#3a4657}
+.tab.on{background:linear-gradient(135deg,#2b6cb0,#4a3ba8);color:#fff;border-color:transparent;
+  box-shadow:0 3px 14px rgba(77,163,255,.25)}
+.progline{display:flex;align-items:center;gap:12px;margin-top:14px;font-size:12px;color:var(--txt2)}
+.pbar{flex:1;height:6px;background:var(--bg3);border-radius:6px;overflow:hidden;border:1px solid var(--line)}
+.pbar>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--teal));
+  transition:width .35s ease;border-radius:6px}
+.btn{background:var(--bg3);border:1px solid var(--line);color:var(--txt2);border-radius:7px;
+  padding:5px 12px;font-size:12px;cursor:pointer;transition:.15s;font-family:inherit}
+.btn:hover{color:var(--txt);border-color:#455263}
+.btn.pri{background:linear-gradient(135deg,#2b6cb0,#4a3ba8);color:#fff;border-color:transparent}
+
+.panel{display:none;padding-top:26px}
+.panel.on{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+.howto{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:24px}
+.howto h3{font-size:14px;color:var(--accent);margin-bottom:10px;letter-spacing:.5px}
+.howto ol{margin-left:20px;color:var(--txt2);font-size:13px}
+.howto li{margin-bottom:5px}
+.howto b{color:var(--txt)}
+
+.mod{margin-bottom:18px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--bg2)}
+.mod>summary{
+  list-style:none;cursor:pointer;padding:14px 18px;display:flex;align-items:center;gap:12px;
+  background:linear-gradient(90deg,rgba(77,163,255,.07),transparent);font-weight:700;font-size:15px;
+}
+.mod>summary::-webkit-details-marker{display:none}
+.mod>summary .no{
+  font-family:var(--code);font-size:12px;color:#fff;background:linear-gradient(135deg,#2b6cb0,#4a3ba8);
+  padding:2px 8px;border-radius:6px;letter-spacing:.5px
+}
+.mod>summary .cnt{margin-left:auto;font-size:11.5px;color:var(--txt3);font-weight:500}
+.mod>summary .arw{color:var(--txt3);transition:.2s;font-size:12px}
+.mod[open]>summary .arw{transform:rotate(90deg)}
+.modbody{padding:4px 14px 16px}
+
+.card{border:1px solid var(--line);border-radius:10px;margin:12px 0;background:var(--bg3);overflow:hidden}
+.card.ok{border-color:rgba(46,204,113,.45);background:rgba(46,204,113,.05)}
+.chead{padding:11px 14px;display:flex;align-items:flex-start;gap:10px}
+.q{font-weight:650;font-size:13.5px;flex:1;color:#fff}
+.q .n{color:var(--txt3);font-family:var(--code);font-size:11.5px;margin-right:6px}
+.mn{display:flex;gap:7px;flex-wrap:wrap;padding:0 14px 10px}
+.chip{
+  font-family:var(--code);font-size:12px;padding:3px 10px;border-radius:6px;
+  background:rgba(255,176,32,.12);color:var(--amber);border:1px solid rgba(255,176,32,.3);
+  letter-spacing:.6px;white-space:nowrap
+}
+.chip.b{background:rgba(0,212,170,.1);color:var(--teal);border-color:rgba(0,212,170,.3)}
+.chip.p{background:rgba(124,92,255,.13);color:#b39dff;border-color:rgba(124,92,255,.33)}
+.ans{padding:0 14px 14px;display:none}
+.card.open .ans{display:block}
+.ans ol{margin:4px 0 0 22px}
+.ans li{margin-bottom:3px;font-size:13px;color:var(--txt)}
+.ans .note{margin-top:9px;font-size:12.5px;color:var(--txt2);background:rgba(77,163,255,.07);
+  border-left:3px solid var(--accent);padding:7px 11px;border-radius:0 6px 6px 0}
+.cfoot{padding:0 14px 12px;display:flex;gap:8px;align-items:center}
+.mini{font-size:11.5px;padding:4px 10px;border-radius:6px;cursor:pointer;border:1px solid var(--line);
+  background:var(--bg2);color:var(--txt2);font-family:inherit;transition:.15s}
+.mini:hover{color:var(--txt);border-color:#455263}
+.mini.on{background:rgba(46,204,113,.16);color:var(--green);border-color:rgba(46,204,113,.45)}
+
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;
+  background:var(--bg2);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+th{background:var(--bg3);padding:10px 13px;text-align:left;font-size:12.5px;color:var(--accent);
+  font-weight:700;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:9px 13px;border-bottom:1px solid rgba(42,51,64,.6);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:rgba(77,163,255,.045)}
+td.k{font-family:var(--code);color:var(--amber);font-weight:600;white-space:nowrap}
+td.c{font-family:var(--code);color:var(--teal);font-weight:700;text-align:center;white-space:nowrap}
+td.mn{font-family:var(--code);color:#b39dff;white-space:nowrap;font-size:12.5px}
+
+.qbox{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:22px;margin-bottom:16px}
+.qstem{font-size:15.5px;font-weight:700;color:#fff;margin-bottom:6px;line-height:1.6}
+.qmeta{font-size:12px;color:var(--txt3);margin-bottom:14px;display:flex;gap:14px;flex-wrap:wrap}
+.qmeta span{font-family:var(--code)}
+textarea{
+  width:100%;min-height:130px;background:var(--bg);border:1px solid var(--line);border-radius:9px;
+  color:var(--txt);padding:12px;font-family:var(--code);font-size:13px;line-height:1.85;resize:vertical;outline:none
+}
+textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(77,163,255,.13)}
+.qactions{display:flex;gap:9px;margin-top:12px;flex-wrap:wrap;align-items:center}
+.result{margin-top:16px;display:none}
+.result.on{display:block;animation:fade .25s}
+.score{font-size:26px;font-weight:800;font-family:var(--code);letter-spacing:-1px}
+.score.g{color:var(--green)} .score.a{color:var(--amber)} .score.r{color:var(--red)}
+.rlist{margin-top:12px;display:flex;flex-direction:column;gap:5px}
+.ritem{display:flex;gap:9px;align-items:flex-start;font-size:13px;padding:5px 9px;border-radius:6px}
+.ritem.hit{background:rgba(46,204,113,.09);color:#b8f0cf}
+.ritem.miss{background:rgba(255,92,92,.09);color:#ffc0c0}
+.ritem .tag{font-family:var(--code);font-size:11px;flex-shrink:0;margin-top:1px}
+.hintbar{font-family:var(--code);font-size:13px;color:var(--teal);letter-spacing:3px;margin-top:8px;
+  background:rgba(0,212,170,.07);border:1px dashed rgba(0,212,170,.35);border-radius:8px;padding:9px 12px;
+  display:none;word-break:break-all;line-height:2}
+.hintbar.on{display:block}
+.stats{display:flex;gap:18px;flex-wrap:wrap;font-size:12.5px;color:var(--txt2)}
+.stats b{color:var(--txt);font-family:var(--code);font-size:15px}
+
+.legend{font-size:12px;color:var(--txt3);margin:8px 0 16px;line-height:1.9}
+.legend code{font-family:var(--code);color:var(--amber);background:rgba(255,176,32,.1);padding:1px 6px;border-radius:4px}
+h2.sec{font-size:16px;margin:26px 0 10px;color:#fff;display:flex;align-items:center;gap:9px}
+h2.sec::before{content:'';width:3px;height:16px;background:linear-gradient(180deg,var(--accent),var(--accent2));border-radius:2px}
+@media(max-width:640px){
+  body{font-size:13px} h1{font-size:17px} .wrap{padding:0 12px}
+  td.mn{display:none} .tab{padding:6px 11px;font-size:12px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1>云资源 · 网络 · 信息安全 · 云原生 · 默写速记手册 <span class="badge">系统规划与管理师</span></h1>
+    <div class="sub">四块内容 · 27 个考点 —— 数字定骨架，口诀做钩子，默写验成色</div>
+    <div class="topbar">
+      <div class="tab on" data-p="p1">📖 骨架 + 口诀</div>
+      <div class="tab" data-p="p2">🔢 数字速查</div>
+      <div class="tab" data-p="p3">⚖️ 易混对比</div>
+      <div class="tab" data-p="p4">✍️ 默写闯关</div>
+      <div class="tab" data-p="p5">📅 复习计划</div>
+    </div>
+    <div class="progline">
+      <span>掌握进度</span>
+      <div class="pbar"><i id="pbar"></i></div>
+      <span id="ptxt">0 / 0</span>
+      <button class="btn" id="reset">重置进度</button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- ============ P1 ============ -->
+<div class="panel on" id="p1">
+  <div class="howto">
+    <h3>这一章为什么容易"背了但写错"</h3>
+    <ol>
+      <li><b>本章的坑是"同名撞车"。</b><b>计算资源规划</b>一身三职——范围 6 项 / 方法技术 7 项 / 关键步骤 7 步；<b>云原生</b>更是两个"7"：技术架构设计 7 原则 + 架构 7 模式。名字几乎一样，写混就是整题零分。</li>
+      <li><b>四块内容互不相干，别指望靠逻辑推。</b>云资源 → 网络 → 信息安全 → 云原生，是四段拼盘，<b>唯一可靠的锚是"条数 + 起手词"</b>。念口诀必须带主题名：「<b>计算资源规划的范围</b>六项：硬虚容负量调」。</li>
+      <li><b>三处口诀与条目顺序对不上，我已修正。</b>云计算外部特征、云数据中心五要素、FCAPS 字母对应——详见各条备注（紫底 chip 标记）。</li>
+      <li><b>默写检验 &gt; 反复阅读。</b>本页答案默认折叠，必须先自己复述再展开对照。</li>
+    </ol>
+  </div>
+  <div class="legend">
+    标记说明：<code>橙底口诀</code> = 核心记忆钩子 &nbsp;|&nbsp; <code>青底</code> = 分组 / 结构钩子 &nbsp;|&nbsp; <code>紫底</code> = 与你原笔记口径的差异提醒
+  </div>
+  <div id="mods"></div>
+</div>
+
+<!-- ============ P2 ============ -->
+<div class="panel" id="p2">
+  <h2 class="sec">数字 → 答案 速查表（最高频失分点）</h2>
+  <div class="legend">用法：遮住右两列，看数字 + 主题名秒答。答不出来就回「骨架+口诀」页定位。</div>
+  <div id="numtable"></div>
+</div>
+
+<!-- ============ P3 ============ -->
+<div class="panel" id="p3">
+  <h2 class="sec">最容易写混的七组对比</h2>
+  <div class="legend">这七组是阅卷时"看起来对但拿不到分"的重灾区，必须逐字区分。</div>
+
+  <h2 class="sec">① 云计算架构：内部特征 4 vs 外部特征 4</h2>
+  <table>
+    <thead><tr><th>对比项</th><th>内部特征（4）</th><th>外部特征（4）</th></tr></thead>
+    <tbody>
+      <tr><td class="k">视角</td><td><b>云自己是怎么造的</b>（技术实现）</td><td><b>用户能感受到什么</b>（服务表现）</td></tr>
+      <tr><td class="k">口诀</td><td class="mn">虚·弹·自·多</td><td class="mn">可·安·网·成</td></tr>
+      <tr><td class="k">条目</td><td>虚拟化 / 弹性扩展 / 自动化管理 / 多租户支持</td><td>可靠性和可用性 / 安全性 / 网络连接性 / 成本效益</td></tr>
+      <tr><td class="k">起手词</td><td><b>虚拟化</b>（一切的地基）</td><td><b>可靠性</b>（用户第一感受）</td></tr>
+    </tbody>
+  </table>
+  <div class="legend">一句话：<code>内部 = 技术怎么实现，外部 = 用户拿到什么好处</code>。<br>
+  <b>⚠️ 顺序修正</b>：你原口诀写「安网可成」，但条目顺序是可靠可用 → 安全 → 网络 → 成本，口诀应为 <b>可·安·网·成</b>，否则默写时第一条会写成"安全性"。</div>
+
+  <h2 class="sec">② 计算资源规划三兄弟：范围 6 / 方法技术 7 / 关键步骤 7（本章第一大坑）</h2>
+  <table>
+    <thead><tr><th>对比项</th><th>范围（6）</th><th>方法和技术（7）</th><th>关键步骤（7）</th></tr></thead>
+    <tbody>
+      <tr><td class="k">口诀</td><td class="mn">硬·虚·容·负·量·调</td><td class="mn">容·性·负·弹·虚·自·管</td><td class="mn">分·量·云·虚·安·成·控</td></tr>
+      <tr><td class="k">回答什么</td><td><b>规划哪些东西</b>（名词）</td><td><b>用什么手段</b>（动名词）</td><td><b>按什么顺序做</b>（有时序）</td></tr>
+      <tr><td class="k">起手</td><td><b>硬件资源规划</b></td><td><b>容量规划</b></td><td><b>需求分析</b></td></tr>
+      <tr><td class="k">收尾</td><td><b>资源管理和调度</b></td><td><b>云资源管理</b></td><td><b>持续监控和维护</b></td></tr>
+      <tr><td class="k">独有词</td><td>容器化、容量规划和<b>预测</b></td><td>性能优化、弹性<b>伸缩</b>、自动化管理</td><td>云服务<b>选择</b>、虚拟化<b>策略</b>、成本效益<b>分析</b></td></tr>
+    </tbody>
+  </table>
+  <div class="legend"><b>最强区分锚 —— 起手动词</b>：看到「硬件资源规划」= 范围；看到「容量规划」打头 = 方法技术；看到「需求分析」打头 = 关键步骤。<br>
+  <b>⚠️ 措辞差异</b>：范围里叫「弹性扩展<b>和负载均衡</b>」，方法技术里叫「弹性<b>伸缩</b>」——同一件事两种叫法，写哪套都别混搭。</div>
+
+  <h2 class="sec">③ 云存储资源规划：范围 6 vs 步骤 9</h2>
+  <table>
+    <thead><tr><th>对比项</th><th>范围（6）</th><th>步骤（9）</th></tr></thead>
+    <tbody>
+      <tr><td class="k">口诀</td><td class="mn">型·容·余·优·隔·调</td><td class="mn">收·分·选·计·安·容·能·管·评</td></tr>
+      <tr><td class="k">性质</td><td>静态的"要规划哪几块"</td><td>动态的"先做什么后做什么"</td></tr>
+      <tr><td class="k">结构</td><td>无分组，平铺 6 项</td><td><b>3-3-3</b>：摸底选型 / 设计 / 运维闭环</td></tr>
+      <tr><td class="k">收尾</td><td>存储管理和调度</td><td><b>定期评估和调整</b>（含"定期"二字）</td></tr>
+    </tbody>
+  </table>
+  <div class="legend"><b>⚠️ 9 步是全章最长流程</b>，务必先在草稿纸写 ①~⑨ 九个圈再填词。中间"安（安全规划）→ 容（容量规划）→ 能（性能优化）"这三步最容易漏。</div>
+
+  <h2 class="sec">④ 四类网络规划：广域 6 / 局域 5 / 无线 5 / 整体 6</h2>
+  <table>
+    <thead><tr><th>网络类型</th><th>条数</th><th>口诀</th><th>起手（最强锚）</th><th>独有一眼词</th></tr></thead>
+    <tbody>
+      <tr><td class="k">广域网</td><td class="c">6</td><td class="mn">建·分·算·术·设·IP</td><td><b>建设背景</b></td><td><b>IP 地址等逻辑资源</b>、网络<b>拓扑结构</b></td></tr>
+      <tr><td class="k">局域网</td><td class="c">5</td><td class="mn">VVVSD</td><td><b>VLAN 划分</b></td><td><b>VLAN 编号</b>、STP、DHCP</td></tr>
+      <tr><td class="k">无线网</td><td class="c">5</td><td class="mn">率·覆·容·站·组</td><td><b>无线频率规划</b></td><td>五项<b>全部带"无线"前缀</b>、基站站址</td></tr>
+      <tr><td class="k">整体规划</td><td class="c">6</td><td class="mn">维·安·房·布·控·耗</td><td><b>网络管理维护</b></td><td><b>机房建设、综合布线、节能降耗</b></td></tr>
+    </tbody>
+  </table>
+  <div class="legend"><b>关键词反推法</b>：出现"IP / 拓扑 / 建设背景"→ 广域；出现"VLAN / STP / DHCP"→ 局域；出现"无线 / 基站 / 频率"→ 无线；出现"机房 / 布线 / 节能"→ 整体。<br>
+  <b>⚠️ 广域 6 vs 整体 6</b> 条数相同：广域是"<b>立项论证</b>"（背景需求预算技术方向），整体是"<b>保障配套</b>"（管理维护、安全、机房、布线、监控、节能）。</div>
+
+  <h2 class="sec">⑤ 三个"5"：信息安全五属性 / 等保五级 / 信息安全规划 5 项</h2>
+  <table>
+    <thead><tr><th>考点</th><th>口诀</th><th>内容</th><th>记忆钩子</th></tr></thead>
+    <tbody>
+      <tr><td class="k">信息安全五属性</td><td class="mn">保·完·可·控·否</td><td>保密性 / 完整性 / 可用性 / 可控性 / 不可否认性</td><td>前 3 = 国际 CIA，后 2 = 国内补充</td></tr>
+      <tr><td class="k">信息安全规划 5 项</td><td class="mn">诉求·组织·管理·技术·运营</td><td>利益相关方安全诉求 + 组织/管理/技术/运营四体系</td><td><b>1 + 4</b>：先听诉求，再建四体系</td></tr>
+      <tr><td class="k">等保五级</td><td class="mn">自·指·监·强·专</td><td>自主 / 指导 / 监督 / 强制 / 专控保护级</td><td>管的力度<b>逐级加压</b></td></tr>
+    </tbody>
+  </table>
+  <div class="legend"><b>⚠️ 等保五级别写错成 GB 17859 那套</b>（用户自主 / 系统审计 / 安全标记 / 结构化 / 访问验证），那是另一个标准；等保用的是「自主—指导—监督—强制—专控」。</div>
+
+  <h2 class="sec">⑥ 云原生两个"7"：技术架构设计 7 原则 vs 架构 7 模式（本章第二大坑）</h2>
+  <table>
+    <thead><tr><th>对比项</th><th>技术架构设计 7 原则</th><th>架构 7 模式</th></tr></thead>
+    <tbody>
+      <tr><td class="k">口诀</td><td class="mn">服·弹·观·韧·自·零·演</td><td class="mn">服·网·无·存·事·观·驱</td></tr>
+      <tr><td class="k">性质</td><td><b>理念 / 要求</b>（应该做到什么）</td><td><b>具体架构形态</b>（做成什么样）</td></tr>
+      <tr><td class="k">词性</td><td>形容词化：服务化、弹性、可观测、韧性</td><td>几乎都叫「<b>XX 架构</b>」</td></tr>
+      <tr><td class="k">起手</td><td><b>服务化</b></td><td><b>服务化架构</b></td></tr>
+      <tr><td class="k">独有一眼词</td><td><b>零信任、架构持续演进、所有过程自动化</b></td><td><b>Mesh 化、Serverless、存储计算分离、分布式事务、事件驱动</b></td></tr>
+    </tbody>
+  </table>
+  <div class="legend"><b>⚠️ 唯一的"同名陷阱"</b>：「服务化 / 可观测」在两边都出现。区分办法——<b>原则里是光秃秃的"服务化""可观测"，模式里带"架构"二字</b>（服务化架构、可观测架构）。<br>
+  <b>兜底锚</b>：只要出现 Mesh、Serverless、事件驱动、分布式事务、存储计算分离 → 一定是<b>模式</b>；只要出现零信任、持续演进、韧性 → 一定是<b>原则</b>。</div>
+
+  <h2 class="sec">⑦ 三组"三"：城域网 3 层 / 网管系统 3 层 / 信息安全三道防线</h2>
+  <table>
+    <thead><tr><th>考点</th><th>口诀</th><th>内容</th><th>方向</th></tr></thead>
+    <tbody>
+      <tr><td class="k">城域网层次</td><td class="mn">核·汇·接</td><td>核心层 / 汇聚层 / 接入层</td><td><b>由内到外</b>（骨干→承上启下→用户接入）</td></tr>
+      <tr><td class="k">网管系统体系结构</td><td class="mn">网元·应用·表示</td><td>网元网络层 / 管理应用层 / 表示层</td><td><b>由下到上</b>（设备→系统→界面）</td></tr>
+      <tr><td class="k">信息安全三道防线</td><td class="mn">架构·技术·审计</td><td>系统安全架构 / 安全技术体系架构 / 审计架构</td><td><b>由总到监督</b>（总体→落地→审计）</td></tr>
+    </tbody>
+  </table>
+  <div class="legend"><b>别和"一个中心三重防御"混</b>：三道防线是<b>规划层面</b>的三层架构；一个中心三重防御是<b>等保 2.0 技术框架</b>（安全管理中心 + 安全计算环境 / 安全区域边界 / 安全网络通信）。</div>
+</div>
+
+<!-- ============ P4 ============ -->
+<div class="panel" id="p4">
+  <div class="howto">
+    <h3>默写闯关 · 判定规则</h3>
+    <ol>
+      <li>系统随机出题，你独立默写，<b>不看答案</b>。</li>
+      <li>提交后按<b>条目命中率</b>给分：每答中一条标准答案中的关键表述即算命中。</li>
+      <li><b>≥85% 通过</b>；60%~85% 需重写；&lt;60% 回「骨架+口诀」页重背。</li>
+      <li>拿到满分的条目会自动在「骨架+口诀」页标为已掌握。</li>
+    </ol>
+  </div>
+  <div class="qbox">
+    <div class="qstem" id="qstem">点击「出题」开始</div>
+    <div class="qmeta">
+      <span id="qmod"></span>
+      <span id="qcnt"></span>
+      <span id="qidx"></span>
+    </div>
+    <textarea id="uans" placeholder="在这里默写你的答案，一条一行更利于判分……"></textarea>
+    <div class="hintbar" id="hintbar"></div>
+    <div class="qactions">
+      <button class="btn pri" id="submit">提交判分</button>
+      <button class="btn" id="nex">出题 / 换题</button>
+      <button class="btn" id="hint">首字提示</button>
+      <button class="btn" id="showans">看标准答案</button>
+    </div>
+    <div class="result" id="res">
+      <div class="score" id="score">0%</div>
+      <div class="stats" style="margin-top:8px">
+        <span>命中 <b id="hit">0</b>/<b id="tot">0</b> 条</span>
+        <span>累计作答 <b id="attempts">0</b> 次</span>
+        <span>平均分 <b id="avg">0</b>%</span>
+      </div>
+      <div class="rlist" id="rlist"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ P5 ============ -->
+<div class="panel" id="p5">
+  <div class="howto">
+    <h3>这一章的 3 天打法</h3>
+    <ol>
+      <li><b>Day 1 上午（约 40 min）先切四块。</b>白纸写出四个板块名：<b>云资源规划 / 网络规划 / 信息安全 / 云原生</b>，并在每块后面写上"条数清单"（如：云资源 5·4·4 / 6·7·7 / 6·9·5）。本章是拼盘章节，<b>板块定位比内容更重要</b>。</li>
+      <li><b>Day 1 下午（约 1.5h）死磕计算资源规划三兄弟。</b>范围 6 / 方法技术 7 / 关键步骤 7 分三块写，每块写完隔 10 分钟再写下一块。<b>重点练"起手词反推"</b>：看到"硬件资源规划"→范围，看到"容量规划"→方法技术，看到"需求分析"→关键步骤。</li>
+      <li><b>Day 2 上午攻网络四兄弟。</b>广域 6 / 局域 5 / 无线 5 / 整体 6，练"关键词反推"：IP 与拓扑→广域，VLAN/STP/DHCP→局域，无线/基站→无线，机房/布线/节能→整体。</li>
+      <li><b>Day 2 下午攻信息安全 + 云原生。</b>信息安全六条（五属性 / 三道防线 / 规划 5 项 / 等保 5 级 / 一中心三防御 / 实施 6 步）逐条默写；云原生重点练<b>两个 7 的区分</b>（原则 vs 模式），用"Mesh、Serverless、事件驱动、零信任"四个一眼词判断。</li>
+      <li><b>Day 4 全量默写</b>，重点补顺序分：存储 9 步的中段（安全→容量→性能）、信息安全实施 6 步（风险评估在选措施之前）、三重防御由内到外（计算环境→区域边界→网络通信）。</li>
+      <li><b>Day 7 / Day 15</b> 各做一次全量默写，只要求"条数全对 + 关键词全中"，不要求逐字一致。</li>
+    </ol>
+    <h3 style="margin-top:16px">考场三个提分技巧（本章专用）</h3>
+    <ol>
+      <li><b>先写编号再填词。</b>看到"存储资源规划的步骤"，先写 ①~⑨ 九个圈。本章条数密集（6/7/9 居多），条数对了及格线就守住一半。</li>
+      <li><b>同前缀批量输出。</b>本章有三组"同前缀"：无线网 5 项全带"无线"；局域网前 3 项全带"VLAN"；信息安全规划后 4 项全是"XX 体系规划"。先把前缀念一遍，再补后缀，比一条条硬想快得多。</li>
+      <li><b>拿不准就带主题名作答。</b>比如计算资源规划这三兄弟实在分不清时，在答案前写明"范围：……"，即便条目有交叉，阅卷老师也能看出你定位正确。但要尽力避免——最好的办法还是起手词锚。</li>
+    </ol>
+  </div>
+  <h2 class="sec">已掌握清单</h2>
+  <div id="mastered" class="legend">还没有标记任何条目。</div>
+</div>
+
+</div>
+
+<script>
+/* =========================================================
+   数据：题干 q / 口诀 chips / 标准答案 a / 备注 note
+   ========================================================= */
+const MODULES = [
+{
+  no:'00', name:'云资源规划总览 · 核心步骤 + 云计算架构内外特征',
+  items:[
+    { q:'云资源规划的核心步骤（5 步）',
+      chips:[{t:'需·资·预·设·优',c:''},{t:'工程项目通用五段',c:'b'}],
+      a:['需求收集',
+         '资源评估和规划',
+         '预算管理',
+         '设计与实施',
+         '持续优化'],
+      note:'逻辑链钩子（比口诀更牢）：<b>要什么 → 家底够不够 → 多少钱 → 动手干 → 回头改</b>。<br>这 5 步本质是"任何工程项目的通用五段"，考场上万一忘词，<b>按项目常识往回推也能凑出五条</b>。<br><b>⚠️ 常考</b>：持续优化在最后——说明云资源规划是闭环，不是一次性交付。'
+    },
+    { q:'云计算架构的内部特征（4 项）',
+      chips:[{t:'虚·弹·自·多',c:''},{t:'内 = 技术怎么实现',c:'b'}],
+      a:['虚拟化',
+         '弹性扩展',
+         '自动化管理',
+         '多租户支持'],
+      note:'理解记忆：<b>虚拟化</b>是地基（把物理资源抽象成池）→ <b>弹性扩展</b>是能力（按需伸缩）→ <b>自动化管理</b>是手段（无人值守）→ <b>多租户支持</b>是组织方式（一份资源多人隔离共用）。<br>四者按"<b>地基 → 能力 → 手段 → 组织</b>"递进，写反也算对，但别漏项。'
+    },
+    { q:'云计算架构的外部特征（4 项）',
+      chips:[{t:'可·安·网·成',c:''},{t:'外 = 用户拿到什么好处',c:'b'},{t:'口诀已修正',c:'p'}],
+      a:['可靠性和可用性',
+         '安全性',
+         '网络连接性',
+         '成本效益'],
+      note:'<b>⚠️ 你原口诀写作"安网可成"，与条目顺序对不上</b>：条目是"可靠可用 → 安全 → 网络连接 → 成本效益"，口诀应改为 <b>可·安·网·成</b>，否则默写时第一条会写成"安全性"。<br>外部特征一句话：<b>用得稳、用得安全、连得上、花得值</b>。'
+    }
+  ]
+},
+{
+  no:'01', name:'计算资源规划 · 范围 6 / 方法技术 7 / 关键步骤 7',
+  items:[
+    { q:'计算资源规划的范围（6 项）',
+      chips:[{t:'硬·虚·容·负·量·调',c:''},{t:'3+3：资源形态 + 运行保障',c:'b'},{t:'口诀已优化',c:'p'}],
+      a:['硬件资源规划',
+         '虚拟化',
+         '容器化',
+         '弹性扩展和负载均衡',
+         '容量规划和预测',
+         '资源管理和调度'],
+      note:'<b>口诀优化</b>：你原口诀"硬虚容负容调"有两个"容"（容器化 / 容量规划）易混，建议改为 <b>硬·虚·容·负·量·调</b>——容量规划取"量"。<br>分组 <b>3-3</b>：前半是"<b>资源形态</b>"（硬件 → 虚拟化 → 容器化，一层层抽象上去）；后半是"<b>运行保障</b>"（弹性负载 → 容量预测 → 管理调度）。'
+    },
+    { q:'计算资源规划的方法和技术（7 项）',
+      chips:[{t:'容·性·负·弹·虚·自·管',c:''},{t:'手段 ≠ 范围',c:'b'},{t:'口诀已优化',c:'p'}],
+      a:['容量规划',
+         '性能优化',
+         '负载均衡',
+         '弹性伸缩',
+         '虚拟化和容器化',
+         '自动化管理',
+         '云资源管理'],
+      note:'<b>口诀优化</b>：你原口诀"容性负性虚自管"也有两个"性"，建议改为 <b>容·性·负·弹·虚·自·管</b>（弹性伸缩取"弹"）。<br><b>⚠️ 与"范围 6"最易串</b>：范围 = 规划<b>哪些东西</b>（名词）；方法技术 = 用<b>什么手段</b>（带"优化 / 伸缩 / 管理"等动词味）。<br><b>⚠️ 措辞差异</b>：范围里是"弹性扩展<b>和负载均衡</b>"，这里是分开的两条"负载均衡 + 弹性<b>伸缩</b>"。'
+    },
+    { q:'计算资源规划的关键步骤（7 步）',
+      chips:[{t:'分·量·云·虚·安·成·控',c:''},{t:'4+3：定方案 + 守底线闭环',c:'b'}],
+      a:['需求分析',
+         '容量规划',
+         '云服务选择',
+         '虚拟化策略',
+         '安全性考虑',
+         '成本效益分析',
+         '持续监控和维护'],
+      note:'分组 <b>4-3</b>：前 4 步<b>定方案</b>（分析需求 → 算容量 → 选云服务 → 定虚拟化策略）；后 3 步<b>守底线 + 收口</b>（安全 → 成本 → 持续监控）。<br><b>⚠️ 与"方法技术 7"同为 7 条</b>，区分锚：关键步骤有<b>明确时间先后</b>（先分析后选择再监控），方法技术是<b>并列清单</b>。'
+    }
+  ]
+},
+{
+  no:'02', name:'存储资源规划 · 范围 6 / 步骤 9 + 云数据中心五要素',
+  items:[
+    { q:'云存储资源规划的范围（6 项）',
+      chips:[{t:'型·容·余·优·隔·调',c:''},{t:'与计算资源范围对称',c:'b'}],
+      a:['存储类型选择',
+         '存储容量规划',
+         '数据备份和冗余',
+         '存储性能优化',
+         '数据安全和隔离',
+         '存储管理和调度'],
+      note:'<b>对称记忆</b>：计算 = <b>硬·虚·容·负·量·调</b>，存储 = <b>型·容·余·优·隔·调</b>——两者<b>都是 6 项、都以"管理和调度"收尾</b>。<br>逻辑链：选什么类型 → 要多大 → 坏了怎么办（备份冗余）→ 快不快 → 安不安全 → 怎么管。'
+    },
+    { q:'存储资源规划的步骤（9 步）',
+      chips:[{t:'收·分·选·计·安·容·能·管·评',c:''},{t:'3-3-3 分组',c:'b'},{t:'全章最长流程',c:'p'}],
+      a:['收集需求',
+         '分析和评估存储需求',
+         '技术选择',
+         '架构设计',
+         '安全规划',
+         '容量规划',
+         '性能优化',
+         '管理和监控',
+         '定期评估和调整'],
+      note:'分组 <b>3-3-3</b>：①<b>摸底选型</b>（收集 → 分析评估 → 技术选择）②<b>设计</b>（架构 → 安全 → 容量）③<b>运维闭环</b>（性能优化 → 管理监控 → 定期评估调整）。<br><b>⚠️ 这是全章最长的一条流程</b>，务必先写 ①~⑨ 九个圈。<b>中段"安全 → 容量 → 性能"最容易漏</b>，单独多念几遍。'
+    },
+    { q:'云数据中心的五大要素（5 项）',
+      chips:[{t:'面·资·高·给·低',c:''},{t:'前3组织资源 / 后2产出代价',c:'b'},{t:'口诀已修正',c:'p'}],
+      a:['面向服务',
+         '资源池化',
+         '高效智能',
+         '按需供给',
+         '低碳环保'],
+      note:'<b>⚠️ 你原口诀是"面资高低给"，与条目顺序对不上</b>：条目为"按需供给"第 4、"低碳环保"第 5，口诀应改为 <b>面·资·高·给·低</b>。<br>分组 <b>3-2</b>：前 3 项讲"<b>怎么组织资源</b>"（面向服务 / 资源池化 / 高效智能），后 2 项讲"<b>产出与代价</b>"（按需供给 / 低碳环保）。<br><b>低碳环保</b>是近年高频采分词，别漏。'
+    }
+  ]
+},
+{
+  no:'03', name:'网络规划 · 城域 / 广域 / 局域 / 无线 / 整体',
+  items:[
+    { q:'城域网的层次（3 层）',
+      chips:[{t:'核·汇·接',c:''},{t:'由内到外',c:'b'}],
+      a:['核心层',
+         '汇聚层',
+         '接入层'],
+      note:'顺序固定：<b>核心层</b>（高速骨干，只管转发）→ <b>汇聚层</b>（承上启下，策略控制）→ <b>接入层</b>（用户接入）。<br>类比最好记：<b>高速公路 → 城市主干道 → 家门口小路</b>。<br>⚠️ 别写成"接入 → 汇聚 → 核心"，方向反了会被判结构不清。'
+    },
+    { q:'广域网规划的主要内容（6 项）',
+      chips:[{t:'建·分·算·术·设·IP',c:''},{t:'4+2：立项论证 + 工程落地',c:'b'}],
+      a:['建设背景',
+         '需求分析',
+         '项目预算',
+         '技术方向',
+         '网络拓扑结构设计',
+         'IP 地址等逻辑资源规划'],
+      note:'分组 <b>4-2</b>：前 4 项是"<b>立项论证</b>"（背景 / 需求 / 预算 / 技术方向），后 2 项是"<b>工程落地</b>"（拓扑结构 + IP 等逻辑资源）。<br><b>最强一眼词</b>：出现 <b>IP 地址</b> 或 <b>网络拓扑</b> → 一定是广域网（其他三类网络都没有这两项）。'
+    },
+    { q:'局域网规划重点关注的内容（5 项）',
+      chips:[{t:'V·V·V·S·D',c:''},{t:'前 3 全带 VLAN',c:'b'}],
+      a:['VLAN 划分',
+         'VLAN 编号',
+         'VLAN 间路由设计',
+         'STP 设计',
+         'DHCP 设计'],
+      note:'<b>最强锚</b>：前 3 项<b>全部以 VLAN 开头</b>（划分 / 编号 / 间路由），后 2 项是 STP、DHCP。写答案时先写三个"VLAN…"再补后两个。<br>⚠️ 别漏"设计"二字（VLAN 间路由<b>设计</b>、STP <b>设计</b>、DHCP <b>设计</b>）。<br>理解：STP 防环路，DHCP 自动分配地址——都是局域网最核心的两个协议。'
+    },
+    { q:'无线网规划的主要内容（5 项）',
+      chips:[{t:'率·覆·容·站·组',c:''},{t:'五项全带"无线"前缀',c:'b'}],
+      a:['无线频率规划',
+         '无线传输覆盖范围规划',
+         '无线传输容量规划',
+         '无线基站站址规划',
+         '无线组网规划'],
+      note:'<b>批量输出技巧</b>：五项<b>全部以"无线"开头</b>，考场上先写五个"无线…"再补后缀，绝不会漏条。<br>逻辑链：<b>用什么频率 → 覆盖多大 → 能带多少 → 基站放哪 → 怎么组网</b>（由技术参数到工程部署）。'
+    },
+    { q:'网络整体规划重点关注的内容（6 项）',
+      chips:[{t:'维·安·房·布·控·耗',c:''},{t:'3-3：管理侧 + 物理侧',c:'b'}],
+      a:['网络管理维护',
+         '网络安全',
+         '机房建设',
+         '综合布线',
+         '监控系统',
+         '节能降耗'],
+      note:'分组 <b>3-3</b>：管理侧（管理维护 / 安全 / 监控）+ 物理侧（机房 / 布线 / 节能）。<br><b>⚠️ 与广域网 6 项区分</b>（条数相同）：整体规划全是"<b>保障配套</b>"类词（机房、布线、节能降耗），广域网是"<b>立项论证</b>"类词（建设背景、项目预算、技术方向）。'
+    }
+  ]
+},
+{
+  no:'04', name:'网络管理 · FCAPS 五大功能 / 体系结构 / 安全管理重点',
+  items:[
+    { q:'网络管理的五大功能（FCAPS，5 项）',
+      chips:[{t:'F 故障 / C 配置 / A 计费 / P 性能 / S 安全',c:''},{t:'缩写必须按 F-C-A-P-S',c:'b'},{t:'字母顺序提醒',c:'p'}],
+      a:['故障管理（Fault）',
+         '配置管理（Configuration）',
+         '计费管理（Accounting）',
+         '性能管理（Performance）',
+         '安全管理（Security）'],
+      note:'<b>⚠️ 字母对应关系必须记死</b>：F=故障 Fault、C=配置 Configuration、<b>A=计费 Accounting</b>、<b>P=性能 Performance</b>、S=安全 Security。<br>你笔记中中文顺序写作"故障 / 配置 / 性能 / 计费 / 安全"，与 FCAPS 缩写的 A-P 顺序相反。<b>建议按 FCAPS 顺序背</b>（故障→配置→<b>计费</b>→<b>性能</b>→安全），中文五项不论顺序一般都会给分，但<b>"A 是计费、P 是性能"这个对应绝不能错</b>。'
+    },
+    { q:'网络管理系统的功能体系结构分层（3 层）',
+      chips:[{t:'网元·应用·表示',c:''},{t:'由下到上',c:'b'}],
+      a:['网元 / 网络层（被管设备层）',
+         '管理应用层',
+         '表示层'],
+      note:'自下而上三层：<b>网元 / 网络层</b>（被管的设备）→ <b>管理应用层</b>（五大功能在这里实现）→ <b>表示层</b>（给人看的界面）。<br>类比：<b>传感器 → 后台系统 → 大屏</b>。<br>⚠️ 与城域网 3 层区分：城域网是"网络拓扑分层"（核心/汇聚/接入），这里是"管理系统分层"（设备/应用/表示）。'
+    },
+    { q:'网络安全管理的重点内容（5 项）',
+      chips:[{t:'组·风·应·容·安',c:''},{t:'事前 → 事中 → 兜底 → 日常',c:'b'}],
+      a:['安全组织和责任',
+         '风险管理工作机制',
+         '应急处理工作机制',
+         '容灾备份工作机制',
+         '上线切换及安全运维'],
+      note:'逻辑链：<b>先有人</b>（组织责任）→ <b>事前防</b>（风险管理）→ <b>事中处</b>（应急处理）→ <b>兜底</b>（容灾备份）→ <b>日常</b>（上线切换及安全运维）。<br>⚠️ 五项都带"机制 / 工作"字样，与"信息安全规划 5 项"（诉求 / 组织 / 管理 / 技术 / 运营）易混——<b>安全管理偏"机制"，信息安全规划偏"体系"</b>。'
+    }
+  ]
+},
+{
+  no:'05', name:'信息安全 · 五属性 / 三道防线 / 规划 5 项 / 等保 5 级 / 一中心三防御 / 实施 6 步',
+  items:[
+    { q:'信息安全的五大属性',
+      chips:[{t:'保·完·可·控·否',c:''},{t:'前3 = 国际 CIA，后2 = 国内补充',c:'b'}],
+      a:['保密性',
+         '完整性',
+         '可用性',
+         '可控性',
+         '不可否认性'],
+      note:'记忆分层：前三项是国际通行的 <b>CIA</b>（Confidentiality 保密 / Integrity 完整 / Availability 可用），国内教材再加 <b>可控性、不可否认性</b> 凑成五属性。<br>⚠️ 若题目只问"三属性"就写前三个（保密 / 完整 / 可用），问"五属性"才写全。'
+    },
+    { q:'信息安全的三道防线',
+      chips:[{t:'架构·技术·审计',c:''},{t:'总体 → 落地 → 监督',c:'b'}],
+      a:['系统安全架构',
+         '安全技术体系架构',
+         '审计架构'],
+      note:'顺序递进：<b>总体架构 → 技术落地 → 审计监督</b>，越往后越偏监督。<br>⚠️ 别与"一个中心、三重防御"混：三道防线是<b>规划层面</b>的三个架构；一中心三防御是<b>等保 2.0 的技术框架</b>。'
+    },
+    { q:'信息安全规划的主要内容（5 项）',
+      chips:[{t:'诉求·组织·管理·技术·运营',c:''},{t:'1 + 4：先听诉求，再建四体系',c:'b'}],
+      a:['关注利益相关方的安全诉求',
+         '信息安全组织体系规划',
+         '信息安全管理体系规划',
+         '信息安全技术体系规划',
+         '信息安全运营体系规划'],
+      note:'结构钩子 <b>1+4</b>：第 1 项是"听诉求"，后 4 项全是"<b>XX 体系规划</b>"（组织 / 管理 / 技术 / 运营）。<br><b>批量输出技巧</b>：先写四个"XX 体系规划"再填前缀。<br>⚠️ 三道防线里也有"安全技术体系架构"，别混——<b>规划是五个"体系"，防线是三个"架构"</b>。'
+    },
+    { q:'信息安全等级保护的五个等级',
+      chips:[{t:'自·指·监·强·专',c:''},{t:'管的力度逐级加压',c:'b'}],
+      a:['自主保护级',
+         '指导保护级',
+         '监督保护级',
+         '强制保护级',
+         '专控保护级'],
+      note:'五级强度递增：<b>自主 → 指导 → 监督 → 强制 → 专控</b>。钩子：<b>管的力度越来越大</b>（自己管 → 有人指导 → 有人监督 → 强制要求 → 专门管控）。<br><b>⚠️ 千万别写成 GB 17859 那套</b>（用户自主 / 系统审计 / 安全标记 / 结构化 / 访问验证），那是另一个标准；<b>等保用的是"自主—指导—监督—强制—专控"</b>。'
+    },
+    { q:'"一个中心、三重防御"分别指什么',
+      chips:[{t:'一个中心 = 安全管理中心',c:''},{t:'三重防御 = 算·边·网（由内到外）',c:'b'}],
+      a:['一个中心：安全管理中心',
+         '三重防御之一：安全计算环境',
+         '三重防御之二：安全区域边界',
+         '三重防御之三：安全网络通信'],
+      note:'这是<b>等保 2.0 的核心技术框架</b>，几乎必考。<br>三重防御顺序<b>由内到外</b>：<b>计算环境</b>（主机 / 应用，最里层）→ <b>区域边界</b>（边界防护，中间层）→ <b>网络通信</b>（传输，最外层）。<br>口诀「<b>中·算·边·网</b>」——一个中心 + 三防御，共 4 个要素，别漏写"安全管理中心"。'
+    },
+    { q:'信息安全实施方法的主要 6 步',
+      chips:[{t:'定·基·特·险·改·护',c:''},{t:'3-3：定要求 + 做防护',c:'b'}],
+      a:['安全定级',
+         '基本安全要求分析',
+         '系统特定安全要求分析',
+         '风险评估',
+         '改进和选择安全措施',
+         '实施安全保护'],
+      note:'分组 <b>3-3</b>：前 3 步"<b>定要求</b>"（定级 → 基本要求 → 特定要求），后 3 步"<b>做防护</b>"（风险评估 → 改进并选择措施 → 实施保护）。<br><b>⚠️ 顺序陷阱</b>：风险评估在"改进和选择安全措施"<b>之前</b>——先摸清有什么风险，才谈得上选措施。写成"先选措施再评估"是典型颠倒。'
+    }
+  ]
+},
+{
+  no:'06', name:'云原生 · 代码 3 部分 / 架构 7 原则 / 架构 7 模式 / 建设 5 步',
+  items:[
+    { q:'云原生应用代码分为哪三部分',
+      chips:[{t:'业·三·非',c:''},{t:'非功能代码被下沉',c:'b'}],
+      a:['业务代码',
+         '三方软件',
+         '处理非功能特性的代码'],
+      note:'一句话理解：<b>云原生把"非功能特性"（弹性、可观测、韧性、安全等）从业务代码里剥离出来，下沉给框架和基础设施</b>，所以业务代码可以更纯粹。<br><b>常考追问</b>："为什么云原生能让代码量更少 / 交付更快？" → 因为非功能特性代码被复用和下沉了，不用每个应用重复写。'
+    },
+    { q:'云原生技术架构设计的 7 项原则',
+      chips:[{t:'服·弹·观·韧·自·零·演',c:''},{t:'谐音：服务弹观，韧自零演',c:'b'},{t:'是"理念"不是"形态"',c:'p'}],
+      a:['服务化',
+         '弹性',
+         '可观测',
+         '韧性',
+         '所有过程自动化',
+         '零信任',
+         '架构持续演进'],
+      note:'谐音整句：<b>"服务弹观，韧自零演"</b>。<br><b>⚠️ 与"架构 7 模式"同为 7 条</b>，靠词性区分：<b>原则 = 理念 / 要求</b>（服务化、弹性、可观测、韧性…），<b>模式 = 具体架构形态</b>。<br><b>一眼词</b>：只要出现 <b>零信任、架构持续演进、所有过程自动化</b> → 一定是原则（模式里没有这三项）。'
+    },
+    { q:'云原生架构的 7 种模式',
+      chips:[{t:'服·网·无·存·事·观·驱',c:''},{t:'多数叫"XX 架构"',c:'b'},{t:'与 7 原则最易串',c:'p'}],
+      a:['服务化架构',
+         'Mesh 化架构',
+         'Serverless 架构',
+         '存储计算分离架构',
+         '分布式事务架构',
+         '可观测架构',
+         '事件驱动架构'],
+      note:'口诀映射：<b>服</b>务化 / <b>网</b>（Mesh 服务网格）/ <b>无</b>（Serverless 无服务器）/ <b>存</b>储计算分离 / <b>事</b>（分布式事务）/ <b>观</b>（可观测）/ <b>驱</b>（事件驱动）。<br><b>⚠️ 最大陷阱</b>：「服务化」和「可观测」在两个 7 里<b>都出现</b>。区分：<b>模式里带"架构"二字</b>（服务化架构、可观测架构），原则里是光秃秃的"服务化""可观测"。<br><b>一眼词</b>：Mesh、Serverless、存储计算分离、分布式事务、事件驱动 → 必是模式。'
+    },
+    { q:'云原生建设规划的 5 个步骤',
+      chips:[{t:'微·治·付·自·强',c:''},{t:'由应用到基础设施的递进',c:'b'}],
+      a:['微服务采用及运行环境容器云平台构建',
+         '服务管理和治理',
+         '持续交付及安全',
+         '自服务敏捷响应基础设施',
+         '增强生产环境韧性和安全性'],
+      note:'递进钩子：<b>先拆应用</b>（微服务 + 容器云）→ <b>再管起来</b>（治理）→ <b>再快起来</b>（持续交付）→ <b>再自助</b>（自服务敏捷基础设施）→ <b>最后加固</b>（韧性与安全）。<br><b>⚠️ 这条只有 5 步</b>，不要和"7 原则 / 7 模式"混；它是<b>建设路线图</b>（有先后），那两个是<b>并列清单</b>。'
+    }
+  ]
+}
+];
+
+/* =========================================================
+   渲染：骨架 + 口诀
+   ========================================================= */
+const LS='cnp_v1';
+function loadState(){try{return JSON.parse(localStorage.getItem(LS))||{}}catch(e){return{}}}
+function saveState(s){try{localStorage.setItem(LS,JSON.stringify(s))}catch(e){}}
+let ST=loadState();
+if(!ST.mastered)ST.mastered={};
+if(!ST.attempts)ST.attempts=[];
+
+let QIDX=[];
+{
+  const box=document.getElementById('mods');
+  MODULES.forEach((m,mi)=>{
+    const d=document.createElement('details');
+    d.className='mod'; d.open=true;
+    const total=m.items.length;
+    d.innerHTML=`<summary><span class="no">${m.no}</span><span>${m.name}</span><span class="cnt">${total} 个考点</span><span class="arw">▶</span></summary><div class="modbody"></div>`;
+    const body=d.querySelector('.modbody');
+    m.items.forEach((it,ii)=>{
+      const id=`${mi}-${ii}`;
+      QIDX.push({id,mi,ii,m,it});
+      const c=document.createElement('div');
+      c.className='card'+(ST.mastered[id]?' ok':'');
+      c.dataset.id=id;
+      c.innerHTML=`
+        <div class="chead"><div class="q"><span class="n">${m.no}.${ii+1}</span>${it.q}</div></div>
+        <div class="mn">${it.chips.map(x=>`<span class="chip ${x.c||''}">${x.t}</span>`).join('')}</div>
+        <div class="ans"><ol>${it.a.map(t=>`<li>${t}</li>`).join('')}</ol>${it.note?`<div class="note">${it.note}</div>`:''}</div>
+        <div class="cfoot">
+          <button class="mini tog">展开答案</button>
+          <button class="mini tap">标记已掌握</button>
+          <span style="font-size:11.5px;color:var(--txt3);margin-left:auto">共 ${it.a.length} 条</span>
+        </div>`;
+      body.appendChild(c);
+    });
+    box.appendChild(d);
+  });
+}
+
+document.addEventListener('click',e=>{
+  const card=e.target.closest('.card'); if(!card)return;
+  if(e.target.classList.contains('tog')){
+    card.classList.toggle('open');
+    e.target.textContent=card.classList.contains('open')?'收起答案':'展开答案';
+  }
+  if(e.target.classList.contains('tap')){
+    const id=card.dataset.id;
+    ST.mastered[id]=!ST.mastered[id];
+    card.classList.toggle('ok',!!ST.mastered[id]);
+    e.target.classList.toggle('on',!!ST.mastered[id]);
+    saveState(ST);renderProgress();
+  }
+});
+{
+  const bar=document.createElement('div');
+  bar.style.cssText='display:flex;gap:8px;margin:0 0 14px';
+  bar.innerHTML=`<button class="btn" id="expandAll">全部展开答案</button>
+                 <button class="btn" id="collapseAll">全部折叠（纯回忆模式）</button>
+                 <button class="btn" id="markAll">全部标记已掌握</button>`;
+  document.getElementById('mods').before(bar);
+  bar.querySelector('#expandAll').onclick=()=>document.querySelectorAll('#mods .card').forEach(c=>{c.classList.add('open');const b=c.querySelector('.tog');if(b)b.textContent='收起答案';});
+  bar.querySelector('#collapseAll').onclick=()=>document.querySelectorAll('#mods .card').forEach(c=>{c.classList.remove('open');const b=c.querySelector('.tog');if(b)b.textContent='展开答案';});
+  bar.querySelector('#markAll').onclick=()=>{
+    QIDX.forEach(x=>ST.mastered[x.id]=true);saveState(ST);
+    document.querySelectorAll('#mods .card').forEach(c=>{c.classList.add('ok');const b=c.querySelector('.tap');if(b)b.classList.add('on');});
+    renderProgress();renderMastered();
+  };
+}
+
+function renderProgress(){
+  const tot=QIDX.length, done=QIDX.filter(x=>ST.mastered[x.id]).length;
+  document.getElementById('pbar').style.width=(tot?done/tot*100:0)+'%';
+  document.getElementById('ptxt').textContent=`${done} / ${tot}`;
+  renderMastered();
+}
+function renderMastered(){
+  const list=QIDX.filter(x=>ST.mastered[x.id]);
+  const el=document.getElementById('mastered');
+  if(!list.length){el.innerHTML='还没有标记任何条目。';return}
+  el.innerHTML=list.map(x=>`• <b>${x.m.no}.${x.ii+1}</b> ${x.it.q}`).join('<br>');
+}
+
+/* =========================================================
+   渲染：数字速查
+   ========================================================= */
+const NUM=[
+  ['5','云资源规划核心步骤','需资预设优','需求收集 / 资源评估和规划 / 预算管理 / 设计与实施 / 持续优化'],
+  ['4','云计算架构内部特征','虚弹自多','虚拟化 / 弹性扩展 / 自动化管理 / 多租户支持'],
+  ['4','云计算架构外部特征','可安网成','可靠性和可用性 / 安全性 / 网络连接性 / 成本效益'],
+  ['6','计算资源规划范围','硬虚容负量调','硬件资源规划 / 虚拟化 / 容器化 / 弹性扩展和负载均衡 / 容量规划和预测 / 资源管理和调度'],
+  ['7','计算资源规划方法和技术','容性负弹虚自管','容量规划 / 性能优化 / 负载均衡 / 弹性伸缩 / 虚拟化和容器化 / 自动化管理 / 云资源管理'],
+  ['7','计算资源规划关键步骤','分量云虚安成控','需求分析 / 容量规划 / 云服务选择 / 虚拟化策略 / 安全性考虑 / 成本效益分析 / 持续监控和维护'],
+  ['6','云存储资源规划范围','型容余优隔调','存储类型选择 / 存储容量规划 / 数据备份和冗余 / 存储性能优化 / 数据安全和隔离 / 存储管理和调度'],
+  ['9','存储资源规划步骤','收分选计安容能管评','收集需求 / 分析和评估存储需求 / 技术选择 / 架构设计 / 安全规划 / 容量规划 / 性能优化 / 管理和监控 / 定期评估和调整'],
+  ['5','云数据中心五要素','面资高给低','面向服务 / 资源池化 / 高效智能 / 按需供给 / 低碳环保'],
+  ['3','城域网层次','核汇接','核心层 / 汇聚层 / 接入层'],
+  ['6','广域网规划主要内容','建分算术设IP','建设背景 / 需求分析 / 项目预算 / 技术方向 / 网络拓扑结构设计 / IP 地址等逻辑资源规划'],
+  ['5','局域网规划重点','V·V·V·S·D','VLAN 划分 / VLAN 编号 / VLAN 间路由设计 / STP 设计 / DHCP 设计'],
+  ['5','无线网规划主要内容','率覆容站组','无线频率规划 / 无线传输覆盖范围规划 / 无线传输容量规划 / 无线基站站址规划 / 无线组网规划'],
+  ['6','网络整体规划重点','维安房布控耗','网络管理维护 / 网络安全 / 机房建设 / 综合布线 / 监控系统 / 节能降耗'],
+  ['5','网络管理五大功能','F 故障 C 配置 A 计费 P 性能 S 安全','故障管理 / 配置管理 / 计费管理 / 性能管理 / 安全管理（FCAPS）'],
+  ['3','网管系统功能体系结构','网元·应用·表示','网元 / 网络层 → 管理应用层 → 表示层'],
+  ['5','网络安全管理重点内容','组风应容安','安全组织和责任 / 风险管理工作机制 / 应急处理工作机制 / 容灾备份工作机制 / 上线切换及安全运维'],
+  ['5','信息安全五属性','保完可控否','保密性 / 完整性 / 可用性 / 可控性 / 不可否认性'],
+  ['3','信息安全三道防线','架构技术审计','系统安全架构 / 安全技术体系架构 / 审计架构'],
+  ['5','信息安全规划主要内容','诉求组织管理技术运营','关注利益相关方的安全诉求 / 信息安全组织体系规划 / 信息安全管理体系规划 / 信息安全技术体系规划 / 信息安全运营体系规划'],
+  ['5','信息安全等保五级','自指监强专','自主保护级 / 指导保护级 / 监督保护级 / 强制保护级 / 专控保护级'],
+  ['1+3','一个中心三重防御','中·算·边·网','安全管理中心 / 安全计算环境 / 安全区域边界 / 安全网络通信'],
+  ['6','信息安全实施方法步骤','定基特险改护','安全定级 / 基本安全要求分析 / 系统特定安全要求分析 / 风险评估 / 改进和选择安全措施 / 实施安全保护'],
+  ['3','云原生应用代码三部分','业三非','业务代码 / 三方软件 / 处理非功能特性的代码'],
+  ['7','云原生技术架构设计原则','服弹观韧自零演','服务化 / 弹性 / 可观测 / 韧性 / 所有过程自动化 / 零信任 / 架构持续演进'],
+  ['7','云原生架构模式','服网无存事观驱','服务化架构 / Mesh 化架构 / Serverless / 存储计算分离 / 分布式事务 / 可观测架构 / 事件驱动架构'],
+  ['5','云原生建设规划步骤','微治付自强','微服务采用及运行环境容器云平台构建 / 服务管理和治理 / 持续交付及安全 / 自服务敏捷响应基础设施 / 增强生产环境韧性和安全性']
+];
+{
+  const t=document.getElementById('numtable');
+  t.innerHTML=`<table><thead><tr><th>条数</th><th>考点</th><th>口诀</th><th>标准答案</th></tr></thead><tbody>
+  ${NUM.map(r=>`<tr><td class="c">${r[0]}</td><td><b>${r[1]}</b></td><td class="mn">${r[2]}</td><td style="color:var(--txt2)">${r[3]}</td></tr>`).join('')}
+  </tbody></table>`;
+}
+
+/* =========================================================
+   默写闯关
+   ========================================================= */
+const POOL=QIDX.filter(x=>x.it.a.length>=2);
+let cur=null;
+
+function pick(){
+  if(!POOL.length){document.getElementById('qstem').textContent='题库为空（暂无可出题的考点）';return;}
+  let n;
+  if(POOL.length<=1){n=POOL[0];}
+  else{let guard=0;do{n=POOL[Math.floor(Math.random()*POOL.length)];guard++;}while(cur&&n===cur&&guard<50);}
+  cur=n;
+  document.getElementById('qstem').textContent=cur.it.q;
+  document.getElementById('qmod').textContent='模块 '+cur.m.no+' · '+cur.m.name;
+  document.getElementById('qcnt').textContent='应写 '+cur.it.a.length+' 条';
+  document.getElementById('qidx').textContent='题库 '+POOL.length+' 题';
+  document.getElementById('uans').value='';
+  document.getElementById('hintbar').classList.remove('on');
+  document.getElementById('res').classList.remove('on');
+  document.getElementById('uans').focus();
+}
+function norm(s){return (s||'').replace(/[\s，。、；：,.;:!?！？（）()【】\[\]'"“”‘’—\-_/\\]/g,'').toLowerCase()}
+function keysOf(t){
+  const clean=t.replace(/^[①②③④⑤⑥⑦⑧⑨⑩⑪⑫\d\.\s]+/,'').split('：')[0].split('，')[0];
+  const out=new Set();
+  const push=v=>{if(v.length>=2)out.add(norm(v))};
+  push(clean);push(clean.slice(0,2));push(clean.slice(0,3));push(clean.slice(0,4));
+  t.split(/[、，,；;/]/).forEach(p=>{const q=p.replace(/^[①②③④⑤⑥⑦⑧⑨⑩⑪⑫\d\.\s]+/,'').split('：')[0];push(q);push(q.slice(0,3))});
+  return [...out];
+}
+function judge(){
+  if(!cur)return;
+  const u=norm(document.getElementById('uans').value);
+  const rows=cur.it.a.map(t=>{
+    const ks=keysOf(t);
+    const hit=ks.some(k=>u.includes(k));
+    return{t,hit};
+  });
+  const hits=rows.filter(r=>r.hit).length;
+  const pct=Math.round(hits/rows.length*100);
+  const sc=document.getElementById('score');
+  sc.textContent=pct+'%';
+  sc.className='score '+(pct>=85?'g':pct>=60?'a':'r');
+  document.getElementById('hit').textContent=hits;
+  document.getElementById('tot').textContent=rows.length;
+  document.getElementById('rlist').innerHTML=rows.map(r=>
+    `<div class="ritem ${r.hit?'hit':'miss'}"><span class="tag">${r.hit?'✓ 命中':'✗ 漏写'}</span><span>${r.t}</span></div>`).join('');
+  document.getElementById('res').classList.add('on');
+  ST.attempts.push(pct);
+  if(pct>=100){ST.mastered[cur.id]=true;const card=document.querySelector(`.card[data-id="${cur.id}"]`);
+    if(card){card.classList.add('ok');const b=card.querySelector('.tap');if(b)b.classList.add('on');}}
+  saveState(ST);renderProgress();renderAvg();
+}
+function renderAvg(){
+  const a=ST.attempts||[];
+  document.getElementById('attempts').textContent=a.length;
+  document.getElementById('avg').textContent=a.length?Math.round(a.reduce((x,y)=>x+y,0)/a.length):0;
+}
+document.getElementById('submit').onclick=judge;
+document.getElementById('nex').onclick=pick;
+document.getElementById('showans').onclick=()=>{
+  if(!cur)return;
+  document.getElementById('rlist').innerHTML=cur.it.a.map(t=>
+    `<div class="ritem" style="background:rgba(77,163,255,.08);color:#cfe3ff"><span class="tag">•</span><span>${t}</span></div>`).join('');
+  document.getElementById('res').classList.add('on');
+};
+document.getElementById('hint').onclick=()=>{
+  if(!cur)return;
+  const h=cur.it.a.map((t,i)=>`${i+1}.${t.replace(/^[①②③④⑤⑥⑦⑧⑨⑩⑪⑫\d\.\s]+/,'').slice(0,1)}○○…`).join('　');
+  const bar=document.getElementById('hintbar');
+  bar.textContent=h;bar.classList.add('on');
+};
+document.getElementById('uans').addEventListener('keydown',e=>{
+  if((e.ctrlKey||e.metaKey)&&e.key==='Enter')judge();
+});
+
+/* 页签 */
+document.querySelectorAll('.tab').forEach(t=>{
+  t.onclick=()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+    document.querySelectorAll('.panel').forEach(x=>x.classList.remove('on'));
+    t.classList.add('on');
+    document.getElementById(t.dataset.p).classList.add('on');
+    window.scrollTo({top:0,behavior:'smooth'});
+    if(t.dataset.p==='p4'&&!cur)pick();
+  };
+});
+document.getElementById('reset').onclick=()=>{
+  if(!confirm('确定清空全部掌握进度和答题记录吗？'))return;
+  ST={mastered:{},attempts:[]};saveState(ST);
+  document.querySelectorAll('#mods .card').forEach(c=>{c.classList.remove('ok');const b=c.querySelector('.tap');if(b)b.classList.remove('on');});
+  renderProgress();renderAvg();
+};
+
+renderProgress();renderAvg();pick();
+</script>
+</body>
+</html>

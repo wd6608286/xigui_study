@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>信息系统规划 · 默写速记手册</title>
+<style>
+:root{
+  --bg:#0e1116; --bg2:#151a21; --bg3:#1c232c; --line:#2a3340;
+  --txt:#e6eaf0; --txt2:#9aa7b8; --txt3:#6b7889;
+  --accent:#4da3ff; --accent2:#7c5cff;
+  --red:#ff5c5c; --green:#2ecc71; --amber:#ffb020; --teal:#00d4aa;
+  --code:'JetBrains Mono','Cascadia Code',Consolas,'Microsoft YaHei',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--txt);
+  font-family:-apple-system,'Segoe UI','Microsoft YaHei',system-ui,sans-serif;
+  font-size:14px; line-height:1.75; padding:0 0 80px;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+
+header{
+  background:linear-gradient(135deg,#141b26 0%,#101720 60%,#0e1116 100%);
+  border-bottom:1px solid var(--line); padding:26px 0 20px; margin-bottom:0;
+  position:sticky; top:0; z-index:50; backdrop-filter:blur(8px);
+}
+h1{font-size:21px;font-weight:700;letter-spacing:.5px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+h1 .badge{font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;
+  background:rgba(77,163,255,.14);color:var(--accent);border:1px solid rgba(77,163,255,.35)}
+.sub{color:var(--txt2);font-size:12.5px;margin-top:6px}
+.topbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.tab{
+  padding:7px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;
+  background:var(--bg3);border:1px solid var(--line);color:var(--txt2);transition:.16s;user-select:none;
+}
+.tab:hover{color:var(--txt);border-color:#3a4657}
+.tab.on{background:linear-gradient(135deg,#2b6cb0,#4a3ba8);color:#fff;border-color:transparent;
+  box-shadow:0 3px 14px rgba(77,163,255,.25)}
+.progline{display:flex;align-items:center;gap:12px;margin-top:14px;font-size:12px;color:var(--txt2)}
+.pbar{flex:1;height:6px;background:var(--bg3);border-radius:6px;overflow:hidden;border:1px solid var(--line)}
+.pbar>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--teal));
+  transition:width .35s ease;border-radius:6px}
+.btn{background:var(--bg3);border:1px solid var(--line);color:var(--txt2);border-radius:7px;
+  padding:5px 12px;font-size:12px;cursor:pointer;transition:.15s;font-family:inherit}
+.btn:hover{color:var(--txt);border-color:#455263}
+.btn.pri{background:linear-gradient(135deg,#2b6cb0,#4a3ba8);color:#fff;border-color:transparent}
+
+.panel{display:none;padding-top:26px}
+.panel.on{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+.howto{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:24px}
+.howto h3{font-size:14px;color:var(--accent);margin-bottom:10px;letter-spacing:.5px}
+.howto ol{margin-left:20px;color:var(--txt2);font-size:13px}
+.howto li{margin-bottom:5px}
+.howto b{color:var(--txt)}
+
+.mod{margin-bottom:18px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--bg2)}
+.mod>summary{
+  list-style:none;cursor:pointer;padding:14px 18px;display:flex;align-items:center;gap:12px;
+  background:linear-gradient(90deg,rgba(77,163,255,.07),transparent);font-weight:700;font-size:15px;
+}
+.mod>summary::-webkit-details-marker{display:none}
+.mod>summary .no{
+  font-family:var(--code);font-size:12px;color:#fff;background:linear-gradient(135deg,#2b6cb0,#4a3ba8);
+  padding:2px 8px;border-radius:6px;letter-spacing:.5px
+}
+.mod>summary .cnt{margin-left:auto;font-size:11.5px;color:var(--txt3);font-weight:500}
+.mod>summary .arw{color:var(--txt3);transition:.2s;font-size:12px}
+.mod[open]>summary .arw{transform:rotate(90deg)}
+.modbody{padding:4px 14px 16px}
+
+.card{border:1px solid var(--line);border-radius:10px;margin:12px 0;background:var(--bg3);overflow:hidden}
+.card.ok{border-color:rgba(46,204,113,.45);background:rgba(46,204,113,.05)}
+.chead{padding:11px 14px;display:flex;align-items:flex-start;gap:10px}
+.q{font-weight:650;font-size:13.5px;flex:1;color:#fff}
+.q .n{color:var(--txt3);font-family:var(--code);font-size:11.5px;margin-right:6px}
+.mn{display:flex;gap:7px;flex-wrap:wrap;padding:0 14px 10px}
+.chip{
+  font-family:var(--code);font-size:12px;padding:3px 10px;border-radius:6px;
+  background:rgba(255,176,32,.12);color:var(--amber);border:1px solid rgba(255,176,32,.3);
+  letter-spacing:.6px;white-space:nowrap
+}
+.chip.b{background:rgba(0,212,170,.1);color:var(--teal);border-color:rgba(0,212,170,.3)}
+.chip.p{background:rgba(124,92,255,.13);color:#b39dff;border-color:rgba(124,92,255,.33)}
+.ans{padding:0 14px 14px;display:none}
+.card.open .ans{display:block}
+.ans ol{margin:4px 0 0 22px}
+.ans li{margin-bottom:3px;font-size:13px;color:var(--txt)}
+.ans .note{margin-top:9px;font-size:12.5px;color:var(--txt2);background:rgba(77,163,255,.07);
+  border-left:3px solid var(--accent);padding:7px 11px;border-radius:0 6px 6px 0}
+.cfoot{padding:0 14px 12px;display:flex;gap:8px;align-items:center}
+.mini{font-size:11.5px;padding:4px 10px;border-radius:6px;cursor:pointer;border:1px solid var(--line);
+  background:var(--bg2);color:var(--txt2);font-family:inherit;transition:.15s}
+.mini:hover{color:var(--txt);border-color:#455263}
+.mini.on{background:rgba(46,204,113,.16);color:var(--green);border-color:rgba(46,204,113,.45)}
+
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;
+  background:var(--bg2);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+th{background:var(--bg3);padding:10px 13px;text-align:left;font-size:12.5px;color:var(--accent);
+  font-weight:700;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:9px 13px;border-bottom:1px solid rgba(42,51,64,.6);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:rgba(77,163,255,.045)}
+td.k{font-family:var(--code);color:var(--amber);font-weight:600;white-space:nowrap}
+td.c{font-family:var(--code);color:var(--teal);font-weight:700;text-align:center;white-space:nowrap}
+td.mn{font-family:var(--code);color:#b39dff;white-space:nowrap;font-size:12.5px}
+
+.qbox{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:22px;margin-bottom:16px}
+.qstem{font-size:15.5px;font-weight:700;color:#fff;margin-bottom:6px;line-height:1.6}
+.qmeta{font-size:12px;color:var(--txt3);margin-bottom:14px;display:flex;gap:14px;flex-wrap:wrap}
+.qmeta span{font-family:var(--code)}
+textarea{
+  width:100%;min-height:130px;background:var(--bg);border:1px solid var(--line);border-radius:9px;
+  color:var(--txt);padding:12px;font-family:var(--code);font-size:13px;line-height:1.85;resize:vertical;outline:none
+}
+textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(77,163,255,.13)}
+.qactions{display:flex;gap:9px;margin-top:12px;flex-wrap:wrap;align-items:center}
+.result{margin-top:16px;display:none}
+.result.on{display:block;animation:fade .25s}
+.score{font-size:26px;font-weight:800;font-family:var(--code);letter-spacing:-1px}
+.score.g{color:var(--green)} .score.a{color:var(--amber)} .score.r{color:var(--red)}
+.rlist{margin-top:12px;display:flex;flex-direction:column;gap:5px}
+.ritem{display:flex;gap:9px;align-items:flex-start;font-size:13px;padding:5px 9px;border-radius:6px}
+.ritem.hit{background:rgba(46,204,113,.09);color:#b8f0cf}
+.ritem.miss{background:rgba(255,92,92,.09);color:#ffc0c0}
+.ritem .tag{font-family:var(--code);font-size:11px;flex-shrink:0;margin-top:1px}
+.hintbar{font-family:var(--code);font-size:13px;color:var(--teal);letter-spacing:3px;margin-top:8px;
+  background:rgba(0,212,170,.07);border:1px dashed rgba(0,212,170,.35);border-radius:8px;padding:9px 12px;
+  display:none;word-break:break-all;line-height:2}
+.hintbar.on{display:block}
+.stats{display:flex;gap:18px;flex-wrap:wrap;font-size:12.5px;color:var(--txt2)}
+.stats b{color:var(--txt);font-family:var(--code);font-size:15px}
+
+.legend{font-size:12px;color:var(--txt3);margin:8px 0 16px;line-height:1.9}
+.legend code{font-family:var(--code);color:var(--amber);background:rgba(255,176,32,.1);padding:1px 6px;border-radius:4px}
+h2.sec{font-size:16px;margin:26px 0 10px;color:#fff;display:flex;align-items:center;gap:9px}
+h2.sec::before{content:'';width:3px;height:16px;background:linear-gradient(180deg,var(--accent),var(--accent2));border-radius:2px}
+@media(max-width:640px){
+  body{font-size:13px} h1{font-size:17px} .wrap{padding:0 12px}
+  td.mn{display:none} .tab{padding:6px 11px;font-size:12px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1>信息系统规划 · 默写速记手册 <span class="badge">系统规划与管理师</span></h1>
+    <div class="sub">七项内容 · 五步流程 · 五大方法 —— 数字定骨架，口诀做钩子，默写验成色</div>
+    <div class="topbar">
+      <div class="tab on" data-p="p1">📖 骨架 + 口诀</div>
+      <div class="tab" data-p="p2">🔢 数字速查</div>
+      <div class="tab" data-p="p3">⚖️ 易混对比</div>
+      <div class="tab" data-p="p4">✍️ 默写闯关</div>
+      <div class="tab" data-p="p5">📅 复习计划</div>
+    </div>
+    <div class="progline">
+      <span>掌握进度</span>
+      <div class="pbar"><i id="pbar"></i></div>
+      <span id="ptxt">0 / 0</span>
+      <button class="btn" id="reset">重置进度</button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- ============ P1 ============ -->
+<div class="panel on" id="p1">
+  <div class="howto">
+    <h3>这一章为什么容易"背了但写错"</h3>
+    <ol>
+      <li><b>本章的坑是"六项撞车"。</b>全章有 <b>5 组 6 项</b>（技术 6 原则 / 任务 6 步 / 资源 6 项 / 保障 6 项 / 外部需求 6 任务 / 场景化 6 步骤）。条数一样，一慌就串行。<b>所以每条口诀必须绑"主题名"一起背</b>——"资源的六项"和"保障的六项"要分开成两个声音。</li>
+      <li><b>先背两张总表再背细节。</b>本章所有内容都挂在两张表下：<b>规划七项内容</b>（回答"规划什么"）和 <b>规划五步骤</b>（回答"怎么规划"）。这两张表是目录，其余都是目录里的条目。</li>
+      <li><b>五大方法是独立的一块。</b>SST / BSP / CSF / VCA / Zachman 各考各的，但其中 <b>BSP / CSF / VCA 都是 4 步</b>，最容易张冠李戴，必须靠"起手动词"区分（见易混页）。</li>
+      <li><b>默写检验 &gt; 反复阅读。</b>本页答案默认折叠，必须先自己复述再展开对照。</li>
+    </ol>
+  </div>
+  <div class="legend">
+    标记说明：<code>橙底口诀</code> = 核心记忆钩子 &nbsp;|&nbsp; <code>青底</code> = 步骤分组 / 结构钩子 &nbsp;|&nbsp; <code>紫底</code> = 与你原笔记口径的差异提醒
+  </div>
+  <div id="mods"></div>
+</div>
+
+<!-- ============ P2 ============ -->
+<div class="panel" id="p2">
+  <h2 class="sec">数字 → 答案 速查表（最高频失分点）</h2>
+  <div class="legend">用法：遮住右两列，看数字 + 主题名秒答。答不出来就回「骨架+口诀」页定位。</div>
+  <div id="numtable"></div>
+</div>
+
+<!-- ============ P3 ============ -->
+<div class="panel" id="p3">
+  <h2 class="sec">最容易写混的五组对比</h2>
+  <div class="legend">这五组是阅卷时"看起来对但拿不到分"的重灾区，必须逐字区分。</div>
+
+  <h2 class="sec">① 资源 6 项 vs 保障 6 项（本章第一大坑）</h2>
+  <table>
+    <thead><tr><th>对比项</th><th>资源体系（6 项）</th><th>保障体系（6 项）</th></tr></thead>
+    <tbody>
+      <tr><td class="k">口诀</td><td class="mn">人财技业软硬</td><td class="mn">组人技资数安</td></tr>
+      <tr><td class="k">本质</td><td><b>投入要素</b>——规划要花什么</td><td><b>支撑条件</b>——靠什么把事做成</td></tr>
+      <tr><td class="k">清单</td><td>人力 / 财务 / 技术 / 业务 / 软件 / 硬件</td><td>组织 / 人力 / 技术 / 资源 / 数据 / 安全</td></tr>
+      <tr><td class="k">唯一交集</td><td colspan="2"><b>技术</b>（两组都有）—— 所以"技术"不能作为区分线索</td></tr>
+      <tr><td class="k">独有项</td><td>财务、业务、软件、硬件</td><td>组织、数据、安全</td></tr>
+    </tbody>
+  </table>
+  <div class="legend">妙记句：<code>资源是"人财技业 + 软硬件"（家底），保障是"组人技资 + 数安"（靠山）</code>。<br>
+  <b>题干识别</b>：问"规划有哪些资源/投入" → 写<b>资源</b>；问"需要哪些保障/支撑条件" → 写<b>保障</b>。</div>
+
+  <h2 class="sec">② 内部需求挖掘 vs 外部需求挖掘</h2>
+  <table>
+    <thead><tr><th>对比项</th><th>内部需求挖掘</th><th>外部需求挖掘</th></tr></thead>
+    <tbody>
+      <tr><td class="k">考两套</td><td><b>5 种方法</b> + <b>5 项主要任务</b></td><td>只有 <b>6 项主要任务</b>（无方法）</td></tr>
+      <tr><td class="k">方法 / 任务</td><td class="mn">收·访·系·业·案</td><td class="mn">国·行·技·竞·客·标</td></tr>
+      <tr><td class="k">清单</td><td>方法：收集资料 / 交流访谈 / 现有系统勘查 / 业务现场勘查 / 案头研究<br>任务：理解组织战略 / 熟悉业务流程 / 收集用户需求 / 评估现有系统 / 感知数字环境</td><td>国家战略导入 / 行业趋势分析 / 技术趋势调研 / 竞争环境分析 / 客户期望调研 / 标准与规范引用</td></tr>
+      <tr><td class="k">起点</td><td>从<b>组织战略</b>开始（向内看）</td><td>从<b>国家战略</b>开始（向外看）</td></tr>
+    </tbody>
+  </table>
+  <div class="legend">内部分组钩子：<b>两文书（收集资料、案头研究）+ 一访谈（交流访谈）+ 两勘查（现有系统、业务现场）</b>。<br>
+  外部分组钩子：<b>三层各 2 条</b>——宏观（国家战略、标准规范）/ 市场（行业趋势、竞争环境）/ 对象（技术趋势、客户期望）。</div>
+
+  <h2 class="sec">③ 五大规划方法：看什么（选型一张表）</h2>
+  <table>
+    <thead><tr><th>方法</th><th>英文名</th><th>核心抓手（看什么）</th><th>步数</th><th>起手动词</th></tr></thead>
+    <tbody>
+      <tr><td class="k">SST 战略目标集转移法</td><td>Strategy Set Transformation</td><td>看<b>战略</b>（组织战略集 → 信息系统战略集）</td><td class="c">4</td><td>识别利益相关方</td></tr>
+      <tr><td class="k">BSP 企业信息系统规划法</td><td>Business System Planning</td><td>看<b>结构</b>（自上而下识别、自下而上构建）</td><td class="c">4</td><td><b>定义</b>（四个定义）</td></tr>
+      <tr><td class="k">CSF 关键成功因素法</td><td>Critical Success Factors</td><td>看<b>关键因素</b>（抓主要矛盾）</td><td class="c">4</td><td>确定战略目标</td></tr>
+      <tr><td class="k">VCA 价值链分析法</td><td>Value Chain Analysis</td><td>看<b>价值</b>（增值 / 减值环节）</td><td class="c">4</td><td>识别价值链</td></tr>
+      <tr><td class="k">Zachman 框架</td><td>Zachman Framework</td><td>看<b>架构</b>（6W × 6 层二维矩阵）</td><td class="c">6</td><td>确定愿景和原则</td></tr>
+    </tbody>
+  </table>
+  <div class="legend">定位口诀：<code>战·结·关·价·架</code> —— SST 看战略、BSP 看结构、CSF 看关键、VCA 看价值、Zachman 看架构。<br>
+  <b>名字符号锚</b>：B<b>S</b>P 中间是 S（Structure 结构）；VC<b>A</b> 是 Analysis（分析价值链）；CS<b>F</b> 是 Factors（因素）。<br>
+  <b>⚠️ 易错写法</b>：是 <b>BSP</b> 不是 BSF；是 <b>VCA</b> 不是 VAC。</div>
+
+  <h2 class="sec">④ 三个"4 步"防串台（BSP / CSF / VCA）</h2>
+  <table>
+    <thead><tr><th>方法</th><th>四步</th><th>口诀</th><th>内部逻辑</th></tr></thead>
+    <tbody>
+      <tr><td class="k">BSP</td><td>定义管理目标 / 定义管理功能 / 定义数据类 / 定义信息结构</td><td class="mn">目·功·数·构</td><td>四个都是"<b>定义</b>"，从头定义到尾</td></tr>
+      <tr><td class="k">CSF</td><td>确定组织战略目标 / 识别所有成功因素 / 确定关键成功因素 / 确定绩效指标及标准和数据</td><td class="mn">战·所·关·标</td><td><b>由宽到窄</b>：目标 → 所有 → 关键 → 指标（逐级收窄到可度量）</td></tr>
+      <tr><td class="k">VCA</td><td>识别组织价值链 / 确定关键价值增加环节 / 确定关键价值减少环节 / 明确信息技术对关键价值环节的支撑</td><td class="mn">识别·加·减·支撑</td><td><b>先找链，再判加减，最后 IT 上场</b></td></tr>
+    </tbody>
+  </table>
+  <div class="legend"><b>最强区分线索是"第 2 步"</b>：BSP 第 2 步是"<b>定义管理功能</b>"，CSF 第 2 步是"<b>识别所有成功因素</b>"，VCA 第 2 步是"<b>确定价值增加环节</b>"。<br>
+  <b>唯一有"减"的方法就是 VCA</b>——"确定关键价值<b>减少</b>环节"是它独有的标志词，看到"减少"二字直接锁定 VCA。</div>
+
+  <h2 class="sec">⑤ 场景化：6 步骤 vs 8 个组成部分（同名的两个东西）</h2>
+  <table>
+    <thead><tr><th>对比项</th><th>场景化模型分析 · 6 个主要步骤</th><th>场景化分析模型 · 8 个主要组成部分</th></tr></thead>
+    <tbody>
+      <tr><td class="k">性质</td><td><b>流程</b>——先做什么后做什么</td><td><b>内容</b>——每个场景要分析哪些方面</td></tr>
+      <tr><td class="k">口诀</td><td class="mn">价·能·融·点·聚·单</td><td class="mn">场·角·务·数·组·技·风·法</td></tr>
+      <tr><td class="k">清单</td><td>从信息系统目标价值链角度结构化拆解 / 从业务发展能力链角度结构化拆解 / 两链交叉融合查出融合点 / 从融合点中找出特定价值与关键价值，确定关键价值点 / 对关键价值点进行聚合，确定需要场景化模型分析的需求 / 评估需求是否具备条件并形成分析清单</td><td>定义场景 / 角色分析 / 业务分析 / 数据分析 / 组织分析 / 技术分析 / 风险分析 / 政策与法规分析</td></tr>
+      <tr><td class="k">起手</td><td>起手是"从……角度<b>结构化拆解</b>"</td><td>起手是"<b>定义场景</b>"</td></tr>
+    </tbody>
+  </table>
+  <div class="legend"><b>一句话区分</b>：问"怎么分析"答 <b>6 步</b>；问"分析什么"答 <b>8 项</b>。<br>
+  <b>8 项的故事钩子</b>：在某<b>场</b>景里，<b>角</b>色做<b>业</b>务，产生<b>数</b>据，靠<b>组</b>织和<b>技</b>术，冒<b>风</b>险，守<b>法</b>规。<br>
+  <b>⚠️ 注意</b>：8 项里第 1 项是"定义场景"，第 2~8 项都是"XX 分析"，口诀里的"角"指<b>角色分析</b>（不是"色彩"）。</div>
+</div>
+
+<!-- ============ P4 ============ -->
+<div class="panel" id="p4">
+  <div class="howto">
+    <h3>默写闯关 · 判定规则</h3>
+    <ol>
+      <li>系统随机出题，你独立默写，<b>不看答案</b>。</li>
+      <li>提交后按<b>条目命中率</b>给分：每答中一条标准答案中的关键表述即算命中。</li>
+      <li><b>≥85% 通过</b>；60%~85% 需重写；&lt;60% 回「骨架+口诀」页重背。</li>
+      <li>拿到满分的条目会自动在「骨架+口诀」页标为已掌握。</li>
+    </ol>
+  </div>
+  <div class="qbox">
+    <div class="qstem" id="qstem">点击「出题」开始</div>
+    <div class="qmeta">
+      <span id="qmod"></span>
+      <span id="qcnt"></span>
+      <span id="qidx"></span>
+    </div>
+    <textarea id="uans" placeholder="在这里默写你的答案，一条一行更利于判分……"></textarea>
+    <div class="hintbar" id="hintbar"></div>
+    <div class="qactions">
+      <button class="btn pri" id="submit">提交判分</button>
+      <button class="btn" id="nex">出题 / 换题</button>
+      <button class="btn" id="hint">首字提示</button>
+      <button class="btn" id="showans">看标准答案</button>
+    </div>
+    <div class="result" id="res">
+      <div class="score" id="score">0%</div>
+      <div class="stats" style="margin-top:8px">
+        <span>命中 <b id="hit">0</b>/<b id="tot">0</b> 条</span>
+        <span>累计作答 <b id="attempts">0</b> 次</span>
+        <span>平均分 <b id="avg">0</b>%</span>
+      </div>
+      <div class="rlist" id="rlist"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ P5 ============ -->
+<div class="panel" id="p5">
+  <div class="howto">
+    <h3>这一章的 3 天打法</h3>
+    <ol>
+      <li><b>Day 1 上午（约 40 min）只背两张总表。</b>白纸默写「规划主要内容 7 项」和「规划步骤 5 步」。这两张表是本章目录，背不熟就别往下走。</li>
+      <li><b>Day 1 下午（约 1.5h）攻"六项撞车"。</b>把 5 组 6 项（技术 6 原则 / 任务 6 步 / 资源 6 项 / 保障 6 项 / 外部 6 任务 / 场景化 6 步骤）写在一张纸上，<b>每组前面加主题名</b>：如"资源—人财技业软硬"。默写时主题名一起念出来，能挡住 80% 的串行。</li>
+      <li><b>Day 2 攻五大方法。</b>先背定位表（战·结·关·价·架），再逐个展开步数。重点练"BSP / CSF / VCA 三个 4 步"的互辨：随机说一个方法名，立刻口述它的 4 步。</li>
+      <li><b>Day 4 全量默写 + 场景化专项。</b>场景化是本章最绕的一块，务必把"6 步（怎么分析）"和"8 项（分析什么）"分开写两遍，中间隔 10 分钟。</li>
+      <li><b>Day 7 / Day 15</b> 各做一次全量默写，只要求"条数全对 + 关键词全中"，不要求逐字一致。</li>
+    </ol>
+    <h3 style="margin-top:16px">考场三个提分技巧（本章专用）</h3>
+    <ol>
+      <li><b>先写编号再填词。</b>看到"信息系统规划的主要内容"，先在草稿纸写 ①②③④⑤⑥⑦ 七个圈，再往里填。条数对了，及格线就守住了。</li>
+      <li><b>同前缀批量输出。</b>本章大量条目是同前缀结构：BSP 四步全是"定义 XX"、场景化 8 项有 7 项是"XX 分析"、任务 6 步全是"动词 + 名词"。先在心里念一遍前缀，再补后缀，比一条条硬想快得多。</li>
+      <li><b>方法题先写"看什么"再写步骤。</b>考某个方法时，第一句先写定位（如"VCA 是看价值，通过分析价值链增值环节规划 IT 系统"），结构分先拿到，再展开 4 步。定位写对，即使步骤漏一条也不会零分。</li>
+    </ol>
+  </div>
+  <h2 class="sec">已掌握清单</h2>
+  <div id="mastered" class="legend">还没有标记任何条目。</div>
+</div>
+
+</div>
+
+<script>
+/* =========================================================
+   数据：题干 q / 口诀 chips / 标准答案 a / 备注 note
+   ========================================================= */
+const MODULES = [
+{
+  no:'00', name:'总览 · 规划的两张总表（七项内容 + 五步流程）',
+  items:[
+    { q:'信息系统规划的主要内容（7 项）',
+      chips:[{t:'战框 + 组技任资保',c:''},{t:'结构：2 + 5',c:'b'}],
+      a:['信息系统发展战略',
+         '系统总体框架',
+         '组织体系',
+         '技术体系',
+         '任务体系',
+         '资源体系',
+         '保障体系'],
+      note:'结构钩子（比口诀更好用）：<b>2 + 5</b> —— 前 2 项是"方向层"（<b>战略</b>定方向、<b>总体框架</b>画蓝图），后 5 项是"五大体系"（<b>组·技·任·资·保</b>）。<br>五大体系口诀：<b>组技任资保</b>（组织 / 技术 / 任务 / 资源 / 保障）。'
+    },
+    { q:'信息系统规划的步骤（5 步）',
+      chips:[{t:'内场深整改',c:''},{t:'挖→景→诊→规→改',c:'b'}],
+      a:['内外部需求挖掘',
+         '场景化模型分析',
+         '深度诊断与评估',
+         '整体与专项规划',
+         '持续改进'],
+      note:'口诀「<b>内场深整改</b>」谐音"内场需要深整改"：内=内外部需求挖掘，场=场景化模型分析，深=深度诊断与评估，整=整体与专项规划，改=持续改进。<br>逻辑链：<b>挖需求 → 建场景 → 做诊断 → 出规划 → 持续改</b>。顺序不能乱——先挖需求才谈得上建模，先诊断才谈得上规划。'
+    }
+  ]
+},
+{
+  no:'01', name:'技术体系 6 大原则 + 任务体系 6 步骤',
+  items:[
+    { q:'技术体系的 6 大原则',
+      chips:[{t:'用·安·靠·灵·扩·驾',c:''},{t:'结构：3 + 3',c:'b'}],
+      a:['可用性',
+         '安全性',
+         '可靠性',
+         '灵活性',
+         '可扩展性',
+         '可驾驭性'],
+      note:'谐音句：<b>"用着安全靠得住，灵活扩展驾得住"</b>。<br>结构钩子：<b>前 3 项 = 稳态品质（用·安·靠，跑得稳）；后 3 项 = 动态能力（灵·扩·驾，变得动）</b>。<br>易漏项：最后一条"<b>可驾驭性</b>"最容易被写成"可管理性""可控性"，务必写准。'
+    },
+    { q:'任务体系的 6 个步骤',
+      chips:[{t:'拆·标·组·策·计·控',c:''},{t:'结构：3 对',c:'b'}],
+      a:['拆解任务',
+         '确定目标',
+         '匹配组织',
+         '制定策略',
+         '定义计划',
+         '监控实施'],
+      note:'结构钩子（三对，非常好记）：<br>① <b>拆解任务 ↔ 确定目标</b>（做什么 / 做到什么程度）<br>② <b>匹配组织 ↔ 制定策略</b>（谁来做 / 怎么做）<br>③ <b>定义计划 ↔ 监控实施</b>（排期 / 盯执行）<br>注意三个"定"分别管<b>目标、策略、计划</b>，收尾动词是"<b>监控</b>"。'
+    }
+  ]
+},
+{
+  no:'02', name:'资源体系（6 项 + 调度 4 内容）与保障体系（6 项）',
+  items:[
+    { q:'资源体系：资源包含哪些（6 项）',
+      chips:[{t:'人财技业软硬',c:''},{t:'结构：3 对',c:'b'}],
+      a:['人力资源',
+         '财务资源',
+         '技术资源',
+         '业务资源',
+         '软件资源',
+         '硬件资源'],
+      note:'口诀「<b>人财技业软硬</b>」= 人 + 财 + 技 + 业 + 软 + 硬。<br>结构钩子：<b>人/财（投入）+ 技/业（能力）+ 软/硬（资产）</b>。<br>本质记法：资源 = <b>规划要花出去的家底</b>。'
+    },
+    { q:'资源调度的内容（4 项）',
+      chips:[{t:'识·控·分·优',c:''}],
+      a:['资源识别与评估',
+         '关系控制',
+         '分配调度',
+         '风险优化'],
+      note:'口诀「<b>识—控—分—优</b>」，谐音句："先<b>识</b>货，<b>控</b>关系，<b>分</b>下去，再<b>优</b>化"。<br>逻辑链：<b>先认清有什么 → 理清彼此关系 → 分派下去 → 边分边控风险</b>。注意第 4 项是"风险<b>优化</b>"不是"风险<b>控制</b>"。'
+    },
+    { q:'保障体系：保障包含哪些（6 项）',
+      chips:[{t:'组人技资数安',c:''},{t:'⚠️ 别与资源 6 项混',c:'p'}],
+      a:['组织保障',
+         '人力保障',
+         '技术保障',
+         '资源保障',
+         '数据保障',
+         '安全保障'],
+      note:'口诀「<b>组人技资数安</b>」= 组 + 人 + 技 + 资 + 数 + 安。<br><b>⚠️ 与"资源 6 项"共用"技术"二字</b>，这是唯一的交集，不能作为区分线索。真正的区别在本质：<b>资源 = 投入要素（家底），保障 = 支撑条件（靠山）</b>。<br>保障独有项是"<b>组织、数据、安全</b>"三项，资源独有项是"<b>财务、业务、软件、硬件</b>"四项。'
+    }
+  ]
+},
+{
+  no:'03', name:'需求挖掘：内部 5 方法 / 5 任务 + 外部 6 任务',
+  items:[
+    { q:'内部需求挖掘的方法（5 种）',
+      chips:[{t:'两文书 + 一访谈 + 两勘查',c:''},{t:'收·访·系·业·案',c:'b'}],
+      a:['收集资料',
+         '交流访谈',
+         '现有系统勘查',
+         '业务现场勘查',
+         '案头研究'],
+      note:'分组钩子（比首字链更牢）：<b>两文书</b>（收集资料、案头研究）+ <b>一访谈</b>（交流访谈）+ <b>两勘查</b>（现有系统勘查、业务现场勘查）。<br>两个勘查要分清对象：<b>"现有系统"勘查看的是系统</b>，<b>"业务现场"勘查看的是人怎么干活</b>。'
+    },
+    { q:'内部需求挖掘的主要任务（5 项）',
+      chips:[{t:'战·流·需·系·境',c:''},{t:'由内向外扩散',c:'b'}],
+      a:['理解组织战略',
+         '熟悉业务流程',
+         '收集用户需求',
+         '评估现有系统',
+         '感知数字环境'],
+      note:'口诀「<b>战·流·需·系·境</b>」= 战略 → 流程 → 需求 → 系统 → 环境。<br>逻辑链：<b>先看战略（往哪走）→ 再看流程（怎么干）→ 收集用户需求（谁要什么）→ 评估现有系统（有什么底子）→ 感知数字环境（外部到哪了）</b>。<br>起手是"<b>理解组织战略</b>"，与外部需求挖掘的"国家战略导入"正好内外呼应。'
+    },
+    { q:'外部需求挖掘的主要任务（6 项）',
+      chips:[{t:'国·行·技·竞·客·标',c:''},{t:'结构：三层各 2 条',c:'b'}],
+      a:['国家战略导入',
+         '行业趋势分析',
+         '技术趋势调研',
+         '竞争环境分析',
+         '客户期望调研',
+         '标准与规范引用'],
+      note:'口诀「<b>国·行·技·竞·客·标</b>」。<br>结构钩子（三层各 2 条）：<b>宏观层</b>（国家战略导入、标准与规范引用）/ <b>市场层</b>（行业趋势分析、竞争环境分析）/ <b>对象层</b>（技术趋势调研、客户期望调研）。<br>尾项是"<b>标准与规范引用</b>"——注意动词是"引用"不是"制定"。'
+    }
+  ]
+},
+{
+  no:'04', name:'场景化模型分析（6 步骤 + 8 个组成部分 + 优缺点）',
+  items:[
+    { q:'场景化模型分析的主要步骤（6 步）',
+      chips:[{t:'价·能·融·点·聚·单',c:''},{t:'结构：2 拆 + 1 融 + 1 点 + 1 聚 + 1 评',c:'b'}],
+      a:['从信息系统目标价值链角度结构化拆解',
+         '从业务发展能力链角度结构化拆解',
+         '将目标价值链与业务发展能力链进行交叉融合，查出融合点',
+         '从融合点中找出组织特定价值与关键价值，确定出关键价值点',
+         '对关键价值点进行聚合，确定需要场景化模型分析的需求',
+         '评估确定的需求是否具有场景化模型分析的条件，并形成分析清单'],
+      note:'口诀「<b>价·能·融·点·聚·单</b>」：价(值链拆解) → 能(力链拆解) → 融(合找点) → (关键价值)点 → 聚(合成需求) → (形成分析)单。<br>结构钩子：<b>两条链先各自拆解（2 拆）→ 交叉融合（1 融）→ 找关键点（1 点）→ 聚合需求（1 聚）→ 评估出清单（1 评）</b>。<br><b>关键标志词</b>：第 3 步的"<b>交叉融合</b>"和第 6 步的"<b>分析清单</b>"是最高频的采分词。'
+    },
+    { q:'场景化分析模型的主要组成部分（8 项）',
+      chips:[{t:'场·角·务·数·组·技·风·法',c:''},{t:'故事钩子',c:'b'},{t:'⚠️ 角=角色',c:'p'}],
+      a:['定义场景',
+         '角色分析',
+         '业务分析',
+         '数据分析',
+         '组织分析',
+         '技术分析',
+         '风险分析',
+         '政策与法规分析'],
+      note:'故事钩子（一句话串 8 项）：在某<b>场</b>景里，<b>角</b>色做<b>业</b>务，产生<b>数</b>据，靠<b>组</b>织和<b>技</b>术，冒<b>风</b>险，守<b>法</b>规。<br><b>⚠️ 纠一个常见笔误</b>：第 2 项是"<b>角色分析</b>"（角=角色），不是"色彩分析"。<br>结构提醒：第 1 项是"<b>定义场景</b>"，第 2~8 项全部是"<b>XX 分析</b>"——先定场景，再逐项分析。'
+    },
+    { q:'场景化模型分析的优点（3 条）与缺点（2 条）',
+      chips:[{t:'优点：贴·导·适',c:''},{t:'缺点：数难 + 可行受限',c:'p'}],
+      a:['优点：贴合实际需求',
+         '优点：提供指导和参考',
+         '优点：提高系统适应性',
+         '缺点：数据采集与分析困难',
+         '缺点：可行性受限'],
+      note:'合起来记：<b>三优"贴·导·适"，两缺"数难 + 可行性受限"</b>。<br>优点三词对应三个层面：<b>贴</b>合需求（对不对）、提供<b>导</b>向（能不能用）、提高<b>适</b>应性（能不能变）。<br>缺点只有 2 条，别写多——"数据采集与分析困难"是输入端问题，"可行性受限"是落地端问题。'
+    }
+  ]
+},
+{
+  no:'05', name:'深度诊断与评估（3 项）+ 持续改进（5 项）',
+  items:[
+    { q:'深度诊断与评估的主要内容（3 项）',
+      chips:[{t:'熟·模·施',c:''},{t:'摸底 → 定尺 → 量',c:'b'}],
+      a:['成熟度与需求控制',
+         '诊断与评估模型确立',
+         '诊断与评估实施'],
+      note:'口诀「<b>熟·模·施</b>」。<br>逻辑链（非常好记）：<b>先看成熟度（摸底，现在什么水平）→ 再确立诊断评估模型（定尺子，按什么量）→ 最后实施诊断与评估（量一量，量出什么结果）</b>。<br>顺序不能反：没模型就去实施，等于没尺子量长度。'
+    },
+    { q:'持续改进的关注内容（5 项）',
+      chips:[{t:'追·感·数·用·机',c:''}],
+      a:['持续追踪组织战略',
+         '感知技术发展创新',
+         '关注数据管理与信息安全',
+         '注重用户体验与用户参与',
+         '建立监测与评估机制'],
+      note:'口诀「<b>追·感·数·用·机</b>」展开成句：<b>追</b>战略、<b>感</b>技术、管<b>数</b>据、重<b>用</b>户、建<b>机</b>制。<br>五项分别对应五个对象：<b>战略 / 技术 / 数据（含安全）/ 用户（体验与参与）/ 机制（监测与评估）</b>。<br>注意第 3 项必须带上"<b>信息安全</b>"，只写"关注数据管理"会漏半条。'
+    }
+  ]
+},
+{
+  no:'06', name:'五大规划方法：SST / BSP / CSF / VCA / Zachman',
+  items:[
+    { q:'五大规划方法各自的定位（看什么）',
+      chips:[{t:'战·结·关·价·架',c:''}],
+      a:['SST 战略目标集转移法 —— 看战略',
+         'BSP 企业信息系统规划法 —— 看结构',
+         'CSF 关键成功因素法 —— 看关键因素',
+         'VCA 价值链分析法 —— 看价值',
+         'Zachman 框架 —— 看架构'],
+      note:'定位口诀「<b>战·结·关·价·架</b>」。<br>英文名锚点：S<b>S</b>T = Strategy Set Transformation（战略集转移）；B<b>S</b>P = Business System Planning（中间 S 联想 Structure 结构）；CS<b>F</b> = Critical Success Factors（因素）；VC<b>A</b> = Value Chain Analysis（分析）。<br><b>⚠️ 写法纠偏</b>：是 <b>BSP</b> 不是 BSF，是 <b>VCA</b> 不是 VAC。'
+    },
+    { q:'SST 战略目标集转移法：核心思想与步骤',
+      chips:[{t:'组织战略集 → 信息系统战略集',c:''},{t:'关键词：转移',c:'b'}],
+      a:['核心思想：把组织的总战略、信息系统战略分别看成信息集合，规划过程是将组织战略集转换成与其相关联一致的信息系统战略集',
+         '识别利益相关方',
+         '明确诉求',
+         '定义任务战略',
+         '验证战略集'],
+      note:'一句话记：<b>SST 就是"翻译"——把组织战略集翻译成信息系统战略集</b>。<br>步骤逻辑：<b>找人（识别利益相关方）→ 听诉求（明确诉求）→ 定战略（定义任务战略）→ 回头验（验证战略集）</b>。<br>核心采分词是"<b>转换 / 转移</b>"和"<b>相关联一致</b>"。'
+    },
+    { q:'BSP 企业信息系统规划法：四个"定义"',
+      chips:[{t:'目·功·数·构',c:''},{t:'四个都是"定义"',c:'b'}],
+      a:['定义管理目标',
+         '定义管理功能',
+         '定义数据类',
+         '定义信息结构'],
+      note:'口诀「<b>目·功·数·构</b>」= 目标 → 功能 → 数据类 → 信息结构。<br><b>最强标志：四步的动词全是"定义"</b>，这是 BSP 与其他方法最大的区别。<br>逻辑链：<b>先定目标（要到哪）→ 再定功能（干什么）→ 再定数据类（用什么数据）→ 最后定信息结构（怎么组织）</b>。'
+    },
+    { q:'CSF 关键成功因素法：实施步骤（4 步）',
+      chips:[{t:'战·所·关·标',c:''},{t:'由宽到窄',c:'b'}],
+      a:['确定组织战略目标',
+         '识别系统所有成功因素',
+         '确定系统关键成功因素',
+         '确定关键成功因素的绩效指标及标准和评估绩效使用的数据'],
+      note:'口诀「<b>战·所·关·标</b>」= 战略目标 → 所有因素 → 关键因素 → 绩效指标。<br>逻辑钩子（必记）：<b>层层收窄</b>——目标(1个) → 所有因素(很多) → 关键因素(少数) → 指标(可度量)。最后一定要落到"<b>可度量</b>"上，这是 CSF 的落点。<br>第 4 步最长，别漏掉"<b>及标准和评估绩效使用的数据</b>"这个尾巴。'
+    },
+    { q:'关键成功因素的主要来源（5 个）',
+      chips:[{t:'结·策·位·环·暂',c:''},{t:'⚠️ 另有 4 来源口径',c:'p'}],
+      a:['个别产业结构',
+         '竞争策略',
+         '产业地位与地理环境',
+         '环境因素',
+         '暂时因素'],
+      note:'口诀「<b>结·策·位·环·暂</b>」= 产业结构 → 竞争策略 → 产业地位与地理环境 → 环境因素 → 暂时因素。<br>谐音句：<b>"结构策略定位，环境暂时两条"</b>。<br><b>⚠️ 口径提醒</b>：部分资料把第 2、3 条合并为"竞争策略与区位"，写成 <b>4 个来源</b>。若考场上题干给了 4 个空就写合并版，5 个空就写拆分版。'
+    },
+    { q:'VCA 价值链分析法：实施步骤（4 步）',
+      chips:[{t:'识别·加·减·支撑',c:''},{t:'唯一有"减"的方法',c:'b'}],
+      a:['识别组织价值链',
+         '确定关键价值增加环节',
+         '确定关键价值减少环节',
+         '明确信息技术对关键价值环节的支撑'],
+      note:'口诀「<b>识别·加·减·支撑</b>」：先识别价值链，再找<b>增</b>值环节，再找<b>减</b>值环节，最后 IT 上场支撑。<br><b>唯一标志词</b>：五个方法里<b>只有 VCA 有"减少"</b>——看到"确定关键价值减少环节"直接锁定 VCA。<br>核心思想（采分词）：让<b>好钢用在刀刃上</b>，通过分析价值链找到最需要信息技术支撑的环节。'
+    },
+    { q:'Zachman 框架：实施步骤（6 步）',
+      chips:[{t:'原·现·目·差·计·优',c:''},{t:'愿景→现状→目标→差距→计划→优化',c:'b'}],
+      a:['确定组织的愿景和原则',
+         '现状描述分析',
+         '目标架构定义',
+         '差距与改进点分析',
+         '制订实施计划',
+         '持续改进优化'],
+      note:'口诀「<b>原·现·目·差·计·优</b>」，谐音句：<b>"原则现状目标差，计划优化六步走"</b>。<br>逻辑链（这是所有架构方法的通用套路，记住一次受用三处）：<b>定愿景 → 描现状 → 定目标 → 找差距 → 做计划 → 持续优化</b>。<br>补充考点：Zachman 是<b>二维矩阵</b>——横向 <b>6W</b>（What / How / Where / Who / When / Why），纵向 <b>6 层</b>角色（规划人员、系统所有者、架构师、构造人员、集成者、最终用户）。'
+    }
+  ]
+}
+];
+
+/* =========================================================
+   渲染：骨架 + 口诀
+   ========================================================= */
+const LS='isp_v1';
+function loadState(){try{return JSON.parse(localStorage.getItem(LS))||{}}catch(e){return{}}}
+function saveState(s){try{localStorage.setItem(LS,JSON.stringify(s))}catch(e){}}
+let ST=loadState();
+if(!ST.mastered)ST.mastered={};
+if(!ST.attempts)ST.attempts=[];
+
+let QIDX=[];
+{
+  const box=document.getElementById('mods');
+  MODULES.forEach((m,mi)=>{
+    const d=document.createElement('details');
+    d.className='mod'; d.open=true;
+    const total=m.items.length;
+    d.innerHTML=`<summary><span class="no">${m.no}</span><span>${m.name}</span><span class="cnt">${total} 个考点</span><span class="arw">▶</span></summary><div class="modbody"></div>`;
+    const body=d.querySelector('.modbody');
+    m.items.forEach((it,ii)=>{
+      const id=`${mi}-${ii}`;
+      QIDX.push({id,mi,ii,m,it});
+      const c=document.createElement('div');
+      c.className='card'+(ST.mastered[id]?' ok':'');
+      c.dataset.id=id;
+      c.innerHTML=`
+        <div class="chead"><div class="q"><span class="n">${m.no}.${ii+1}</span>${it.q}</div></div>
+        <div class="mn">${it.chips.map(x=>`<span class="chip ${x.c||''}">${x.t}</span>`).join('')}</div>
+        <div class="ans"><ol>${it.a.map(t=>`<li>${t}</li>`).join('')}</ol>${it.note?`<div class="note">${it.note}</div>`:''}</div>
+        <div class="cfoot">
+          <button class="mini tog">展开答案</button>
+          <button class="mini tap">标记已掌握</button>
+          <span style="font-size:11.5px;color:var(--txt3);margin-left:auto">共 ${it.a.length} 条</span>
+        </div>`;
+      body.appendChild(c);
+    });
+    box.appendChild(d);
+  });
+}
+
+document.addEventListener('click',e=>{
+  const card=e.target.closest('.card'); if(!card)return;
+  if(e.target.classList.contains('tog')){
+    card.classList.toggle('open');
+    e.target.textContent=card.classList.contains('open')?'收起答案':'展开答案';
+  }
+  if(e.target.classList.contains('tap')){
+    const id=card.dataset.id;
+    ST.mastered[id]=!ST.mastered[id];
+    card.classList.toggle('ok',!!ST.mastered[id]);
+    e.target.classList.toggle('on',!!ST.mastered[id]);
+    saveState(ST);renderProgress();
+  }
+});
+{
+  const bar=document.createElement('div');
+  bar.style.cssText='display:flex;gap:8px;margin:0 0 14px';
+  bar.innerHTML=`<button class="btn" id="expandAll">全部展开答案</button>
+                 <button class="btn" id="collapseAll">全部折叠（纯回忆模式）</button>
+                 <button class="btn" id="markAll">全部标记已掌握</button>`;
+  document.getElementById('mods').before(bar);
+  bar.querySelector('#expandAll').onclick=()=>document.querySelectorAll('#mods .card').forEach(c=>{c.classList.add('open');const b=c.querySelector('.tog');if(b)b.textContent='收起答案';});
+  bar.querySelector('#collapseAll').onclick=()=>document.querySelectorAll('#mods .card').forEach(c=>{c.classList.remove('open');const b=c.querySelector('.tog');if(b)b.textContent='展开答案';});
+  bar.querySelector('#markAll').onclick=()=>{
+    QIDX.forEach(x=>ST.mastered[x.id]=true);saveState(ST);
+    document.querySelectorAll('#mods .card').forEach(c=>{c.classList.add('ok');const b=c.querySelector('.tap');if(b)b.classList.add('on');});
+    renderProgress();renderMastered();
+  };
+}
+
+function renderProgress(){
+  const tot=QIDX.length, done=QIDX.filter(x=>ST.mastered[x.id]).length;
+  document.getElementById('pbar').style.width=(tot?done/tot*100:0)+'%';
+  document.getElementById('ptxt').textContent=`${done} / ${tot}`;
+  renderMastered();
+}
+function renderMastered(){
+  const list=QIDX.filter(x=>ST.mastered[x.id]);
+  const el=document.getElementById('mastered');
+  if(!list.length){el.innerHTML='还没有标记任何条目。';return}
+  el.innerHTML=list.map(x=>`• <b>${x.m.no}.${x.ii+1}</b> ${x.it.q}`).join('<br>');
+}
+
+/* =========================================================
+   渲染：数字速查
+   ========================================================= */
+const NUM=[
+  ['7','信息系统规划主要内容','战框 + 组技任资保','信息系统发展战略 / 系统总体框架 / 组织体系 / 技术体系 / 任务体系 / 资源体系 / 保障体系'],
+  ['5','规划五步骤','内场深整改','内外部需求挖掘 / 场景化模型分析 / 深度诊断与评估 / 整体与专项规划 / 持续改进'],
+  ['6','技术体系原则','用·安·靠·灵·扩·驾','可用性 / 安全性 / 可靠性 / 灵活性 / 可扩展性 / 可驾驭性'],
+  ['6','任务体系步骤','拆·标·组·策·计·控','拆解任务 / 确定目标 / 匹配组织 / 制定策略 / 定义计划 / 监控实施'],
+  ['6','资源包含项','人财技业软硬','人力 / 财务 / 技术 / 业务 / 软件 / 硬件'],
+  ['4','资源调度内容','识·控·分·优','资源识别与评估 / 关系控制 / 分配调度 / 风险优化'],
+  ['6','保障包含项','组人技资数安','组织 / 人力 / 技术 / 资源 / 数据 / 安全'],
+  ['5','内部需求挖掘方法','两文书+一访谈+两勘查','收集资料 / 交流访谈 / 现有系统勘查 / 业务现场勘查 / 案头研究'],
+  ['5','内部需求挖掘任务','战·流·需·系·境','理解组织战略 / 熟悉业务流程 / 收集用户需求 / 评估现有系统 / 感知数字环境'],
+  ['6','外部需求挖掘任务','国·行·技·竞·客·标','国家战略导入 / 行业趋势分析 / 技术趋势调研 / 竞争环境分析 / 客户期望调研 / 标准与规范引用'],
+  ['6','场景化模型分析步骤','价·能·融·点·聚·单','目标价值链拆解 / 能力链拆解 / 交叉融合查融合点 / 确定关键价值点 / 聚合确定需求 / 评估并形成分析清单'],
+  ['8','场景化分析模型组成','场·角·务·数·组·技·风·法','定义场景 / 角色分析 / 业务分析 / 数据分析 / 组织分析 / 技术分析 / 风险分析 / 政策与法规分析'],
+  ['3','场景化分析优点','贴·导·适','贴合实际需求 / 提供指导和参考 / 提高系统适应性'],
+  ['2','场景化分析缺点','数难 + 可行受限','数据采集与分析困难 / 可行性受限'],
+  ['3','深度诊断与评估内容','熟·模·施','成熟度与需求控制 / 诊断与评估模型确立 / 诊断与评估实施'],
+  ['5','持续改进关注内容','追·感·数·用·机','持续追踪组织战略 / 感知技术发展创新 / 关注数据管理与信息安全 / 注重用户体验与用户参与 / 建立监测与评估机制'],
+  ['5','规划方法数量','战·结·关·价·架','SST 看战略 / BSP 看结构 / CSF 看关键 / VCA 看价值 / Zachman 看架构'],
+  ['4','BSP 四个定义','目·功·数·构','定义管理目标 / 定义管理功能 / 定义数据类 / 定义信息结构'],
+  ['4','CSF 实施步骤','战·所·关·标','确定组织战略目标 / 识别所有成功因素 / 确定关键成功因素 / 确定绩效指标及标准和数据'],
+  ['5','关键成功因素来源','结·策·位·环·暂','个别产业结构 / 竞争策略 / 产业地位与地理环境 / 环境因素 / 暂时因素'],
+  ['4','VCA 实施步骤','识别·加·减·支撑','识别组织价值链 / 确定关键价值增加环节 / 确定关键价值减少环节 / 明确信息技术对关键价值环节的支撑'],
+  ['6','Zachman 实施步骤','原·现·目·差·计·优','确定愿景和原则 / 现状描述分析 / 目标架构定义 / 差距与改进点分析 / 制订实施计划 / 持续改进优化']
+];
+{
+  const t=document.getElementById('numtable');
+  t.innerHTML=`<table><thead><tr><th>条数</th><th>考点</th><th>口诀</th><th>标准答案</th></tr></thead><tbody>
+  ${NUM.map(r=>`<tr><td class="c">${r[0]}</td><td><b>${r[1]}</b></td><td class="mn">${r[2]}</td><td style="color:var(--txt2)">${r[3]}</td></tr>`).join('')}
+  </tbody></table>`;
+}
+
+/* =========================================================
+   默写闯关
+   ========================================================= */
+const POOL=QIDX.filter(x=>x.it.a.length>=2);
+let cur=null;
+
+function pick(){
+  if(!POOL.length){document.getElementById('qstem').textContent='题库为空（暂无可出题的考点）';return;}
+  let n;
+  if(POOL.length<=1){n=POOL[0];}
+  else{let guard=0;do{n=POOL[Math.floor(Math.random()*POOL.length)];guard++;}while(cur&&n===cur&&guard<50);}
+  cur=n;
+  document.getElementById('qstem').textContent=cur.it.q;
+  document.getElementById('qmod').textContent='模块 '+cur.m.no+' · '+cur.m.name;
+  document.getElementById('qcnt').textContent='应写 '+cur.it.a.length+' 条';
+  document.getElementById('qidx').textContent='题库 '+POOL.length+' 题';
+  document.getElementById('uans').value='';
+  document.getElementById('hintbar').classList.remove('on');
+  document.getElementById('res').classList.remove('on');
+  document.getElementById('uans').focus();
+}
+function norm(s){return (s||'').replace(/[\s，。、；：,.;:!?！？（）()【】\[\]'"“”‘’—\-_/\\]/g,'').toLowerCase()}
+function keysOf(t){
+  const clean=t.replace(/^[①②③④⑤⑥⑦⑧⑨⑩⑪⑫\d\.\s]+/,'').split('：')[0].split('，')[0];
+  const out=new Set();
+  const push=v=>{if(v.length>=2)out.add(norm(v))};
+  push(clean);push(clean.slice(0,2));push(clean.slice(0,3));push(clean.slice(0,4));
+  t.split(/[、，,；;/]/).forEach(p=>{const q=p.replace(/^[①②③④⑤⑥⑦⑧⑨⑩⑪⑫\d\.\s]+/,'').split('：')[0];push(q);push(q.slice(0,3))});
+  return [...out];
+}
+function judge(){
+  if(!cur)return;
+  const u=norm(document.getElementById('uans').value);
+  const rows=cur.it.a.map(t=>{
+    const ks=keysOf(t);
+    const hit=ks.some(k=>u.includes(k));
+    return{t,hit};
+  });
+  const hits=rows.filter(r=>r.hit).length;
+  const pct=Math.round(hits/rows.length*100);
+  const sc=document.getElementById('score');
+  sc.textContent=pct+'%';
+  sc.className='score '+(pct>=85?'g':pct>=60?'a':'r');
+  document.getElementById('hit').textContent=hits;
+  document.getElementById('tot').textContent=rows.length;
+  document.getElementById('rlist').innerHTML=rows.map(r=>
+    `<div class="ritem ${r.hit?'hit':'miss'}"><span class="tag">${r.hit?'✓ 命中':'✗ 漏写'}</span><span>${r.t}</span></div>`).join('');
+  document.getElementById('res').classList.add('on');
+  ST.attempts.push(pct);
+  if(pct>=100){ST.mastered[cur.id]=true;const card=document.querySelector(`.card[data-id="${cur.id}"]`);
+    if(card){card.classList.add('ok');const b=card.querySelector('.tap');if(b)b.classList.add('on');}}
+  saveState(ST);renderProgress();renderAvg();
+}
+function renderAvg(){
+  const a=ST.attempts||[];
+  document.getElementById('attempts').textContent=a.length;
+  document.getElementById('avg').textContent=a.length?Math.round(a.reduce((x,y)=>x+y,0)/a.length):0;
+}
+document.getElementById('submit').onclick=judge;
+document.getElementById('nex').onclick=pick;
+document.getElementById('showans').onclick=()=>{
+  if(!cur)return;
+  document.getElementById('rlist').innerHTML=cur.it.a.map(t=>
+    `<div class="ritem" style="background:rgba(77,163,255,.08);color:#cfe3ff"><span class="tag">•</span><span>${t}</span></div>`).join('');
+  document.getElementById('res').classList.add('on');
+};
+document.getElementById('hint').onclick=()=>{
+  if(!cur)return;
+  const h=cur.it.a.map((t,i)=>`${i+1}.${t.replace(/^[①②③④⑤⑥⑦⑧⑨⑩⑪⑫\d\.\s]+/,'').slice(0,1)}○○…`).join('　');
+  const bar=document.getElementById('hintbar');
+  bar.textContent=h;bar.classList.add('on');
+};
+document.getElementById('uans').addEventListener('keydown',e=>{
+  if((e.ctrlKey||e.metaKey)&&e.key==='Enter')judge();
+});
+
+/* 页签 */
+document.querySelectorAll('.tab').forEach(t=>{
+  t.onclick=()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+    document.querySelectorAll('.panel').forEach(x=>x.classList.remove('on'));
+    t.classList.add('on');
+    document.getElementById(t.dataset.p).classList.add('on');
+    window.scrollTo({top:0,behavior:'smooth'});
+    if(t.dataset.p==='p4'&&!cur)pick();
+  };
+});
+document.getElementById('reset').onclick=()=>{
+  if(!confirm('确定清空全部掌握进度和答题记录吗？'))return;
+  ST={mastered:{},attempts:[]};saveState(ST);
+  document.querySelectorAll('#mods .card').forEach(c=>{c.classList.remove('ok');const b=c.querySelector('.tap');if(b)b.classList.remove('on');});
+  renderProgress();renderAvg();
+};
+
+renderProgress();renderAvg();pick();
+</script>
+</body>
+</html>

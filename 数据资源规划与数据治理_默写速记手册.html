@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数据资源规划与数据治理 · 默写速记手册</title>
+<style>
+:root{
+  --bg:#0e1116; --bg2:#151a21; --bg3:#1c232c; --line:#2a3340;
+  --txt:#e6eaf0; --txt2:#9aa7b8; --txt3:#6b7889;
+  --accent:#4da3ff; --accent2:#7c5cff;
+  --red:#ff5c5c; --green:#2ecc71; --amber:#ffb020; --teal:#00d4aa;
+  --code:'JetBrains Mono','Cascadia Code',Consolas,'Microsoft YaHei',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--txt);
+  font-family:-apple-system,'Segoe UI','Microsoft YaHei',system-ui,sans-serif;
+  font-size:14px; line-height:1.75; padding:0 0 80px;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+
+/* ---------- header ---------- */
+header{
+  background:linear-gradient(135deg,#141b26 0%,#101720 60%,#0e1116 100%);
+  border-bottom:1px solid var(--line); padding:26px 0 20px; margin-bottom:0;
+  position:sticky; top:0; z-index:50; backdrop-filter:blur(8px);
+}
+h1{font-size:21px;font-weight:700;letter-spacing:.5px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+h1 .badge{font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;
+  background:rgba(77,163,255,.14);color:var(--accent);border:1px solid rgba(77,163,255,.35)}
+.sub{color:var(--txt2);font-size:12.5px;margin-top:6px}
+.topbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.tab{
+  padding:7px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;
+  background:var(--bg3);border:1px solid var(--line);color:var(--txt2);transition:.16s;user-select:none;
+}
+.tab:hover{color:var(--txt);border-color:#3a4657}
+.tab.on{background:linear-gradient(135deg,#2b6cb0,#4a3ba8);color:#fff;border-color:transparent;
+  box-shadow:0 3px 14px rgba(77,163,255,.25)}
+.progline{display:flex;align-items:center;gap:12px;margin-top:14px;font-size:12px;color:var(--txt2)}
+.pbar{flex:1;height:6px;background:var(--bg3);border-radius:6px;overflow:hidden;border:1px solid var(--line)}
+.pbar>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--teal));
+  transition:width .35s ease;border-radius:6px}
+.btn{background:var(--bg3);border:1px solid var(--line);color:var(--txt2);border-radius:7px;
+  padding:5px 12px;font-size:12px;cursor:pointer;transition:.15s;font-family:inherit}
+.btn:hover{color:var(--txt);border-color:#455263}
+.btn.pri{background:linear-gradient(135deg,#2b6cb0,#4a3ba8);color:#fff;border-color:transparent}
+
+/* ---------- panels ---------- */
+.panel{display:none;padding-top:26px}
+.panel.on{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+.howto{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:24px}
+.howto h3{font-size:14px;color:var(--accent);margin-bottom:10px;letter-spacing:.5px}
+.howto ol{margin-left:20px;color:var(--txt2);font-size:13px}
+.howto li{margin-bottom:5px}
+.howto b{color:var(--txt)}
+
+/* module */
+.mod{margin-bottom:18px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--bg2)}
+.mod>summary{
+  list-style:none;cursor:pointer;padding:14px 18px;display:flex;align-items:center;gap:12px;
+  background:linear-gradient(90deg,rgba(77,163,255,.07),transparent);font-weight:700;font-size:15px;
+}
+.mod>summary::-webkit-details-marker{display:none}
+.mod>summary .no{
+  font-family:var(--code);font-size:12px;color:#fff;background:linear-gradient(135deg,#2b6cb0,#4a3ba8);
+  padding:2px 8px;border-radius:6px;letter-spacing:.5px
+}
+.mod>summary .cnt{margin-left:auto;font-size:11.5px;color:var(--txt3);font-weight:500}
+.mod>summary .arw{color:var(--txt3);transition:.2s;font-size:12px}
+.mod[open]>summary .arw{transform:rotate(90deg)}
+.modbody{padding:4px 14px 16px}
+
+/* card */
+.card{border:1px solid var(--line);border-radius:10px;margin:12px 0;background:var(--bg3);overflow:hidden}
+.card.ok{border-color:rgba(46,204,113,.45);background:rgba(46,204,113,.05)}
+.chead{padding:11px 14px;display:flex;align-items:flex-start;gap:10px}
+.q{font-weight:650;font-size:13.5px;flex:1;color:#fff}
+.q .n{color:var(--txt3);font-family:var(--code);font-size:11.5px;margin-right:6px}
+.mn{display:flex;gap:7px;flex-wrap:wrap;padding:0 14px 10px}
+.chip{
+  font-family:var(--code);font-size:12px;padding:3px 10px;border-radius:6px;
+  background:rgba(255,176,32,.12);color:var(--amber);border:1px solid rgba(255,176,32,.3);
+  letter-spacing:.6px;white-space:nowrap
+}
+.chip.b{background:rgba(0,212,170,.1);color:var(--teal);border-color:rgba(0,212,170,.3)}
+.chip.p{background:rgba(124,92,255,.13);color:#b39dff;border-color:rgba(124,92,255,.33)}
+.ans{padding:0 14px 14px;display:none}
+.card.open .ans{display:block}
+.card.open .ans{animation:fade .2s ease}
+.ans ol{margin:4px 0 0 22px}
+.ans li{margin-bottom:3px;font-size:13px;color:var(--txt)}
+.ans li em{color:var(--amber);font-style:normal;font-weight:600;background:rgba(255,176,32,.1);
+  padding:0 3px;border-radius:3px}
+.ans .note{margin-top:9px;font-size:12.5px;color:var(--txt2);background:rgba(77,163,255,.07);
+  border-left:3px solid var(--accent);padding:7px 11px;border-radius:0 6px 6px 0}
+.ans .note.warn{background:rgba(255,92,92,.07);border-left-color:var(--red);color:#ffb0b0}
+.cfoot{padding:0 14px 12px;display:flex;gap:8px;align-items:center}
+.mini{font-size:11.5px;padding:4px 10px;border-radius:6px;cursor:pointer;border:1px solid var(--line);
+  background:var(--bg2);color:var(--txt2);font-family:inherit;transition:.15s}
+.mini:hover{color:var(--txt);border-color:#455263}
+.mini.on{background:rgba(46,204,113,.16);color:var(--green);border-color:rgba(46,204,113,.45)}
+
+/* table */
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;
+  background:var(--bg2);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+th{background:var(--bg3);padding:10px 13px;text-align:left;font-size:12.5px;color:var(--accent);
+  font-weight:700;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:9px 13px;border-bottom:1px solid rgba(42,51,64,.6);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:rgba(77,163,255,.045)}
+td.k{font-family:var(--code);color:var(--amber);font-weight:600;white-space:nowrap}
+td.c{font-family:var(--code);color:var(--teal);font-weight:700;text-align:center;white-space:nowrap}
+td.mn{font-family:var(--code);color:#b39dff;white-space:nowrap;font-size:12.5px}
+
+/* quiz */
+.qbox{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:22px;margin-bottom:16px}
+.qstem{font-size:15.5px;font-weight:700;color:#fff;margin-bottom:6px;line-height:1.6}
+.qmeta{font-size:12px;color:var(--txt3);margin-bottom:14px;display:flex;gap:14px;flex-wrap:wrap}
+.qmeta span{font-family:var(--code)}
+textarea{
+  width:100%;min-height:130px;background:var(--bg);border:1px solid var(--line);border-radius:9px;
+  color:var(--txt);padding:12px;font-family:var(--code);font-size:13px;line-height:1.85;resize:vertical;outline:none
+}
+textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(77,163,255,.13)}
+.qactions{display:flex;gap:9px;margin-top:12px;flex-wrap:wrap;align-items:center}
+.result{margin-top:16px;display:none}
+.result.on{display:block;animation:fade .25s}
+.score{font-size:26px;font-weight:800;font-family:var(--code);letter-spacing:-1px}
+.score.g{color:var(--green)} .score.a{color:var(--amber)} .score.r{color:var(--red)}
+.rlist{margin-top:12px;display:flex;flex-direction:column;gap:5px}
+.ritem{display:flex;gap:9px;align-items:flex-start;font-size:13px;padding:5px 9px;border-radius:6px}
+.ritem.hit{background:rgba(46,204,113,.09);color:#b8f0cf}
+.ritem.miss{background:rgba(255,92,92,.09);color:#ffc0c0}
+.ritem .tag{font-family:var(--code);font-size:11px;flex-shrink:0;margin-top:1px}
+.hintbar{font-family:var(--code);font-size:13px;color:var(--teal);letter-spacing:3px;margin-top:8px;
+  background:rgba(0,212,170,.07);border:1px dashed rgba(0,212,170,.35);border-radius:8px;padding:9px 12px;
+  display:none;word-break:break-all;line-height:2}
+.hintbar.on{display:block}
+.stats{display:flex;gap:18px;flex-wrap:wrap;font-size:12.5px;color:var(--txt2)}
+.stats b{color:var(--txt);font-family:var(--code);font-size:15px}
+
+.legend{font-size:12px;color:var(--txt3);margin:8px 0 16px;line-height:1.9}
+.legend code{font-family:var(--code);color:var(--amber);background:rgba(255,176,32,.1);padding:1px 6px;border-radius:4px}
+h2.sec{font-size:16px;margin:26px 0 10px;color:#fff;display:flex;align-items:center;gap:9px}
+h2.sec::before{content:'';width:3px;height:16px;background:linear-gradient(180deg,var(--accent),var(--accent2));border-radius:2px}
+@media(max-width:640px){
+  body{font-size:13px} h1{font-size:17px} .wrap{padding:0 12px}
+  td.mn{display:none} .tab{padding:6px 11px;font-size:12px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1>数据资源规划与数据治理 · 默写速记手册 <span class="badge">系统规划与管理师</span></h1>
+    <div class="sub">三种方法 · 五套步骤 · 四张活动清单 —— 数字定骨架，口诀做钩子，默写验成色</div>
+    <div class="topbar">
+      <div class="tab on" data-p="p1">📖 骨架 + 口诀</div>
+      <div class="tab" data-p="p2">🔢 数字速查</div>
+      <div class="tab" data-p="p3">⚖️ 易混对比</div>
+      <div class="tab" data-p="p4">✍️ 默写闯关</div>
+      <div class="tab" data-p="p5">📅 复习计划</div>
+    </div>
+    <div class="progline">
+      <span>掌握进度</span>
+      <div class="pbar"><i id="pbar"></i></div>
+      <span id="ptxt">0 / 0</span>
+      <button class="btn" id="reset">重置进度</button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- ============ P1 ============ -->
+<div class="panel on" id="p1">
+  <div class="howto">
+    <h3>这一章为什么容易"背了但写错"</h3>
+    <ol>
+      <li><b>本章真正的坑是"串台"，不是"记不住"。</b>全章有 <b>5 套步骤</b>（过程法 7 步 / 过程法 11 步 / 结构法 5 步 / 指标法 8 步 / 数据湖 5 步）和 <b>4 张活动清单</b>（数据治理 / 数据标准化 / 数据质量 / 数据安全）。每套单背都会，混在一起就张冠李戴。<b>所以每条口诀都要绑定它的"方法名"一起背</b>，不能只背口诀。</li>
+      <li><b>数字是本章最强的区分钩子。</b>3 步是"主题数据库设计"，5 步有两个（稳定信息结构与数据湖治理），7 步是过程法核心、8 步是指标能力、11 步是过程法整体。记住"哪个方法几步"，一半的错位就自动排除了。</li>
+      <li><b>口诀只用于调取，不用于作答。</b>看到题干先甩口诀，再逐字展开成标准表述。答题纸上写口诀不给分。</li>
+      <li><b>默写检验 &gt; 反复阅读。</b>本页答案默认折叠，必须先自己复述再展开对照。</li>
+    </ol>
+  </div>
+  <div class="legend">
+    标记说明：<code>橙底口诀</code> = 核心记忆钩子 &nbsp;|&nbsp; <code>青底</code> = 步骤分组 / 结构钩子 &nbsp;|&nbsp; <code>紫底</code> = 与教材/笔记口径的差异提醒
+  </div>
+  <div id="mods"></div>
+</div>
+
+<!-- ============ P2 ============ -->
+<div class="panel" id="p2">
+  <h2 class="sec">数字 → 答案 速查表（最高频失分点）</h2>
+  <div class="legend">用法：遮住右两列，看数字 + 方法名秒答。答不出来就回「骨架+口诀」页定位。</div>
+  <div id="numtable"></div>
+</div>
+
+<!-- ============ P3 ============ -->
+<div class="panel" id="p3">
+  <h2 class="sec">最容易写混的五组对比</h2>
+  <div class="legend">这五组是阅卷时"看起来对但拿不到分"的重灾区，必须逐字区分。</div>
+
+  <h2 class="sec">① 三种规划方法：怎么选 + 优缺点</h2>
+  <table>
+    <thead><tr><th>方法</th><th>选它的场景</th><th>优点</th><th>缺点</th></tr></thead>
+    <tbody>
+      <tr><td class="k">基于稳定信息过程</td><td>业务场景<b>相对固定</b><br>前期<b>数据积累较少</b></td><td>理论成熟、易理解、实现难度不大</td><td>步骤繁杂、涉及因素多、数据稳定性较差</td></tr>
+      <tr><td class="k">基于稳定信息结构</td><td>业务场景<b>经常变化</b><br>前期<b>数据积累较多</b></td><td>理论较成熟、实施周期较短、数据稳定性好</td><td>全局设计后置、初期工作量大、并行工作组织难度大</td></tr>
+      <tr><td class="k">基于指标能力</td><td>业务场景<b>涉及决策</b><br>前期<b>数据积累较少</b></td><td>直接支撑决策需求、设计思路清晰、数据稳定性好</td><td>实现案例少、实施难度大、对设计人员要求高</td></tr>
+    </tbody>
+  </table>
+  <div class="legend">选型口诀：<code>固定业务 → 稳定过程 ｜ 业务常变且数据多 → 稳定结构 ｜ 决策 / 能力评价 → 指标能力</code><br>
+  <b>一句话区分两个"较少"</b>：业务固定 + 数据少 → <b>过程</b>；决策评价 + 数据少 → <b>指标能力</b>。<b>只有"数据积累较多"才选结构法</b>。</div>
+
+  <h2 class="sec">② 稳定信息过程：核心 7 步 vs 整体 11 步（同一方法的两种说法）</h2>
+  <table>
+    <thead><tr><th>阶段</th><th>核心 7 步（精简版）</th><th>整体 11 步（完整版）</th></tr></thead>
+    <tbody>
+      <tr><td class="k">前置</td><td style="color:var(--txt3)">— 无 —</td><td>可行性分析 / 确定目标和范围 / 准备</td></tr>
+      <tr><td class="k">定域与析业</td><td>定义职能域 / 各职能域业务分析</td><td>业务活动研究</td></tr>
+      <tr><td class="k">析数与建模</td><td>各职能域数据分析</td><td>导出并建立数据模型</td></tr>
+      <tr><td class="k">标准</td><td>建立领域数据资源管理基础标准</td><td>建立管理标准</td></tr>
+      <tr><td class="k">三模型</td><td>功能模型 / 数据模型 / 关联模型</td><td>建立业务逻辑模型</td></tr>
+      <tr><td class="k">数据组织</td><td style="color:var(--txt3)">— 无 —</td><td>设计主题数据库 / 数据的分布分析</td></tr>
+      <tr><td class="k">收尾</td><td style="color:var(--txt3)">— 无 —</td><td>制定方案 / 审核评价方案</td></tr>
+    </tbody>
+  </table>
+  <div class="legend">记忆钩子：<b>11 步 = 7 步"前面加 3、后面加 4 之外的重组"</b>——11 步比 7 步多的是<b>前置三件（行、围、备）</b>和<b>后置四件（主、分、方、审）</b>。<br>
+  <b>考试应对</b>：题干问"核心步骤"或给了"职、业、数、标、能、统、联"这类口诀线索 → 写 <b>7 步</b>；题干问"整体/完整流程"或线索是"行、围、备" → 写 <b>11 步</b>。</div>
+
+  <h2 class="sec">③ 数据元 vs 元数据</h2>
+  <table>
+    <thead><tr><th>对比项</th><th>数据元</th><th>元数据</th></tr></thead>
+    <tbody>
+      <tr><td class="k">一句话定义</td><td>由一组属性规定其<b>定义、标识、表示和允许值</b>的<b>数据单元</b>，是数据的基本单元</td><td><b>描述数据的数据</b>，用来解释数据</td></tr>
+      <tr><td class="k">关键特征</td><td>有<b>"允许值"</b>（取值范围的约束）—— 这是它独有的</td><td>本身不是数据内容，而是"关于数据的说明"</td></tr>
+      <tr><td class="k">作用</td><td>构成数据的基本单元，用于数据标准化</td><td>描述、定位、寻找或发掘、评价、选择（<code>5 项</code>）</td></tr>
+      <tr><td class="k">标准化位置</td><td>数据标准化 4 项中的一项（<b>数据元标准化</b>）</td><td>数据标准化 4 项中的一项（<b>元数据标准化</b>）</td></tr>
+    </tbody>
+  </table>
+  <div class="legend">秒辨口诀：<code>元数据 = "数据的说明书"，数据元 = "数据的最小积木"</code>。<br>
+  <b>高频陷阱</b>：数据元定义有"<b>四个规定</b>"——定义、标识、表示、允许值。只写"定义数据的数据元"会被扣条。</div>
+
+  <h2 class="sec">④ 两套"数据集"链条（别把顺序写反）</h2>
+  <table>
+    <thead><tr><th>方法</th><th>数据集处理链条</th><th>顺序要点</th></tr></thead>
+    <tbody>
+      <tr><td class="k">基于稳定信息结构</td><td class="mn">确定边界 → 获取初始数据集 → 建立核心数据集 → 完善目标数据集 → 建立信息模型</td><td><b>先获取、再核心、最后目标</b>；模型放在最后一步</td></tr>
+      <tr><td class="k">基于指标能力</td><td class="mn">决策评估收集 → 支撑指标分析 → 指标体系构建 → 建立指标数据模型并分析数据集 → 数据子集融合 → 核心数据集一致性检验 → 核心数据集评价 → 完善目标数据集</td><td><b>先建体系再建模型</b>；融合 → 检验 → 评价 → 完善，是"先合再验再评后善"</td></tr>
+    </tbody>
+  </table>
+  <div class="legend">共同终点的都是"<code>完善目标数据集</code>"，但指标能力法多出<b>一致性检验 + 评价</b>两道验收关。<br>
+  <b>别写反</b>："数据子集融合"在"一致性检验"<b>之前</b>——先合起来才能查一致性。</div>
+
+  <h2 class="sec">⑤ 四张活动清单防串台</h2>
+  <table>
+    <thead><tr><th>主题</th><th>条数</th><th>起手动作（区分钩子）</th><th>活动清单</th></tr></thead>
+    <tbody>
+      <tr><td class="k">数据治理</td><td class="c">4</td><td>起手是 <b>规划组织</b></td><td>规划组织的数据治理 / 制定数据治理战略 / 实施数据治理 / 嵌入数据治理</td></tr>
+      <tr><td class="k">数据标准化</td><td class="c">4</td><td>起手是 <b>建立体系</b></td><td>建立数据标准体系 / 元数据标准化 / 数据元标准化 / 数据分类与编码标准化</td></tr>
+      <tr><td class="k">数据质量</td><td class="c">7</td><td>起手是 <b>定义</b>（先定标准）</td><td>定义高质量数据 / 定义数据质量战略 / 识别关键数据和业务规则 / 执行初始数据质量评估 / 识别改进方向并确定优先排序 / 定义数据质量改进目标 / 开发和部署数据质量操作</td></tr>
+      <tr><td class="k">数据安全</td><td class="c">5</td><td>起手是 <b>识别需求</b></td><td>识别数据安全需求 / 制定数据安全制度 / 定义数据安全细则 / 评估当前安全风险 / 实施控制和规程</td></tr>
+    </tbody>
+  </table>
+  <div class="legend">四个主题的条数就是最好的锚：<code>治理4 / 标准4 / 质量7 / 安全5</code>。<br>
+  <b>口诀串起来</b>：治理「规—定—实—入」、标准「一体两元一编码」、质量「高—战—关—评—优—定—开」、安全「识—制—细—评—控」。<br>
+  <b>顺序陷阱（安全）</b>：数据安全是"先定制度、细则，再去评估当前风险"，最后实施控制 —— 不是"先评风险再定制度"。</div>
+</div>
+
+<!-- ============ P4 ============ -->
+<div class="panel" id="p4">
+  <div class="howto">
+    <h3>默写闯关 · 判定规则</h3>
+    <ol>
+      <li>系统随机出题，你独立默写，<b>不看答案</b>。</li>
+      <li>提交后按<b>条目命中率</b>给分：每答中一条标准答案中的关键表述即算命中。</li>
+      <li><b>≥85% 通过</b>；60%~85% 需重写；&lt;60% 回「骨架+口诀」页重背。</li>
+      <li>拿到满分的条目会自动在「骨架+口诀」页标为已掌握。</li>
+    </ol>
+  </div>
+  <div class="qbox">
+    <div class="qstem" id="qstem">点击「出题」开始</div>
+    <div class="qmeta">
+      <span id="qmod"></span>
+      <span id="qcnt"></span>
+      <span id="qidx"></span>
+    </div>
+    <textarea id="uans" placeholder="在这里默写你的答案，一条一行更利于判分……"></textarea>
+    <div class="hintbar" id="hintbar"></div>
+    <div class="qactions">
+      <button class="btn pri" id="submit">提交判分</button>
+      <button class="btn" id="nex">出题 / 换题</button>
+      <button class="btn" id="hint">首字提示</button>
+      <button class="btn" id="showans">看标准答案</button>
+    </div>
+    <div class="result" id="res">
+      <div class="score" id="score">0%</div>
+      <div class="stats" style="margin-top:8px">
+        <span>命中 <b id="hit">0</b>/<b id="tot">0</b> 条</span>
+        <span>累计作答 <b id="attempts">0</b> 次</span>
+        <span>平均分 <b id="avg">0</b>%</span>
+      </div>
+      <div class="rlist" id="rlist"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ P5 ============ -->
+<div class="panel" id="p5">
+  <div class="howto">
+    <h3>这一章的 3 天打法（比上一章更快）</h3>
+    <ol>
+      <li><b>Day 1（约1.5h）只背"方法—场景—步数"三角。</b>先在白纸上写三个方法名，每个下面写：<b>什么场景用它 + 它有几步 + 它的口诀</b>。这一步不做细节，只做选型判断。目标：给一个场景（如"业务经常变化、数据积累较多"）能在 3 秒内说出方法名。</li>
+      <li><b>Day 1（约1.5h）背 5 套步骤的展开。</b>按"口诀首字 → 逐字展开"过 3 遍。当晚默写第 1 轮：5 套步骤 + 4 张活动清单。</li>
+      <li><b>Day 2</b> 只做错题 + 全量默写第 2 轮，重点攻「易混对比」页的 ④⑤ 两组（数据集顺序、四张清单串台）。</li>
+      <li><b>Day 4</b> 全量默写第 3 轮，附加"优缺点"专项：随机点一个方法，口述适用场景 + 优点 3 条 + 缺点 3 条。</li>
+      <li><b>Day 7 / Day 15</b> 各做一次全量默写，只要求"条数全对 + 关键词全中"，不要求逐字一致。</li>
+    </ol>
+    <h3 style="margin-top:16px">考场三个提分技巧（本章专用）</h3>
+    <ol>
+      <li><b>方法选用题先写"场景—方法"对照再补优缺点。</b>这类题分值集中在"判断对不对"，先写出"业务相对固定、数据积累少 → 稳定信息过程"，再补三条优点三条缺点，结构分先拿到。</li>
+      <li><b>差值记忆法防串台。</b>步骤题不要孤立背，改背"两套之间的差"：7 步比 11 步少「行围备 + 主分方审」；结构法 5 步比指标法 8 步少「体系构建 + 检验 + 评价」。记差比记全更省力。</li>
+      <li><b>四张活动清单用"起手动词"锚定。</b>治理起手"规划组织"、标准起手"建立体系"、质量起手"定义"、安全起手"识别需求"。第一句对了，后面对应的整串动作就会自然带出来。</li>
+    </ol>
+  </div>
+  <h2 class="sec">已掌握清单</h2>
+  <div id="mastered" class="legend">还没有标记任何条目。</div>
+</div>
+
+</div>
+
+<script>
+/* =========================================================
+   数据：题干 q / 口诀 chips / 标准答案 a / 备注 note
+   ========================================================= */
+const MODULES = [
+{
+  no:'00', name:'总览 · 数据资源规划的三种方法（选型 + 优缺点）',
+  items:[
+    { q:'数据资源规划三种方法分别适用于什么场景（选型口诀）',
+      chips:[{t:'固定业务 → 过程',c:''},{t:'常变且数据多 → 结构',c:''},{t:'决策 / 能力评价 → 指标',c:''}],
+      a:['业务场景相对固定、前期数据积累较少 → 基于稳定信息过程的方法',
+         '业务场景经常变化、前期数据积累较多 → 基于稳定信息结构的方法',
+         '业务场景涉及决策（或能力评价）、前期数据积累较少 → 基于指标能力的方法'],
+      note:'一句话记忆：<b>业务固定走过程，业务常变且数据多走结构，决策评价走指标</b>。注意两个"数据积累较少"分别对应过程法和指标能力法，区分点是"业务是否固定"与"是否涉及决策"。'
+    },
+    { q:'基于稳定信息过程的方法：适用场景 / 优点 / 缺点',
+      chips:[{t:'固定 + 数据少',c:''},{t:'成熟易懂',c:'b'},{t:'步骤繁杂',c:'p'}],
+      a:['适用场景：业务场景相对固定、前期数据积累较少',
+         '优点：理论成熟、易理解、实现难度不大',
+         '缺点：步骤繁杂、涉及因素多、数据稳定性较差'],
+      note:'三项刚好构成"一场景两评价"，写优缺点各答满 3 个词即可。'
+    },
+    { q:'基于稳定信息结构的方法：适用场景 / 优点 / 缺点',
+      chips:[{t:'常变 + 数据多',c:''},{t:'周期短、稳定性好',c:'b'},{t:'初期量大、组织难',c:'p'}],
+      a:['适用场景：业务场景经常变化、前期数据积累较多',
+         '优点：理论较成熟、实施周期较短、数据稳定性好',
+         '缺点：全局设计后置、初期工作量大、并行工作组织难度大'],
+      note:'唯一"数据积累较多"的方法就是它。优点里"数据稳定性好"与过程法的"数据稳定性较差"正好相反 —— 这是最容易互相写错的一对词。'
+    },
+    { q:'基于指标能力的方法：适用场景 / 优点 / 缺点',
+      chips:[{t:'决策 + 数据少',c:''},{t:'直撑决策、思路清晰',c:'b'},{t:'案例少、要求高',c:'p'}],
+      a:['适用场景：业务场景涉及决策、前期数据积累较少',
+         '优点：直接支撑决策需求、设计思路清晰、数据稳定性好',
+         '缺点：实现案例少、实施难度大、对设计人员要求高'],
+      note:'优点里的"数据稳定性好"与结构法一样，但它的短板在"人和案例"（实现案例少、对设计人员要求高），成本类缺点与另两个方法都不同。'
+    }
+  ]
+},
+{
+  no:'01', name:'基于稳定信息过程的方法 · 核心 7 步 + 三个要点',
+  items:[
+    { q:'基于稳定信息过程的方法：核心 7 步',
+      chips:[{t:'职·业·数·标·能·统·联',c:''},{t:'结构：3 + 1 + 3',c:'b'}],
+      a:['定义职能域',
+         '各职能域业务分析',
+         '各职能域数据分析',
+         '建立领域数据资源管理基础标准',
+         '建立信息系统功能模型',
+         '建立信息系统数据模型',
+         '建立关联模型'],
+      note:'结构钩子（比口诀更好用）：<b>前 3 步 = 定域 → 析业务 → 析数据（需求分析主线）；第 4 步 = 一套标准；后 3 步 = 功能模型 → 数据模型 → 关联模型（系统建模主线）</b>。看到"三模型"必须先写标准，标准在模型之前。'
+    },
+    { q:'基于稳定信息过程的方法：三个要点（两条主线 / 三种模型 / 一套标准）',
+      chips:[{t:'两条主线',c:''},{t:'三种模型',c:''},{t:'一套标准',c:''}],
+      a:['两条主线：需求分析、系统建模',
+         '三种模型：功能模型、数据模型、关联模型（并形成系统体系结构模型）',
+         '一套标准：领域数据资源管理基础标准'],
+      note:'这三个要点是对 7 步的"抽象总结"：主线对应"怎么走"，模型对应"产出什么"，标准对应"依据什么"。<b>关联模型之后形成的是"系统体系结构模型"</b>，这一句常被漏写。'
+    },
+    { q:'"一套标准"指哪一套？具体包括哪些内容？',
+      chips:[{t:'领域数据资源管理基础标准',c:''},{t:'两数两库一视图',c:'b'}],
+      a:['数据元素标准',
+         '数据分类与编码标准',
+         '用户视图标准',
+         '概念数据库标准',
+         '逻辑数据库标准'],
+      note:'口诀 <b>「两数两库一视图」</b>：两数 = 数据元素、数据分类与编码；两库 = 概念数据库、逻辑数据库；一视图 = 用户视图。恰好 5 项。'
+    }
+  ]
+},
+{
+  no:'02', name:'基于稳定信息过程的方法 · 整体 11 步',
+  items:[
+    { q:'基于稳定信息过程的方法：整体 11 步',
+      chips:[{t:'行·围·备·动·业·导·标·主·分·方·审',c:''},{t:'分组 3-3-3-2',c:'b'}],
+      a:['可行性分析',
+         '确定目标和范围',
+         '准备',
+         '业务活动研究',
+         '建立业务逻辑模型',
+         '导出并建立数据模型',
+         '建立管理标准',
+         '设计主题数据库',
+         '数据的分布分析',
+         '制定方案',
+         '审核评价方案'],
+      note:'分组记忆（3-3-3-2）：<b>行围备（3 项前置）· 动业导（3 项研究与建模）· 标主分（3 项标准与数据组织）· 方审（2 项收尾）</b>。11 步是"完整流程版"，7 步是"精简口诀版"，两套不要混写。'
+    }
+  ]
+},
+{
+  no:'03', name:'主题数据库的一般设计过程',
+  items:[
+    { q:'主题数据库的一般设计过程（3 步）',
+      chips:[{t:'统—筛—建',c:''}],
+      a:['统一数据标准',
+         '筛选数据',
+         '建立主题数据库'],
+      note:'顺序逻辑：<b>先定标准（不然筛出来的数据没法归类）→ 再筛（挑出属于该主题的数据）→ 最后建库</b>。顺序写反即失分。'
+    }
+  ]
+},
+{
+  no:'04', name:'基于稳定信息结构的方法 · 5 步与三个数据集',
+  items:[
+    { q:'基于稳定信息结构的方法：实施步骤（5 步）',
+      chips:[{t:'定·获·核·完·息',c:''}],
+      a:['确定目标与系统边界',
+         '获取初始数据集',
+         '建立核心数据集',
+         '完善目标数据集',
+         '建立信息模型'],
+      note:'口诀逐字展开：定 = 确定目标与系统边界；获 = 获取初始数据集；核 = 建立核心数据集；完 = 完善目标数据集；息 = 建立信息模型。<b>信息模型一定在最后</b>。'
+    },
+    { q:'基于稳定信息结构的方法：三个数据集的关系与先后',
+      chips:[{t:'初始 → 核心 → 目标',c:'b'}],
+      a:['初始数据集：先"捞全"，从现有业务中获取的原始数据集',
+         '核心数据集：收缩出公用、关键的部分，形成核心',
+         '目标数据集：按目标补全完善，达到可用状态'],
+      note:'一句话：<b>先全（初始）→ 再精（核心）→ 后足（目标）</b>。这个"初始→核心→目标"的三段式在"基于指标能力"方法里会再次出现，可以合并记忆。'
+    }
+  ]
+},
+{
+  no:'05', name:'基于指标能力的方法 · 实施步骤',
+  items:[
+    { q:'基于指标能力的方法：实施步骤（8 步）',
+      chips:[{t:'策·撑·体·指·子·验·评·善',c:''},{t:'原口诀"评"管两步',c:'p'}],
+      a:['决策评估收集',
+         '支撑指标分析',
+         '指标体系构建',
+         '建立指标数据模型并分析数据集',
+         '数据子集融合',
+         '核心数据集一致性检验',
+         '核心数据集评价',
+         '完善目标数据集'],
+      note:'你笔记里的口诀 <b>"策撑体指子评善"是 7 字对 8 步</b>（"评"字管"一致性检验 + 核心数据集评价"两条）。<b>建议升级为 8 字版：「策撑体指，子验评善」</b>，一字一步更稳。<br>末段顺序链：<b>融合 → 检验 → 评价 → 完善</b>（先合再验，后评后善）。'
+    }
+  ]
+},
+{
+  no:'06', name:'数据湖治理的步骤',
+  items:[
+    { q:'数据湖治理的步骤（5 步）',
+      chips:[{t:'案·发·治·标·录',c:''}],
+      a:['记录数据湖治理业务案例',
+         '寻找高管或业务发起人',
+         '创建数据治理架构',
+         '制定数据标准和治理政策',
+         '构建数据目录'],
+      note:'口诀逐字展开：案 = 业务案例；发 = 找发起人（高管支持）；治 = 治理架构；标 = 标准与政策；录 = 数据目录。<br>注意它<b>不是"数据治理活动"</b>——那 4 项是"规—定—实—入"，两者别串。'
+    }
+  ]
+},
+{
+  no:'07', name:'数据标准化 · 数据元与元数据',
+  items:[
+    { q:'数据标准化的主要内容（4 项）',
+      chips:[{t:'一体两元一编码',c:''}],
+      a:['建立数据标准体系',
+         '元数据标准化',
+         '数据元标准化',
+         '数据分类与编码标准化'],
+      note:'口诀 <b>「一体两元一编码」</b>：一体 = 数据标准体系；两元 = 元数据 + 数据元；一编码 = 数据分类与编码。<b>元数据在前、数据元在后</b>（先有说明书，再定积木）。'
+    },
+    { q:'什么是数据元？（含四个规定属性）',
+      chips:[{t:'定义·标识·表示·允许值',c:''},{t:'数据的基本单元',c:'b'}],
+      a:['数据元是由一组属性规定其定义、标识、表示和允许值的数据单元',
+         '它是数据的基本单元'],
+      note:'<b>四个规定属性必背：定义、标识、表示、允许值</b>。其中"允许值"是数据元独有的特征，判断"这是不是数据元"就看有没有对取值范围的约束。'
+    },
+    { q:'什么是元数据？元数据的作用有哪些？',
+      chips:[{t:'描述数据的数据',c:''},{t:'描·定·寻·评·选',c:''}],
+      a:['元数据是描述数据的数据，用来解释数据',
+         '描述：描述数据的属性与内容',
+         '定位：定位数据所在位置',
+         '寻找或发掘：发现并挖掘数据',
+         '评价：评价数据质量与适用性',
+         '选择：选择所需数据'],
+      note:'作用 5 项口诀 <b>「描—定—寻—评—选」</b>（描述、定位、寻找或发掘、评价、选择）。<br>最高频对比题：<b>元数据 = 数据的说明书；数据元 = 数据的最小积木</b>。'
+    }
+  ]
+},
+{
+  no:'08', name:'数据治理 · 数据质量 · 数据安全',
+  items:[
+    { q:'数据治理的活动（4 项）',
+      chips:[{t:'规—定—实—入',c:''}],
+      a:['规划组织的数据治理',
+         '制定数据治理战略',
+         '实施数据治理',
+         '嵌入数据治理'],
+      note:'口诀逐字展开：规 = 规划组织的数据治理；定 = 制定数据治理战略；实 = 实施数据治理；入 = 嵌入数据治理。<br>逻辑链：<b>先规划 → 再定战略 → 然后实施 → 最后嵌入业务流程（嵌入是终点，因为治理要"长"在业务里）</b>。'
+    },
+    { q:'数据质量的维度（5 个）',
+      chips:[{t:'唯一一致，完整合理有效',c:''}],
+      a:['一致性',
+         '完整性',
+         '合理性',
+         '唯一性',
+         '有效性'],
+      note:'口诀 <b>「唯一一致，完整合理有效」</b>——八个字刚好包住 5 个维度（唯一性、一致性、完整性、合理性、有效性）。<br>注意区分：<b>"数据质量维度"是 5 个名词；"数据质量活动"是 7 个动作</b>，不要把维度当活动写。'
+    },
+    { q:'数据质量活动的内容（7 项）',
+      chips:[{t:'高·战·关·评·优·定·开',c:''},{t:'两定 → 一识 → 一评 → 一优 → 一定 → 一开',c:'b'}],
+      a:['定义高质量数据',
+         '定义数据质量战略',
+         '识别关键数据和业务规则',
+         '执行初始数据质量评估',
+         '识别改进方向并确定优先排序',
+         '定义数据质量改进目标',
+         '开发和部署数据质量操作'],
+      note:'口诀逐字展开：高 = 定义高质量数据；战 = 定义数据质量战略；关 = 识别关键数据和业务规则；评 = 执行初始数据质量评估；优 = 识别改进方向并确定优先排序；定 = 定义数据质量改进目标；开 = 开发和部署数据质量操作。<br>结构：<b>先"两个定义"（标准 + 战略）→ 识别关键数据 → 初始评估 → 排优先级 → 定目标 → 开发部署（落地）</b>。'
+    },
+    { q:'数据安全活动的内容（5 项）',
+      chips:[{t:'识—制—细—评—控',c:''}],
+      a:['识别数据安全需求',
+         '制定数据安全制度',
+         '定义数据安全细则',
+         '评估当前安全风险',
+         '实施控制和规程'],
+      note:'口诀逐字展开：识 = 识别数据安全需求；制 = 制定数据安全制度；细 = 定义数据安全细则；评 = 评估当前安全风险；控 = 实施控制和规程。<br><b>顺序陷阱</b>：是"先定需求/制度/细则，再去评估当前风险"，最后实施控制 —— 不是先评风险。'
+    }
+  ]
+}
+];
+
+/* =========================================================
+   渲染：骨架 + 口诀
+   ========================================================= */
+const LS='drp_v1';
+function loadState(){try{return JSON.parse(localStorage.getItem(LS))||{}}catch(e){return{}}}
+function saveState(s){try{localStorage.setItem(LS,JSON.stringify(s))}catch(e){}}
+let ST=loadState();
+if(!ST.mastered)ST.mastered={};
+if(!ST.attempts)ST.attempts=[];
+if(!ST.open)ST.open={};
+
+let QIDX=[]; // 扁平索引
+{
+  const box=document.getElementById('mods');
+  MODULES.forEach((m,mi)=>{
+    const d=document.createElement('details');
+    d.className='mod'; d.open=true;
+    const total=m.items.length;
+    d.innerHTML=`<summary><span class="no">${m.no}</span><span>${m.name}</span><span class="cnt">${total} 个考点</span><span class="arw">▶</span></summary><div class="modbody"></div>`;
+    const body=d.querySelector('.modbody');
+    m.items.forEach((it,ii)=>{
+      const id=`${mi}-${ii}`;
+      QIDX.push({id,mi,ii,m,it});
+      const c=document.createElement('div');
+      c.className='card'+(ST.mastered[id]?' ok':'');
+      c.dataset.id=id;
+      c.innerHTML=`
+        <div class="chead"><div class="q"><span class="n">${m.no}.${ii+1}</span>${it.q}</div></div>
+        <div class="mn">${it.chips.map(x=>`<span class="chip ${x.c||''}">${x.t}</span>`).join('')}</div>
+        <div class="ans"><ol>${it.a.map(t=>`<li>${t}</li>`).join('')}</ol>${it.note?`<div class="note">${it.note}</div>`:''}</div>
+        <div class="cfoot">
+          <button class="mini tog">展开答案</button>
+          <button class="mini tap">标记已掌握</button>
+          <span style="font-size:11.5px;color:var(--txt3);margin-left:auto">共 ${it.a.length} 条</span>
+        </div>`;
+      body.appendChild(c);
+    });
+    box.appendChild(d);
+  });
+}
+
+document.addEventListener('click',e=>{
+  const card=e.target.closest('.card'); if(!card)return;
+  if(e.target.classList.contains('tog')){
+    card.classList.toggle('open');
+    e.target.textContent=card.classList.contains('open')?'收起答案':'展开答案';
+  }
+  if(e.target.classList.contains('tap')){
+    const id=card.dataset.id;
+    ST.mastered[id]=!ST.mastered[id];
+    card.classList.toggle('ok',!!ST.mastered[id]);
+    e.target.classList.toggle('on',!!ST.mastered[id]);
+    saveState(ST);renderProgress();
+  }
+});
+// 展开全部 / 折叠全部
+{
+  const bar=document.createElement('div');
+  bar.style.cssText='display:flex;gap:8px;margin:0 0 14px';
+  bar.innerHTML=`<button class="btn" id="expandAll">全部展开答案</button>
+                 <button class="btn" id="collapseAll">全部折叠（纯回忆模式）</button>
+                 <button class="btn" id="markAll">全部标记已掌握</button>`;
+  document.getElementById('mods').before(bar);
+  bar.querySelector('#expandAll').onclick=()=>document.querySelectorAll('#mods .card').forEach(c=>{c.classList.add('open');const b=c.querySelector('.tog');if(b)b.textContent='收起答案';});
+  bar.querySelector('#collapseAll').onclick=()=>document.querySelectorAll('#mods .card').forEach(c=>{c.classList.remove('open');const b=c.querySelector('.tog');if(b)b.textContent='展开答案';});
+  bar.querySelector('#markAll').onclick=()=>{
+    QIDX.forEach(x=>ST.mastered[x.id]=true);saveState(ST);
+    document.querySelectorAll('#mods .card').forEach(c=>{c.classList.add('ok');const b=c.querySelector('.tap');if(b)b.classList.add('on');});
+    renderProgress();renderMastered();
+  };
+}
+
+function renderProgress(){
+  const tot=QIDX.length, done=QIDX.filter(x=>ST.mastered[x.id]).length;
+  document.getElementById('pbar').style.width=(tot?done/tot*100:0)+'%';
+  document.getElementById('ptxt').textContent=`${done} / ${tot}`;
+  renderMastered();
+}
+function renderMastered(){
+  const list=QIDX.filter(x=>ST.mastered[x.id]);
+  const el=document.getElementById('mastered');
+  if(!list.length){el.innerHTML='还没有标记任何条目。';return}
+  el.innerHTML=list.map(x=>`• <b>${x.m.no}.${x.ii+1}</b> ${x.it.q}`).join('<br>');
+}
+
+/* =========================================================
+   渲染：数字速查
+   ========================================================= */
+const NUM=[
+  ['3','数据资源规划方法数量','过程 / 结构 / 指标','稳定信息过程法 / 稳定信息结构法 / 指标能力法'],
+  ['3','过程法选型三句','固定→过程；常变多数据→结构；决策评价→指标','业务相对固定且数据少→过程法 / 业务常变且数据多→结构法 / 决策或能力评价且数据少→指标能力法'],
+  ['3','稳定信息过程 优点','成熟 · 易懂 · 不难','理论成熟 / 易理解 / 实现难度不大'],
+  ['3','稳定信息过程 缺点','繁杂 · 因素多 · 稳定性差','步骤繁杂 / 涉及因素多 / 数据稳定性较差'],
+  ['3','稳定信息结构 优点','成熟 · 周期短 · 稳定性好','理论较成熟 / 实施周期较短 / 数据稳定性好'],
+  ['3','稳定信息结构 缺点','后置 · 量大 · 组织难','全局设计后置 / 初期工作量大 / 并行工作组织难度大'],
+  ['3','指标能力 优点','撑决策 · 思路清 · 稳定性好','直接支撑决策需求 / 设计思路清晰 / 数据稳定性好'],
+  ['3','指标能力 缺点','案例少 · 难度大 · 要求高','实现案例少 / 实施难度大 / 对设计人员要求高'],
+  ['7','稳定信息过程 核心步骤','职·业·数·标·能·统·联','定义职能域 / 各职能域业务分析 / 各职能域数据分析 / 建立领域数据资源管理基础标准 / 建立信息系统功能模型 / 建立信息系统数据模型 / 建立关联模型'],
+  ['3','过程法三要点','两条主线 · 三种模型 · 一套标准','需求分析与系统建模两条主线 / 功能·数据·关联三种模型（形成系统体系结构模型）/ 领域数据资源管理基础标准一套标准'],
+  ['5','"一套标准"包含内容','两数两库一视图','数据元素 / 数据分类与编码 / 用户视图 / 概念数据库 / 逻辑数据库'],
+  ['11','稳定信息过程 整体步骤','行围备 · 动业导 · 标主分 · 方审','可行性分析 / 确定目标和范围 / 准备 / 业务活动研究 / 建立业务逻辑模型 / 导出并建立数据模型 / 建立管理标准 / 设计主题数据库 / 数据的分布分析 / 制定方案 / 审核评价方案'],
+  ['3','主题数据库设计过程','统—筛—建','统一数据标准 / 筛选数据 / 建立主题数据库'],
+  ['5','稳定信息结构 实施步骤','定·获·核·完·息','确定目标与系统边界 / 获取初始数据集 / 建立核心数据集 / 完善目标数据集 / 建立信息模型'],
+  ['3','三个数据集链条','初始 → 核心 → 目标','获取初始数据集 / 建立核心数据集 / 完善目标数据集'],
+  ['8','指标能力 实施步骤','策·撑·体·指·子·验·评·善','决策评估收集 / 支撑指标分析 / 指标体系构建 / 建立指标数据模型并分析数据集 / 数据子集融合 / 核心数据集一致性检验 / 核心数据集评价 / 完善目标数据集'],
+  ['5','数据湖治理步骤','案·发·治·标·录','记录数据湖治理业务案例 / 寻找高管或业务发起人 / 创建数据治理架构 / 制定数据标准和治理政策 / 构建数据目录'],
+  ['4','数据标准化主要内容','一体两元一编码','建立数据标准体系 / 元数据标准化 / 数据元标准化 / 数据分类与编码标准化'],
+  ['4','数据元的四个规定属性','定义 · 标识 · 表示 · 允许值','数据元是由一组属性规定其定义、标识、表示和允许值的数据单元，是数据的基本单元'],
+  ['5','元数据的作用','描—定—寻—评—选','描述 / 定位 / 寻找或发掘 / 评价 / 选择'],
+  ['4','数据治理的活动','规—定—实—入','规划组织的数据治理 / 制定数据治理战略 / 实施数据治理 / 嵌入数据治理'],
+  ['5','数据质量的维度','唯一一致，完整合理有效','一致性 / 完整性 / 合理性 / 唯一性 / 有效性'],
+  ['7','数据质量活动内容','高·战·关·评·优·定·开','定义高质量数据 / 定义数据质量战略 / 识别关键数据和业务规则 / 执行初始数据质量评估 / 识别改进方向并确定优先排序 / 定义数据质量改进目标 / 开发和部署数据质量操作'],
+  ['5','数据安全活动内容','识—制—细—评—控','识别数据安全需求 / 制定数据安全制度 / 定义数据安全细则 / 评估当前安全风险 / 实施控制和规程']
+];
+{
+  const t=document.getElementById('numtable');
+  t.innerHTML=`<table><thead><tr><th>条数</th><th>考点</th><th>口诀</th><th>标准答案</th></tr></thead><tbody>
+  ${NUM.map(r=>`<tr><td class="c">${r[0]}</td><td><b>${r[1]}</b></td><td class="mn">${r[2]}</td><td style="color:var(--txt2)">${r[3]}</td></tr>`).join('')}
+  </tbody></table>`;
+}
+
+/* =========================================================
+   默写闯关
+   ========================================================= */
+const POOL=QIDX.filter(x=>x.it.a.length>=2);
+let cur=null, curHintOn=false;
+
+function pick(){
+  if(!POOL.length){document.getElementById('qstem').textContent='题库为空（暂无可出题的考点）';return;}
+  let n;
+  if(POOL.length<=1){n=POOL[0];}
+  else{let guard=0;do{n=POOL[Math.floor(Math.random()*POOL.length)];guard++;}while(cur&&n===cur&&guard<50);}
+  cur=n;
+  curHintOn=false;
+  document.getElementById('qstem').textContent=cur.it.q;
+  document.getElementById('qmod').textContent='模块 '+cur.m.no+' · '+cur.m.name;
+  document.getElementById('qcnt').textContent='应写 '+cur.it.a.length+' 条';
+  document.getElementById('qidx').textContent='题库 '+POOL.length+' 题';
+  document.getElementById('uans').value='';
+  document.getElementById('hintbar').classList.remove('on');
+  document.getElementById('res').classList.remove('on');
+  document.getElementById('uans').focus();
+}
+function norm(s){return (s||'').replace(/[\s，。、；：,.;:!?！？（）()【】\[\]'"“”‘’—\-_/\\]/g,'').toLowerCase()}
+function keysOf(t){
+  const clean=t.replace(/^[①②③④⑤⑥⑦⑧⑨⑩⑪⑫\d\.\s]+/,'').split('：')[0].split('，')[0];
+  const out=new Set();
+  const push=v=>{if(v.length>=2)out.add(norm(v))};
+  push(clean);push(clean.slice(0,2));push(clean.slice(0,3));push(clean.slice(0,4));
+  // 逗号/顿号切分的小片段也算
+  t.split(/[、，,；;/]/).forEach(p=>{const q=p.replace(/^[①②③④⑤⑥⑦⑧⑨⑩⑪⑫\d\.\s]+/,'').split('：')[0];push(q);push(q.slice(0,3))});
+  return [...out];
+}
+function judge(){
+  if(!cur)return;
+  const u=norm(document.getElementById('uans').value);
+  const rows=cur.it.a.map(t=>{
+    const ks=keysOf(t);
+    const hit=ks.some(k=>u.includes(k));
+    return{t,hit};
+  });
+  const hits=rows.filter(r=>r.hit).length;
+  const pct=Math.round(hits/rows.length*100);
+  const sc=document.getElementById('score');
+  sc.textContent=pct+'%';
+  sc.className='score '+(pct>=85?'g':pct>=60?'a':'r');
+  document.getElementById('hit').textContent=hits;
+  document.getElementById('tot').textContent=rows.length;
+  document.getElementById('rlist').innerHTML=rows.map(r=>
+    `<div class="ritem ${r.hit?'hit':'miss'}"><span class="tag">${r.hit?'✓ 命中':'✗ 漏写'}</span><span>${r.t}</span></div>`).join('');
+  document.getElementById('res').classList.add('on');
+  ST.attempts.push(pct);
+  if(pct>=100){ST.mastered[cur.id]=true;const card=document.querySelector(`.card[data-id="${cur.id}"]`);
+    if(card){card.classList.add('ok');const b=card.querySelector('.tap');if(b)b.classList.add('on');}}
+  saveState(ST);renderProgress();renderAvg();
+}
+function renderAvg(){
+  const a=ST.attempts||[];
+  document.getElementById('attempts').textContent=a.length;
+  document.getElementById('avg').textContent=a.length?Math.round(a.reduce((x,y)=>x+y,0)/a.length):0;
+}
+document.getElementById('submit').onclick=judge;
+document.getElementById('nex').onclick=pick;
+document.getElementById('showans').onclick=()=>{
+  if(!cur)return;
+  document.getElementById('rlist').innerHTML=cur.it.a.map(t=>
+    `<div class="ritem" style="background:rgba(77,163,255,.08);color:#cfe3ff"><span class="tag">•</span><span>${t}</span></div>`).join('');
+  document.getElementById('res').classList.add('on');
+};
+document.getElementById('hint').onclick=()=>{
+  if(!cur)return;
+  const h=cur.it.a.map((t,i)=>`${i+1}.${t.replace(/^[①②③④⑤⑥⑦⑧⑨⑩⑪⑫\d\.\s]+/,'').slice(0,1)}○○…`).join('　');
+  const bar=document.getElementById('hintbar');
+  bar.textContent=h;bar.classList.add('on');
+};
+document.getElementById('uans').addEventListener('keydown',e=>{
+  if((e.ctrlKey||e.metaKey)&&e.key==='Enter')judge();
+});
+
+/* 页签 */
+document.querySelectorAll('.tab').forEach(t=>{
+  t.onclick=()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+    document.querySelectorAll('.panel').forEach(x=>x.classList.remove('on'));
+    t.classList.add('on');
+    document.getElementById(t.dataset.p).classList.add('on');
+    window.scrollTo({top:0,behavior:'smooth'});
+    if(t.dataset.p==='p4'&&!cur)pick();
+  };
+});
+document.getElementById('reset').onclick=()=>{
+  if(!confirm('确定清空全部掌握进度和答题记录吗？'))return;
+  ST={mastered:{},attempts:[],open:{}};saveState(ST);
+  document.querySelectorAll('#mods .card').forEach(c=>{c.classList.remove('ok');const b=c.querySelector('.tap');if(b)b.classList.remove('on');});
+  renderProgress();renderAvg();
+};
+
+renderProgress();renderAvg();pick();
+</script>
+</body>
+</html>

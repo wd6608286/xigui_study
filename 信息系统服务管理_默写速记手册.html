@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>信息系统服务管理 · 默写速记手册</title>
+<style>
+:root{
+  --bg:#0e1116; --bg2:#151a21; --bg3:#1c232c; --line:#2a3340;
+  --txt:#e6eaf0; --txt2:#9aa7b8; --txt3:#6b7889;
+  --accent:#4da3ff; --accent2:#7c5cff;
+  --red:#ff5c5c; --green:#2ecc71; --amber:#ffb020; --teal:#00d4aa;
+  --code:'JetBrains Mono','Cascadia Code',Consolas,'Microsoft YaHei',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--txt);
+  font-family:-apple-system,'Segoe UI','Microsoft YaHei',system-ui,sans-serif;
+  font-size:14px; line-height:1.75; padding:0 0 80px;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+
+/* ---------- header ---------- */
+header{
+  background:linear-gradient(135deg,#141b26 0%,#101720 60%,#0e1116 100%);
+  border-bottom:1px solid var(--line); padding:26px 0 20px; margin-bottom:0;
+  position:sticky; top:0; z-index:50; backdrop-filter:blur(8px);
+}
+h1{font-size:21px;font-weight:700;letter-spacing:.5px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+h1 .badge{font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;
+  background:rgba(77,163,255,.14);color:var(--accent);border:1px solid rgba(77,163,255,.35)}
+.sub{color:var(--txt2);font-size:12.5px;margin-top:6px}
+.topbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.tab{
+  padding:7px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;
+  background:var(--bg3);border:1px solid var(--line);color:var(--txt2);transition:.16s;user-select:none;
+}
+.tab:hover{color:var(--txt);border-color:#3a4657}
+.tab.on{background:linear-gradient(135deg,#2b6cb0,#4a3ba8);color:#fff;border-color:transparent;
+  box-shadow:0 3px 14px rgba(77,163,255,.25)}
+.progline{display:flex;align-items:center;gap:12px;margin-top:14px;font-size:12px;color:var(--txt2)}
+.pbar{flex:1;height:6px;background:var(--bg3);border-radius:6px;overflow:hidden;border:1px solid var(--line)}
+.pbar>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--teal));
+  transition:width .35s ease;border-radius:6px}
+.btn{background:var(--bg3);border:1px solid var(--line);color:var(--txt2);border-radius:7px;
+  padding:5px 12px;font-size:12px;cursor:pointer;transition:.15s;font-family:inherit}
+.btn:hover{color:var(--txt);border-color:#455263}
+.btn.pri{background:linear-gradient(135deg,#2b6cb0,#4a3ba8);color:#fff;border-color:transparent}
+
+/* ---------- panels ---------- */
+.panel{display:none;padding-top:26px}
+.panel.on{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+.howto{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:24px}
+.howto h3{font-size:14px;color:var(--accent);margin-bottom:10px;letter-spacing:.5px}
+.howto ol{margin-left:20px;color:var(--txt2);font-size:13px}
+.howto li{margin-bottom:5px}
+.howto b{color:var(--txt)}
+
+/* module */
+.mod{margin-bottom:18px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--bg2)}
+.mod>summary{
+  list-style:none;cursor:pointer;padding:14px 18px;display:flex;align-items:center;gap:12px;
+  background:linear-gradient(90deg,rgba(77,163,255,.07),transparent);font-weight:700;font-size:15px;
+}
+.mod>summary::-webkit-details-marker{display:none}
+.mod>summary .no{
+  font-family:var(--code);font-size:12px;color:#fff;background:linear-gradient(135deg,#2b6cb0,#4a3ba8);
+  padding:2px 8px;border-radius:6px;letter-spacing:.5px
+}
+.mod>summary .cnt{margin-left:auto;font-size:11.5px;color:var(--txt3);font-weight:500}
+.mod>summary .arw{color:var(--txt3);transition:.2s;font-size:12px}
+.mod[open]>summary .arw{transform:rotate(90deg)}
+.modbody{padding:4px 14px 16px}
+
+/* card */
+.card{border:1px solid var(--line);border-radius:10px;margin:12px 0;background:var(--bg3);overflow:hidden}
+.card.ok{border-color:rgba(46,204,113,.45);background:rgba(46,204,113,.05)}
+.chead{padding:11px 14px;display:flex;align-items:flex-start;gap:10px}
+.q{font-weight:650;font-size:13.5px;flex:1;color:#fff}
+.q .n{color:var(--txt3);font-family:var(--code);font-size:11.5px;margin-right:6px}
+.mn{display:flex;gap:7px;flex-wrap:wrap;padding:0 14px 10px}
+.chip{
+  font-family:var(--code);font-size:12px;padding:3px 10px;border-radius:6px;
+  background:rgba(255,176,32,.12);color:var(--amber);border:1px solid rgba(255,176,32,.3);
+  letter-spacing:.6px;white-space:nowrap
+}
+.chip.b{background:rgba(0,212,170,.1);color:var(--teal);border-color:rgba(0,212,170,.3)}
+.chip.p{background:rgba(124,92,255,.13);color:#b39dff;border-color:rgba(124,92,255,.33)}
+.ans{padding:0 14px 14px;display:none}
+.card.open .ans{display:block}
+.card.open .ans{animation:fade .2s ease}
+.ans ol{margin:4px 0 0 22px}
+.ans li{margin-bottom:3px;font-size:13px;color:var(--txt)}
+.ans li em{color:var(--amber);font-style:normal;font-weight:600;background:rgba(255,176,32,.1);
+  padding:0 3px;border-radius:3px}
+.ans .note{margin-top:9px;font-size:12.5px;color:var(--txt2);background:rgba(77,163,255,.07);
+  border-left:3px solid var(--accent);padding:7px 11px;border-radius:0 6px 6px 0}
+.ans .note.warn{background:rgba(255,92,92,.07);border-left-color:var(--red);color:#ffb0b0}
+.cfoot{padding:0 14px 12px;display:flex;gap:8px;align-items:center}
+.mini{font-size:11.5px;padding:4px 10px;border-radius:6px;cursor:pointer;border:1px solid var(--line);
+  background:var(--bg2);color:var(--txt2);font-family:inherit;transition:.15s}
+.mini:hover{color:var(--txt);border-color:#455263}
+.mini.on{background:rgba(46,204,113,.16);color:var(--green);border-color:rgba(46,204,113,.45)}
+
+/* table */
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;
+  background:var(--bg2);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+th{background:var(--bg3);padding:10px 13px;text-align:left;font-size:12.5px;color:var(--accent);
+  font-weight:700;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:9px 13px;border-bottom:1px solid rgba(42,51,64,.6);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:rgba(77,163,255,.045)}
+td.k{font-family:var(--code);color:var(--amber);font-weight:600;white-space:nowrap}
+td.c{font-family:var(--code);color:var(--teal);font-weight:700;text-align:center;white-space:nowrap}
+td.mn{font-family:var(--code);color:#b39dff;white-space:nowrap;font-size:12.5px}
+
+/* quiz */
+.qbox{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:22px;margin-bottom:16px}
+.qstem{font-size:15.5px;font-weight:700;color:#fff;margin-bottom:6px;line-height:1.6}
+.qmeta{font-size:12px;color:var(--txt3);margin-bottom:14px;display:flex;gap:14px;flex-wrap:wrap}
+.qmeta span{font-family:var(--code)}
+textarea{
+  width:100%;min-height:130px;background:var(--bg);border:1px solid var(--line);border-radius:9px;
+  color:var(--txt);padding:12px;font-family:var(--code);font-size:13px;line-height:1.85;resize:vertical;outline:none
+}
+textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(77,163,255,.13)}
+.qactions{display:flex;gap:9px;margin-top:12px;flex-wrap:wrap;align-items:center}
+.result{margin-top:16px;display:none}
+.result.on{display:block;animation:fade .25s}
+.score{font-size:26px;font-weight:800;font-family:var(--code);letter-spacing:-1px}
+.score.g{color:var(--green)} .score.a{color:var(--amber)} .score.r{color:var(--red)}
+.rlist{margin-top:12px;display:flex;flex-direction:column;gap:5px}
+.ritem{display:flex;gap:9px;align-items:flex-start;font-size:13px;padding:5px 9px;border-radius:6px}
+.ritem.hit{background:rgba(46,204,113,.09);color:#b8f0cf}
+.ritem.miss{background:rgba(255,92,92,.09);color:#ffc0c0}
+.ritem .tag{font-family:var(--code);font-size:11px;flex-shrink:0;margin-top:1px}
+.hintbar{font-family:var(--code);font-size:13px;color:var(--teal);letter-spacing:3px;margin-top:8px;
+  background:rgba(0,212,170,.07);border:1px dashed rgba(0,212,170,.35);border-radius:8px;padding:9px 12px;
+  display:none;word-break:break-all;line-height:2}
+.hintbar.on{display:block}
+.stats{display:flex;gap:18px;flex-wrap:wrap;font-size:12.5px;color:var(--txt2)}
+.stats b{color:var(--txt);font-family:var(--code);font-size:15px}
+
+.legend{font-size:12px;color:var(--txt3);margin:8px 0 16px;line-height:1.9}
+.legend code{font-family:var(--code);color:var(--amber);background:rgba(255,176,32,.1);padding:1px 6px;border-radius:4px}
+h2.sec{font-size:16px;margin:26px 0 10px;color:#fff;display:flex;align-items:center;gap:9px}
+h2.sec::before{content:'';width:3px;height:16px;background:linear-gradient(180deg,var(--accent),var(--accent2));border-radius:2px}
+@media(max-width:640px){
+  body{font-size:13px} h1{font-size:17px} .wrap{padding:0 12px}
+  td.mn{display:none} .tab{padding:6px 11px;font-size:12px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1>信息系统服务管理 · 默写速记手册 <span class="badge">系统规划与管理师</span></h1>
+    <div class="sub">口诀是索引，骨架是钩子，默写是检验 —— 三步到位，考场还原标准答案</div>
+    <div class="topbar">
+      <div class="tab on" data-p="p1">📖 骨架 + 口诀</div>
+      <div class="tab" data-p="p2">🔢 数字速查</div>
+      <div class="tab" data-p="p3">⚖️ 易混对比</div>
+      <div class="tab" data-p="p4">✍️ 默写闯关</div>
+      <div class="tab" data-p="p5">📅 复习计划</div>
+    </div>
+    <div class="progline">
+      <span>掌握进度</span>
+      <div class="pbar"><i id="pbar"></i></div>
+      <span id="ptxt">0 / 0</span>
+      <button class="btn" id="reset">重置进度</button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- ============ P1 ============ -->
+<div class="panel on" id="p1">
+  <div class="howto">
+    <h3>为什么这样背最快</h3>
+    <ol>
+      <li><b>先背骨架，不背细节。</b>先把「5大过程 → 每个过程下有几个知识点 → 每个知识点有几条」这棵树刻进脑子。默写时先写编号再填词，条数对了就是及格线，漏条才是主要失分点。</li>
+      <li><b>口诀只用于"调取"，不用于"作答"。</b>口诀是钩子，看到题干先甩出口诀，再顺着口诀一个字一个字展开成标准表述。答题纸上<b>千万不要写口诀</b>。</li>
+      <li><b>数字是最大的记忆锚。</b>「6步/12项/四确定/五交」这类数字，先把数字记住，再用口诀把数字填满，回忆率能提升一倍以上。</li>
+      <li><b>默写检验 > 反复阅读。</b>看三遍不如默一遍。本手册每个条目的答案默认折叠，必须先自己说出来再展开对照。</li>
+    </ol>
+  </div>
+  <div class="legend">
+    标记说明：<code>橙底口诀</code> = 核心记忆钩子 &nbsp;|&nbsp; <code>紫底</code> = 结构分组 &nbsp;|&nbsp; <code>青底</code> = 口诀推导逻辑 &nbsp;|&nbsp; 标 <b>补充</b> 的是你原笔记留空/未列全的部分
+  </div>
+  <div id="mods"></div>
+</div>
+
+<!-- ============ P2 ============ -->
+<div class="panel" id="p2">
+  <h2 class="sec">数字 → 答案 速查表（最高频失分点）</h2>
+  <div class="legend">用法：遮住右列，看数字秒答。答不出来就回「骨架+口诀」页定位。</div>
+  <div id="numtable"></div>
+</div>
+
+<!-- ============ P3 ============ -->
+<div class="panel" id="p3">
+  <h2 class="sec">最容易写混的四组对比</h2>
+  <div class="legend">这四组是阅卷时"看起来对但拿不到分"的重灾区，必须逐字区分。</div>
+
+  <h2 class="sec">① SLA / OLA / UC</h2>
+  <table>
+    <thead><tr><th>名称</th><th>签约双方</th><th>方向</th><th>一句话</th></tr></thead>
+    <tbody>
+      <tr><td class="k">SLA 服务级别协议</td><td>服务提供方 ↔ 客户</td><td class="c" style="color:#ff6b6b">对外承诺</td><td>对客户承诺的服务级别（可用性、响应时限、解决时限）</td></tr>
+      <tr><td class="k">OLA 运营级别协议</td><td>服务提供方 ↔ 内部各支持团队</td><td class="c" style="color:#4da3ff">对内承诺</td><td>内部各团队之间为保证SLA达标而做的相互承诺</td></tr>
+      <tr><td class="k">UC 支持合同</td><td>服务提供方 ↔ 外部供应商</td><td class="c" style="color:#00d4aa">对三方承诺</td><td>与外部供方签订，支撑SLA兑现的底层合同</td></tr>
+    </tbody>
+  </table>
+  <div class="legend">口诀：<code>SLA对外、OLA对内、UC对三方</code> ｜ 逻辑：客户要的(SLA) ← 内部保证的(OLA) ← 供应商兜底的(UC)</div>
+
+  <h2 class="sec">② 与客户回顾（外部）vs 团队内部回顾</h2>
+  <table>
+    <thead><tr><th>维度</th><th>与客户回顾（外部 9 项）</th><th>团队内部回顾（7 项）</th></tr></thead>
+    <tbody>
+      <tr><td class="k">视角</td><td>对客户交账：合同、目标、满意度</td><td>对团队复盘：工单、KPI、排班</td></tr>
+      <tr><td class="k">内容</td><td>①服务合同执行情况 ②服务目标达成情况 ③满意度调查 ④服务范围、工作量 ⑤服务绩效(SLA)、成果 ⑥客户业务需求的变化 ⑦服务中存在的问题及行动计划 ⑧上周期工作计划回顾 ⑨上一次会议行动计划的进展情况</td><td>①上周期工作计划回顾 ②本周期遇到的特殊或疑难工单 ③讨论本周期内未解决的工单 ④各小组工作简报 ⑤本周期问题回顾 ⑥本周期工程师KPI总结（工单量、平均响应时间、平均解决时间、现场支持解决率） ⑦下周期工作计划安排</td></tr>
+    </tbody>
+  </table>
+  <div class="legend">口诀：外部 <code>合目满，范绩需，问计回，上行</code>（9项）｜ 内部 <code>上周回顾 → 本周五件事（疑难单/未解单/小组简报/问题回顾/KPI）→ 下周计划</code></div>
+
+  <h2 class="sec">③ 服务目录管理 6 步 vs 服务规划设计 5 环</h2>
+  <table>
+    <thead><tr><th>链路</th><th>顺序</th><th>易错点</th></tr></thead>
+    <tbody>
+      <tr><td class="k">服务规划设计核心活动</td><td class="mn">服务目录 → 服务需求识别 → 服务级别设计 → SLA → OLA/UC</td><td>先有目录才能谈需求；级别设计在签协议之前</td></tr>
+      <tr><td class="k">服务目录管理步骤</td><td class="mn">成立小组 → 列举清单 → 定类别代码 → 编制详述 → 评审发布 → 完善</td><td>"评审并发布"是第5步不是最后一步，第6步是持续完善</td></tr>
+    </tbody>
+  </table>
+  <div class="legend">提醒：<b>服务目录 ≠ 服务清单</b>。清单只是第②步的产品，目录是带"唯一代码 + 详述 + 发布"的正式基准。</div>
+
+  <h2 class="sec">④ 服务成本四类的判断法</h2>
+  <table>
+    <thead><tr><th>类型</th><th>是不是人力</th><th>项目结束是否消失</th><th>典型例子</th></tr></thead>
+    <tbody>
+      <tr><td class="k">直接人力成本</td><td class="c" style="color:#ffb020">人力</td><td class="c" style="color:#2ecc71">消失</td><td>项目组人员的劳动报酬 + 社保规费 + 福利</td></tr>
+      <tr><td class="k">直接非人力成本</td><td class="c" style="color:#4da3ff">非人力</td><td class="c" style="color:#2ecc71">消失</td><td>为特定项目支出的办公费、差旅费、培训费、业务费、采购费、租赁费</td></tr>
+      <tr><td class="k">间接人力成本</td><td class="c" style="color:#ffb020">人力</td><td class="c" style="color:#ff5c5c">不消失</td><td>服务实施部门管理人员、PMO人员、组织级配置管理/质量保证人员的薪酬分摊</td></tr>
+      <tr><td class="k">间接非人力成本</td><td class="c" style="color:#4da3ff">非人力</td><td class="c" style="color:#ff5c5c">不消失</td><td>公司层面办公场地租金、公共设备折旧、市场推广费用分摊</td></tr>
+    </tbody>
+  </table>
+  <div class="legend">判断口诀：<code>先问是不是人力 → 再问项目结束消不消失</code>；消失=直接，不消失=间接。<br>
+  <b>高频陷阱</b>：公司组织全体人员参加的通用 Office 培训费 → 属于 <b>间接非人力成本</b>（不因某个项目结束而消失），不是直接非人力。</div>
+</div>
+
+<!-- ============ P4 ============ -->
+<div class="panel" id="p4">
+  <div class="howto">
+    <h3>默写闯关 · 判定规则</h3>
+    <ol>
+      <li>系统随机出题，你独立默写，<b>不看答案</b>。</li>
+      <li>提交后按<b>条目命中率</b>给分：每答中一条标准答案中的关键表述即算命中。</li>
+      <li><b>≥85% 通过</b>；60%~85% 需重写；&lt;60% 回「骨架+口诀」页重背。</li>
+      <li>连续两次拿满分的条目会自动在「骨架+口诀」页标为已掌握。</li>
+    </ol>
+  </div>
+  <div class="qbox">
+    <div class="qstem" id="qstem">点击「出题」开始</div>
+    <div class="qmeta">
+      <span id="qmod"></span>
+      <span id="qcnt"></span>
+      <span id="qidx"></span>
+    </div>
+    <textarea id="uans" placeholder="在这里默写你的答案，一条一行更利于判分……"></textarea>
+    <div class="hintbar" id="hintbar"></div>
+    <div class="qactions">
+      <button class="btn pri" id="submit">提交判分</button>
+      <button class="btn" id="nex">出题 / 换题</button>
+      <button class="btn" id="hint">首字提示</button>
+      <button class="btn" id="showans">看标准答案</button>
+    </div>
+    <div class="result" id="res">
+      <div class="score" id="score">0%</div>
+      <div class="stats" style="margin-top:8px">
+        <span>命中 <b id="hit">0</b>/<b id="tot">0</b> 条</span>
+        <span>累计作答 <b id="attempts">0</b> 次</span>
+        <span>平均分 <b id="avg">0</b>%</span>
+      </div>
+      <div class="rlist" id="rlist"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ P5 ============ -->
+<div class="panel" id="p5">
+  <div class="howto">
+    <h3>5 天过一遍 + 3 轮默写 = 稳定默写水平</h3>
+    <ol>
+      <li><b>Day 1（约2.5h）搭骨架。</b>只读「骨架+口诀」页的<b>题干和口诀</b>，不展开答案。目标：白纸画出五大过程的树状图，写出每个知识点的条数。</li>
+      <li><b>Day 1（约1.5h）背口诀。</b>按模块逐个记忆，每个知识点用"口诀 + 逐字展开"法过 3 遍。当天睡前默写第1轮：全部知识点。</li>
+      <li><b>Day 2</b> 只做 Day 1 的错题，再全量默写第2轮。重点攻「数字速查」页里答不出的条目。</li>
+      <li><b>Day 4</b> 全量默写第3轮 + 专攻「易混对比」页的 4 组对比。</li>
+      <li><b>Day 7 / Day 15</b> 各做一次全量默写，只要求"条数全对 + 关键词全中"，不要求逐字一致。</li>
+    </ol>
+    <h3 style="margin-top:16px">考场三个提分技巧</h3>
+    <ol>
+      <li><b>先编号再填词。</b>看到"服务终止计划包括哪些内容"，先写下 ①②③…⑫，再逐条填。条数对了一半分已经到手。</li>
+      <li><b>同类项合并记忆。</b>「人员风险/技术风险/资源风险/过程风险/其他风险」直接复用「服务方案设计四要素：人员、资源、技术、过程」，不必单独背。</li>
+      <li><b>数字前缀锚定。</b>「四确定」「五交」「六方面」「12项」——数字一旦钉住，条目就会自己往外冒。</li>
+    </ol>
+  </div>
+  <h2 class="sec">已掌握清单</h2>
+  <div id="mastered" class="legend">还没有标记任何条目。</div>
+</div>
+
+</div>
+
+<script>
+/* =========================================================
+   数据：题干 q / 口诀 chips / 标准答案 a / 备注 note
+   ========================================================= */
+const MODULES = [
+{
+  no:'00', name:'总览 · 信息系统服务管理的过程（生命周期）',
+  items:[
+    { q:'信息系统服务管理的过程（5个，含贯穿项）',
+      chips:[{t:'规—设—运—退，改进贯穿',c:''}],
+      a:['服务战略规划','服务设计实现','服务运营提升','服务退役终止','持续改进与监督（贯穿全生命周期）'],
+      note:'类比人的一生：出生前规划 → 成长中设计 → 工作期运营 → 退休时退役，而"体检与锻炼"（持续改进）贯穿始终。'
+    },
+    { q:'四个阶段各自的核心任务（一句话）',
+      chips:[{t:'规划建蓝图 · 设计备交付 · 运营提质效 · 退役保平安',c:'b'}],
+      a:['服务战略规划：识别客户服务需求，进行规划设计，形成服务目录、服务级别要求及 SLA/OLA/UC',
+         '服务设计实现：兑现服务承诺，围绕服务模式、人员、资源、技术、过程进行整体设计，使服务具备交付条件',
+         '服务运营提升：持续改进服务质量、改善客户感受，或降低服务成本、提升服务效率',
+         '服务退役终止：服务生命周期最后阶段，开展终止计划、沟通评审、移交、风险控制、资源回收等'],
+      note:'记忆钩子：规划 = 定卖什么；设计 = 造好交付能力；运营 = 干活并优化；退役 = 有序收摊。'
+    }
+  ]
+},
+{
+  no:'01', name:'服务战略规划 · 规划设计',
+  items:[
+    { q:'服务规划设计核心活动（5环链条，顺序不能乱）',
+      chips:[{t:'目录 → 需求 → 级别 → 协议 → 支持',c:''}],
+      a:['服务目录','服务需求识别','服务级别设计','服务级别协议（SLA）','运营级别协议（OLA）/ 支持合同（UC）'],
+      note:'口诀展开逻辑：先摆"货架"（目录）→ 再"问诊"（需求识别）→ 再"定档"（级别设计）→ 再"对外签约"（SLA）→ 最后"对内/对三方兜底"（OLA/UC）。'
+    },
+    { q:'服务目录管理活动的一般步骤（6步）及核心动作',
+      chips:[{t:'组—单—类—详—审—完',c:''},{t:'组团拉清单，分类编详述，评审再发布，完善不停步',c:'b'}],
+      a:['①成立管理小组：市场销售 + 规划管理 + 服务工程师，保证视角全面',
+         '②列举服务清单：当前提供的 + 准备开展的',
+         '③确定服务类别与代码：按技术维度或服务性质维度分类，赋予唯一代码',
+         '④编制服务详述：服务内容、目标、级别、技术实现方法',
+         '⑤评审并发布：内部评审通过后发布，作为交付和管理基准',
+         '⑥完善服务目录：持续改进，保持与供方服务能力一致'],
+      note:'易错：第⑤步是"评审<b>并</b>发布"，一起写才算完整；第⑥步"完善"常被漏掉，是送分条。'
+    },
+    { q:'服务需求识别的内容（6项）',
+      chips:[{t:'可—连—能—安—价—报',c:''},{t:'可怜能安家报',c:'p'}],
+      a:['可用性需求','连续性需求','服务能力需求','信息安全需求','价格需求','服务报告需求'],
+      note:'谐音口诀：<b>可怜（可/连）能安家报（安/价/报）</b> —— "可怜的人也能安家、报平安"。'
+    },
+    { q:'典型服务报告的内容（5项）',
+      chips:[{t:'绩—绩—量—趋—未',c:''},{t:'两个绩效 + 一个工作量 + 趋势 + 未来',c:'b'}],
+      a:['服务绩效','主要工作绩效','工作特点与工作量','趋势信息','未来计划'],
+      note:'注意前两项都是"绩效"但不同：<b>服务绩效</b>指 SLA 达成情况；<b>主要工作绩效</b>指本期重点工作成果。'
+    },
+    { q:'SLA / OLA / UC 三者的区别',
+      chips:[{t:'SLA对外 · OLA对内 · UC对三方',c:''}],
+      a:['SLA 服务级别协议：服务提供方与客户之间签订，对外承诺服务级别',
+         'OLA 运营级别协议：服务提供方内部各支持团队之间的承诺，支撑 SLA 达成',
+         'UC 支持合同：服务提供方与外部供应商之间签订，为 SLA/OLA 提供底层支撑'],
+      note:'答题时务必点出"签约主体不同"这一得分点。'
+    }
+  ]
+},
+{
+  no:'02', name:'服务设计实现 · 服务方案设计',
+  items:[
+    { q:'服务方案设计的内容（5要素）',
+      chips:[{t:'模式 + PPTR',c:''},{t:'模人资技过',c:'p'}],
+      a:['服务模式','人员要素','资源要素','技术要素','过程要素'],
+      note:'<b>PPTR</b> = People 人员 / Process 过程 / Technology 技术 / Resource 资源，行业通用记忆锚。'
+    },
+    { q:'服务模式的种类及选择注意要点',
+      chips:[{t:'远程看屏，现场见人',c:''}],
+      a:['远程服务：远程集中监控、远程技术支持',
+         '现场服务：上门技术支持、驻场技术支持',
+         '选择注意要点：结合客户需求与服务内容、服务级别要求、服务成本、响应时效要求、服务对象分布（集中/分散）、技术手段可行性综合权衡'],
+      note:'两类各含 2 种，共 4 种，不要只写"远程/现场"两个字。选择要点为教材补充，答题时能写出 3 条以上即可。'
+    },
+    { q:'人员要素设计的内容（3方面）',
+      chips:[{t:'岗—绩—培',c:''}],
+      a:['人员岗位和职责设计','人员绩效方案设计','人员培训方案设计'],
+      note:'记忆：<b>定岗、定绩效、定培训</b> —— 先有人做事，再考核，再提升。'
+    },
+    { q:'人员绩效方案设计的主要活动（5项）',
+      chips:[{t:'依—源—算—周—策',c:''},{t:'依源算周策',c:'p'}],
+      a:['①确定绩效指标：依据岗位职责差异定义不同绩效管理目标',
+         '②明确考核信息来源：确定考核范围、来源及采集方式，如故障日志、客户满意度反馈等',
+         '③制定绩效指标计算方法：根据考核信息数据性质设置关键参数和计算公式',
+         '④定义绩效考核周期：按岗位职责和工作性质设置季度、半年、年度等周期',
+         '⑤设计绩效考核策略：针对指标及达成情况设计考核策略，并通过结果公开和反馈发挥引导激励作用'],
+      note:'展开逻辑链：<b>考什么（依据）→ 数据从哪来（来源）→ 怎么算（方法）→ 多久考一次（周期）→ 结果怎么用（策略）</b>。'
+    },
+    { q:'资源要素设计的内容（4项）',
+      chips:[{t:'工—台—件—知',c:''}],
+      a:['服务工具','服务台','备件库','知识库'],
+      note:'四者分工：工具=自动化能力，服务台=统一联系点，备件库=硬件兜底，知识库=经验沉淀。'
+    },
+    { q:'服务工具设计的种类（3类）',
+      chips:[{t:'监—过—其',c:''}],
+      a:['监控类工具','过程管理类工具','其他工具'],
+      note:'注意：<b>服务台不属于服务工具</b>，它是统一联系点，与工具并列。这是高频陷阱题。'
+    },
+    { q:'服务台设计的内容',
+      chips:[{t:'渠道 + 专人 + 整合与制度',c:''}],
+      a:['沟通渠道','专人处理','针对沟通渠道整合服务过程，建立管理制度'],
+      note:'服务台本质是"统一联系点（SPOC）"，核心是"多渠道汇聚 + 专人受理 + 流程整合 + 制度约束"。'
+    },
+    { q:'备件及备件库设计的注意要点（4项）',
+      chips:[{t:'响—供—出—可',c:''}],
+      a:['备件响应方式和级别','备件供应商管理','备件出入库管理','备件可用性管理'],
+      note:'口诀谐音：想（响）供（供应商）出（出入库）壳（可用）—— "想供货，先出壳"。'
+    },
+    { q:'知识库设计的注意要点（5项）',
+      chips:[{t:'建—共—略—能—制',c:''}],
+      a:['针对常见问题的描述、分析和解决方法建立知识库',
+         '确保整个组织内的知识是可用的、可共享的',
+         '选择一种合适的知识管理策略',
+         '知识库具备知识的添加、更新和查询功能',
+         '针对知识管理要求制定相关管理制度，并进行知识生命周期管理'],
+      note:'答题顺序建议：建库 → 共享 → 定策略 → 保功能 → 立制度（含生命周期）。'
+    },
+    { q:'技术要素设计的内容（3方面）',
+      chips:[{t:'研发 → 发现 → 解决',c:''}],
+      a:['技术研发','发现问题的技术','解决问题的技术'],
+      note:'扩展细节：技术研发＝估算研发成本、编制预算；发现问题的技术＝制定监控指标及阈值表、制订测试环境建设计划；解决问题的技术＝制定 SOP、制定应急预案、完成知识转移。'
+    },
+    { q:'过程要素设计的内容',
+      chips:[{t:'目—活—指',c:''}],
+      a:['目的','主要活动及关键指标'],
+      note:'补充：教材中的八大服务过程为 —— 服务级别管理、服务报告管理、事件管理、问题管理、配置管理、变更管理、发布管理、安全管理。<br>口诀：<b>级报事件问题，配置变更发布安全</b>。'
+    }
+  ]
+},
+{
+  no:'03', name:'服务运营提升',
+  items:[
+    { q:'服务运营提升包括的内容（5项）',
+      chips:[{t:'关—营—成—预算—外包',c:''},{t:'关系营销抓客户，成本预算算清账，外包借力提效率',c:'b'}],
+      a:['业务关系管理','服务营销管理','服务成本度量','服务项目预算、核算和结算','服务外包收益'],
+      note:'这一层是"管关系 + 管营销 + 管钱 + 借外力"，四大动作一个不能少。'
+    },
+    { q:'业务关系管理的内容（3类）',
+      chips:[{t:'客—供—三',c:''}],
+      a:['客户关系管理','供应商关系管理','第三方关系管理'],
+      note:'第三方指监理、审计、主管部门等既非客户也非供应商的相关方。'
+    },
+    { q:'客户关系管理的主要活动（7项）',
+      chips:[{t:'两沟通 · 一拜访 · 三管理 · 一增值',c:''},{t:'定日拜，投表满，增值',c:'p'}],
+      a:['定期沟通','日常沟通','高层拜访','投诉管理','表扬管理','满意度调查','增值服务'],
+      note:'数数法：<b>2个沟通 + 1个拜访 + 3个管理（投诉/表扬/满意度）+ 1个增值 = 7</b>。'
+    },
+    { q:'增值服务的原则（4条）',
+      chips:[{t:'一不影响 · 两贴合 · 三可承受 · 四能引申',c:''}],
+      a:['不能影响现有协议约定的服务内容','贴合客户需要','投入在可接受范围','自身有能力对增值服务内容进行引申'],
+      note:'每条都隐含一个前提：<b>不能破坏 SLA、不能亏本、不能吹牛</b>。'
+    },
+    { q:'供应商关系管理的活动（5项）',
+      chips:[{t:'选—审—协—争—合',c:''}],
+      a:['供应商选择 / 推荐','供应商审核及管理','供应商间协调','争议处理','支持合同管理'],
+      note:'口诀谐音：<b>选审协争合</b> —— "先选后审，再协调争议，最后管好合同"。'
+    },
+    { q:'供应商选择可重点考察的方面（约11项）',
+      chips:[{t:'资人客质流技扩道压竞评',c:''},{t:'财力 · 人力 · 业绩 · 资质 · 能力 · 关系',c:'p'}],
+      a:['注册资本','人员规模/学历/专业构成','已有客户规模','信息系统服务及信息安全资质','服务流程规范性和支持体系','工程师技术水平及业界认证','服务范围可扩展性','人员能力体系与发展通道','突发压力下扩展能力','与自身业务的竞争性/互补性','业界评价'],
+      note:'分组记忆更稳：<b>①财务（注册资本）②人员（规模学历专业、能力体系与通道）③业绩口碑（客户规模、业界评价）④资质（服务及信息安全资质）⑤能力体系（流程规范性、技术水平与认证、范围可扩展、突发压力扩展）⑥关系（竞争性/互补性）</b>。'
+    },
+    { q:'供应商审核可从哪 6 个方面进行',
+      chips:[{t:'响应能力 · 解决能力 · 解决效率 + 人员稳定性 · 客户反馈 · 合作氛围',c:''},{t:'三能力效率 + 三人和关系',c:'b'}],
+      a:['响应能力','问题解决能力','问题解决效率','人员稳定性','客户反馈','合作氛围'],
+      note:'前3项考"能不能干、干得快不快"，后3项考"人稳不稳、客户满不满意、配合顺不顺"。'
+    },
+    { q:'第三方关系管理的活动（5项）',
+      chips:[{t:'两沟通 + 信息5W1H + 协调 + 配合支持',c:''}],
+      a:['定期沟通','日常沟通','信息收集分享（5W1H）','第三方关系协调','配合支持第三方工作'],
+      note:'<b>5W1H</b> = Who 谁 / What 什么 / When 何时 / Where 何地 / Why 为什么 / How 如何，是信息收集分享的结构化工具。'
+    },
+    { q:'服务营销管理的阶段和过程（4阶段）',
+      chips:[{t:'启—调—能—达',c:''},{t:'启调能达',c:'p'}],
+      a:['启动准备阶段：内部立项、组建团队、准备服务产品与案例材料',
+         '调研交流阶段：了解客户现状与需求，开展技术交流，形成持续沟通计划',
+         '能力展示阶段：准备服务产品演示环境与典型案例，现场展示并设置互动，必要时邀请客户到现有服务项目现场考察',
+         '服务达成阶段：准备 SLA 草案（明确服务范围、服务级别指标、双方责任、违约条款），协商一致后正式签订，并持续服务、挖掘新需求'],
+      note:'<b>顺序绝对不能乱</b>：先调研理解需求，再展示能力，最后才谈签约。写成"展示→调研→签约→准备"是典型顺序错位，直接扣分。'
+    },
+    { q:'信息系统服务成本包括哪些（4类）',
+      chips:[{t:'直接/间接 × 人力/非人力',c:''},{t:'2×2矩阵，四类成本',c:'b'}],
+      a:['直接人力成本：直接参与服务项目人员的劳动报酬、社保规费、福利',
+         '直接非人力成本：为达成特定项目目标所支付的非人力费用，如办公费、差旅费、培训费、业务费、采购费、租赁费',
+         '间接人力成本：非项目组人员的费用分摊，如服务实施部门管理人员、PMO人员、组织级配置管理/质量保证人员',
+         '间接非人力成本：与达成项目目标相关但不直接服务于特定项目的非人力费用，如办公场地租金、公共设备折旧、市场推广费分摊'],
+      note:'<b>总成本 = 四类分项之和。</b>判断两步走：是不是人力？→ 项目结束是否消失？消失=直接，不消失=间接。<br>陷阱：公司全体人员参加的通用培训费 → <b>间接非人力成本</b>。'
+    },
+    { q:'服务成本度量的方法',
+      chips:[{t:'经验法（快但不准）· 科学度量法（准但要因子）',c:''}],
+      a:['传统经验法：工作任务分解 → 专家估算各任务工作量 → 加和得到总工作量 → 按人力费率确定总成本',
+         '科学度量法：直接人力成本按实际工作量与单位人力价格计算；间接成本与直接人力成本高度相关，按约定比例分摊；直接非人力成本按项目实际需求单独计算',
+         '科学度量需考虑三类调整因子：服务要求（SLA级别、响应时间、服务能力）、交付能力（团队成熟度、自动化工具应用水平）、服务对象和业务特征（客户行业、业务系统复杂度）'],
+      note:'经验法两大弊端：准确度完全依赖专家经验；过程是"黑盒子"，难以客观科学达成一致。'
+    },
+    { q:'服务项目预算的目的（8项）',
+      chips:[{t:'计意协分，责权控评',c:''}],
+      a:['形成资金使用计划','交流资金使用意图','协调资金使用活动','便于资源分配','提供责任计算框架','费用开支授权','建立资金控制系统','评估资金使用效果'],
+      note:'这是本条最强口诀，8 个字对 8 条：<b>计（计划）意（意图）协（协调）分（分配）｜ 责（责任框架）权（授权）控（控制系统）评（效果评估）</b>。'
+    },
+    { q:'服务项目预算制定的 3 步',
+      chips:[{t:'项—段—表',c:''}],
+      a:['识别项目预算收入项与开支项','划分信息系统服务项目执行阶段','形成预算表'],
+      note:'口诀谐音：项段表 → "想断表"。数量少，但常作为排序题出现。'
+    },
+    { q:'服务项目核算的目的（4项）',
+      chips:[{t:'知盈亏 · 调资源 · 控成本 · 优预算',c:''}],
+      a:['随时掌握收入、开支和盈亏状态','为及时调整资源分配提供依据','寻找成本控制改进方法','改进预算编制方法、提高预算准确性'],
+      note:'前两条是"看清楚现状"，后两条是"反哺改进"，分两组记。'
+    },
+    { q:'服务项目核算的主要工作（3项）',
+      chips:[{t:'表—源—析',c:''}],
+      a:['编制核算记录表：先流水表，再汇总表',
+         '资源使用核算：统计人员、备件、硬件设备、软件工具、场地设施等可用资源',
+         '核算分析与总结：检查预算开支项、资金/资源分配、时间分布、核算范围、数据准确性、亏损/超预算情况，并分析成本降低方案'],
+      note:'核算三件事：<b>记账（表）→ 盘资源（源）→ 做分析（析）</b>。'
+    },
+    { q:'服务外包的收益（6项）',
+      chips:[{t:'省—快—稳—专—简—满',c:''},{t:'成本效益 · 效率提升 · 降低风险 · 专注主营 · 管理简单 · 提升满意度',c:'b'}],
+      a:['成本效益：按需采购、按需付费，减少招聘、培养、管理等隐性成本，并获得专业IT服务',
+         '效率提升：借助外包商人员稳定、技能储备、新技术和先进管理体系，提高信息技术服务能力与效率',
+         '降低风险：利用外包商长期服务积累的成熟风险控制与应对能力',
+         '专注于主营业务：把基础、重复性运维工作交给专业服务商，让组织将主要精力投入主营业务',
+         '管理简单：减少多支持团队之间复杂协调与职责推诿，通过结果考核简化管理',
+         '提升满意度：借助成熟服务体系改善响应、效率、主动服务、风险抵御和服务体验，提高客户满意度'],
+      note:'六字口诀：<b>省（成本）快（效率）稳（风险）专（主业）简（管理）满（满意）</b>。'
+    }
+  ]
+},
+{
+  no:'04', name:'服务退役终止',
+  items:[
+    { q:'服务退役终止阶段，系统规划与管理师主要负责的工作',
+      chips:[{t:'会—计—评—收—整',c:''}],
+      a:['组织召开评审会议','制订服务退役/终止计划','评估服务终止风险','释放并回收资源','整理项目数据和资料，并保证信息安全和交接顺利'],
+      note:'口诀谐音：<b>会（开会）计（计划）评（评风险）收（收资源）整（整资料）</b>。'
+    },
+    { q:'沟通管理的会议类型（4类）',
+      chips:[{t:'编—审—移—验',c:''},{t:'编制 → 评审 → 移交 → 经验交流',c:'b'}],
+      a:['服务终止计划编制会议','服务终止计划评审会议','移交会议','经验交流会'],
+      note:'这是退役阶段四步曲的时间线，顺序即考点。'
+    },
+    { q:'服务终止计划应包括的内容（12项）',
+      chips:[{t:'条件目标时 · 职责控约束 · 活动里程标 · 接口安全决',c:''}],
+      a:['①服务终止适用的条件',
+         '②服务终止的目标与成功要素',
+         '③其他各方执行流程的控制',
+         '④所有相关方的角色与职责，如需方、外部供方、内部团队',
+         '⑤约束、风险与问题',
+         '⑥里程碑和交付物',
+         '⑦活动分解和每个活动的描述',
+         '⑧约定的服务终止与责任终止的完成标准',
+         '⑨服务对需方不再有效的时间、服务终止时间',
+         '⑩要终止的服务与其他服务之间的接口将如何由其他服务处理',
+         '⑪安排信息安全审查，包括敏感信息删除等',
+         '⑫确保悬而未决的事件、问题、用户请求和变更请求已与需方达成共识，并明确由此产生的行动'],
+      note:'四句口诀各对 3 条，共 12 条：<br>「条件目标时」= ①条件 ②目标与成功要素 ⑨时间<br>「职责控约束」= ④角色职责 ③其他方流程控制 ⑤约束风险问题<br>「活动里程标」= ⑦活动分解 ⑥里程碑交付物 ⑧完成标准<br>「接口安全决」= ⑩接口 ⑪信息安全审查 ⑫未决事项<br><b>考场先写 ①~⑫ 编号再填</b>，条数是最大得分点。'
+    },
+    { q:'服务终止计划评审的注意事项（5项）',
+      chips:[{t:'五项都是"定"：定责任 · 定任务 · 定三方 · 定会议 · 定批准',c:''}],
+      a:['共同评审计划并明确各方责任','确定全部任务分配','明确需通知/联系的第三方（如外部供应商、财务部门）','确定移交会议涉及的部门、人员和议程','取得供需双方高层批准及各利益相关方接受'],
+      note:'最后一条是"闭环条"，最容易漏，务必写上"取得高层批准及利益相关方接受"。'
+    },
+    { q:'移交会议的内容（5项，"五交"）',
+      chips:[{t:'文—知—技—基—模',c:''}],
+      a:['文件信息移交','知识移交','技能移交','基线移交','模拟环境移交'],
+      note:'"五交"记忆：<b>文交、知交、技交、基交、环交</b>。注意"基线移交"和"模拟环境移交"最容易被漏掉。'
+    },
+    { q:'服务退役阶段的主要风险（4类）',
+      chips:[{t:'数—连—法—安',c:''}],
+      a:['数据风险','业务连续性风险','法律法规风险','信息安全风险'],
+      note:'口诀谐音：<b>数连法安</b>。答题时可各配一句：数据丢失/迁移失败、业务中断、合同与合规违约、敏感信息泄露。'
+    },
+    { q:'资源回收的类型（4类）',
+      chips:[{t:'文—财—人—基',c:''}],
+      a:['文件归档','财务资源回收','人力资源回收','基础设施资源回收'],
+      note:'顺序即逻辑：先归档留痕，再结清钱，再安置人，最后收回设备设施。'
+    }
+  ]
+},
+{
+  no:'05', name:'持续改进与监督（贯穿全生命周期）',
+  items:[
+    { q:'持续改进与监督的主要活动内容（5项）',
+      chips:[{t:'险—测—质—回—改',c:''},{t:'防风险 · 做测量 · 管质量 · 勤回顾 · 促改进',c:'b'}],
+      a:['服务风险管理：识别和控制影响服务目标实现的不确定性',
+         '服务测量：获得与服务交付相关的数据，为服务改进提供基础',
+         '服务质量管理：通过质量策划、检查和改进保证服务满足需求',
+         '服务回顾：周期性回顾测量数据、服务质量及客户需求变化',
+         '服务改进：持续提升服务管理能力的有效性和效率'],
+      note:'这5项构成一个闭环：<b>控住风险 → 拿到数据 → 管好质量 → 定期复盘 → 落实改进</b>。'
+    },
+    { q:'服务风险的内容（5类）',
+      chips:[{t:'人员 · 技术 · 资源 · 过程 + 其他',c:''},{t:'复用服务方案四要素 + 其他',c:'p'}],
+      a:['人员风险','技术风险','资源风险','过程风险','其他风险'],
+      note:'<b>联动记忆</b>：服务方案设计四要素是"服务模式、人员、资源、技术、过程"，去掉"服务模式"再加"其他"，就是服务风险的 5 类。学会用一条背两条。'
+    },
+    { q:'服务测量指标（人员 / 资源 / 技术 / 过程四类）',
+      chips:[{t:'人—资—技—过',c:''}],
+      a:['人员测量：人员知识技能水平、人员稳定性、人员绩效达成情况',
+         '资源测量：服务工具可用性与覆盖率、服务台接通率与受理量、备件库满足率、知识库利用率与更新率',
+         '技术测量：监控覆盖率、故障主动发现率与及时率、技术方案有效性',
+         '过程测量：SLA 达成率、事件解决率与平均解决时长、问题根因关闭率、变更成功率、配置项准确率'],
+      note:'教材补充项。记忆锚：<b>人看"能力与稳定"，资源看"可用与满足率"，技术看"发现与覆盖"，过程看"SLA与解决率"</b>。'
+    },
+    { q:'服务质量管理 · 服务评价模型的特性（一级 5 项 + 二级 16 项）',
+      chips:[{t:'安—可—响—有—友',c:''},{t:'可完保 / 完连稳有追 / 及互 / 可专合 / 主灵礼',c:'p'}],
+      a:['安全性：可用性、完整性、保密性',
+         '可靠性：完备性、连续性、稳定性、有效性、可追溯性',
+         '响应性：及时性、互动性',
+         '有形性：可视性、专业性、合规性',
+         '友好性：主动性、灵活性、礼貌性'],
+      note:'一级特性口诀：<b>安可响有友</b>（谐音"安可想拥有朋友"）。<br>二级数量分布 <b>3 - 5 - 2 - 3 - 3 = 16</b>，记住"三五二三三"就不会漏条。<br>二级口诀：安全性 <b>可完保</b>；可靠性 <b>完连稳有追</b>；响应性 <b>及互</b>；有形性 <b>可专合</b>；友好性 <b>主灵礼</b>。'
+    },
+    { q:'服务质量评价的一般步骤（4步）',
+      chips:[{t:'需—选—评—级',c:''}],
+      a:['确定需求','指标选型','实施评价','评价结果分级'],
+      note:'口诀谐音：<b>需选评级</b> —— "先想清楚要评什么，再选指标，再评，再分级"。'
+    },
+    { q:'服务质量管理活动的内容（3项）',
+      chips:[{t:'策—检—改',c:''}],
+      a:['服务质量策划：事先确定服务质量目标、活动、职责权限、时间安排并形成质量策划文件',
+         '服务质量检查：按照策划和质量计划对各阶段服务质量实施检查，并客观记录结果',
+         '服务质量改进：结合服务现状和能力水平确定改进方向及目标，安排人员落实并持续跟踪'],
+      note:'本质是质量管理 PDCA：<b>策划(P) → 检查(C/A) → 改进(A)</b>。'
+    },
+    { q:'服务质量策划的重点 —— "四确定"',
+      chips:[{t:'定目标活动 · 定职责权限 · 定时间频率 · 定并发布文件',c:''}],
+      a:['确定服务质量目标及相应质量活动','确定服务质量管理相关职责和权限','确定时间安排或活动频率/周期','确定并正式发布质量策划文件'],
+      note:'前缀都是"确定"，最后一条是"确定<b>并正式发布</b>"，这个"发布"是得分点。'
+    },
+    { q:'常见的服务质量实施和检查活动（6项）',
+      chips:[{t:'一调查 · 一保证 · 双审 · 双日常',c:''}],
+      a:['满意度调查','项目质量保证工作','内审','管理评审','日常检查','质量文化培训等'],
+      note:'6项分组：<b>满意度调查 + 项目质量保证 + 内审 + 管理评审 + 日常检查 + 质量文化培训</b>。'
+    },
+    { q:'与客户回顾（外部回顾）主要包括哪些内容',
+      chips:[{t:'合目满 · 范绩需 · 问计回 · 上行',c:''}],
+      a:['服务合同执行情况','服务目标达成情况','满意度调查','服务范围、工作量','服务绩效（SLA）、成果','客户业务需求的变化','服务中存在的问题及行动计划','上周期工作计划回顾','上一次会议行动计划的进展情况'],
+      note:'共 9 项。开头 3 项是"向客户交账"（合同/目标/满意度），中间 2 项是"量成果"（范围工作量/绩效成果），再 1 项是"听变化"，最后 3 项是"问题闭环 + 两次回顾"（上周期计划、上次会议行动计划）。'
+    },
+    { q:'团队内部回顾主要包括哪些内容',
+      chips:[{t:'上周回顾 → 本周五件事 → 下周计划',c:''}],
+      a:['上周期工作计划回顾','本周期遇到的特殊或疑难工单','讨论本周期内未解决的工单','各小组工作简报','本周期问题回顾','本周期工程师KPI总结，如工单量、平均响应时间、平均解决时间、现场支持解决率','下周期工作计划安排'],
+      note:'共 7 项。按时间轴记：<b>上周（1项）→ 本周（5项：疑难单、未解单、小组简报、问题回顾、KPI）→ 下周（1项）</b>。<br>KPI 四个常用指标：<b>工单量 / 平均响应时间 / 平均解决时间 / 现场支持解决率</b>。'
+    },
+    { q:'服务改进的内容与实施路径',
+      chips:[{t:'设—实—验',c:''},{t:'人员 · 技术 · 资源 · 过程 四要素',c:'b'}],
+      a:['服务改进通过管理方针、管理目标、审核结果、服务测量、服务回顾、客户满意度、投诉管理和管理评审等活动，持续提升服务管理能力的有效性和效率',
+         '按生命周期管理：服务改进设计 → 服务改进实施 → 服务改进验证',
+         '涉及人员、技术、资源、过程四要素'],
+      note:'"改进的依据"有 8 个来源（方针、目标、审核结果、服务测量、服务回顾、客户满意度、投诉管理、管理评审），"改进的路径"是设计→实施→验证三步。'
+    },
+    { q:'服务改进计划的内容（6部分）',
+      chips:[{t:'介—基—描—方—责—回',c:''}],
+      a:['文档介绍：文档简介、文档目的',
+         '活动基本信息：改进活动名称、负责人、团队成员、计划起止时间、主要预期成果',
+         '服务改进描述：改进动机、改进目标、涉及范围',
+         '服务改进方案：总体方案和进度安排、各阶段活动、预算和资源安排',
+         '角色和职责：角色、职责、活动',
+         '服务改进回顾：主要衡量标准、改进回顾团队、时间安排'],
+      note:'六段式结构，写论文/案例时可直接照搬这个目录做小标题。'
+    },
+    { q:'服务改进实施的四要素措施',
+      chips:[{t:'人员：提素改体调例调构',c:''},{t:'资源：一保障 + 四优化',c:'p'},{t:'技术：规研发 · 优成果 · 善文档 · 改预案 · 新指标',c:''},{t:'过程：善旧 · 建新 · 调考核 · 树形象 · 添新服 · 给报表',c:''}],
+      a:['人员措施：提高IT人员素质；改善人员管理体制；调整人员储备比例；调整人员和岗位结构',
+         '资源措施：保障各类资源支撑业务；持续完善IT工具；优化服务台管理制度；优化知识库管理制度；优化备件库管理制度',
+         '技术措施：重新规划和改进技术研发计划；技术成果优化；完善技术文档；改进应急预案；更新监控指标及阈值',
+         '过程措施：完善现有过程；建立新的服务管理过程；调整过程考核指标；提升对外服务形象；提供新的服务；为业务部门提供管理报表'],
+      note:'四个要素的措施可以互相"串"：<br><b>人员</b>＝素质 + 体制 + 储备比例 + 岗位结构（"提、改、调、调"）<br><b>资源</b>＝1个保障（资源支撑业务）+ 4个优化（IT工具、服务台、知识库、备件库制度）<br><b>技术</b>＝重新规划研发 + 成果优化 + 完善文档 + 改进预案 + 更新监控指标阈值<br><b>过程</b>＝善旧 + 建新 + 调考核 + 树形象 + 添新服务 + 给报表'
+    }
+  ]
+}
+];
+
+/* =========================================================
+   渲染：骨架 + 口诀
+   ========================================================= */
+const LS='itsm_v1';
+function loadState(){try{return JSON.parse(localStorage.getItem(LS))||{}}catch(e){return{}}}
+function saveState(s){try{localStorage.setItem(LS,JSON.stringify(s))}catch(e){}}
+let ST=loadState();
+if(!ST.mastered)ST.mastered={};
+if(!ST.attempts)ST.attempts=[];
+if(!ST.open)ST.open={};
+
+let QIDX=[]; // 扁平索引
+{
+  const box=document.getElementById('mods');
+  MODULES.forEach((m,mi)=>{
+    const d=document.createElement('details');
+    d.className='mod'; d.open=true;
+    const total=m.items.length;
+    d.innerHTML=`<summary><span class="no">${m.no}</span><span>${m.name}</span><span class="cnt">${total} 个考点</span><span class="arw">▶</span></summary><div class="modbody"></div>`;
+    const body=d.querySelector('.modbody');
+    m.items.forEach((it,ii)=>{
+      const id=`${mi}-${ii}`;
+      QIDX.push({id,mi,ii,m,it});
+      const c=document.createElement('div');
+      c.className='card'+(ST.mastered[id]?' ok':'');
+      c.dataset.id=id;
+      c.innerHTML=`
+        <div class="chead"><div class="q"><span class="n">${m.no}.${ii+1}</span>${it.q}</div></div>
+        <div class="mn">${it.chips.map(x=>`<span class="chip ${x.c||''}">${x.t}</span>`).join('')}</div>
+        <div class="ans"><ol>${it.a.map(t=>`<li>${t}</li>`).join('')}</ol>${it.note?`<div class="note">${it.note}</div>`:''}</div>
+        <div class="cfoot">
+          <button class="mini tog">展开答案</button>
+          <button class="mini tap">标记已掌握</button>
+          <span style="font-size:11.5px;color:var(--txt3);margin-left:auto">共 ${it.a.length} 条</span>
+        </div>`;
+      body.appendChild(c);
+    });
+    box.appendChild(d);
+  });
+}
+
+document.addEventListener('click',e=>{
+  const card=e.target.closest('.card'); if(!card)return;
+  if(e.target.classList.contains('tog')){
+    card.classList.toggle('open');
+    e.target.textContent=card.classList.contains('open')?'收起答案':'展开答案';
+  }
+  if(e.target.classList.contains('tap')){
+    const id=card.dataset.id;
+    ST.mastered[id]=!ST.mastered[id];
+    card.classList.toggle('ok',!!ST.mastered[id]);
+    e.target.classList.toggle('on',!!ST.mastered[id]);
+    saveState(ST);renderProgress();
+  }
+});
+// 展开全部 / 折叠全部
+{
+  const bar=document.createElement('div');
+  bar.style.cssText='display:flex;gap:8px;margin:0 0 14px';
+  bar.innerHTML=`<button class="btn" id="expandAll">全部展开答案</button>
+                 <button class="btn" id="collapseAll">全部折叠（纯回忆模式）</button>
+                 <button class="btn" id="markAll">全部标记已掌握</button>`;
+  document.getElementById('mods').before(bar);
+  bar.querySelector('#expandAll').onclick=()=>document.querySelectorAll('#mods .card').forEach(c=>{c.classList.add('open');const b=c.querySelector('.tog');if(b)b.textContent='收起答案';});
+  bar.querySelector('#collapseAll').onclick=()=>document.querySelectorAll('#mods .card').forEach(c=>{c.classList.remove('open');const b=c.querySelector('.tog');if(b)b.textContent='展开答案';});
+  bar.querySelector('#markAll').onclick=()=>{
+    QIDX.forEach(x=>ST.mastered[x.id]=true);saveState(ST);
+    document.querySelectorAll('#mods .card').forEach(c=>{c.classList.add('ok');const b=c.querySelector('.tap');if(b)b.classList.add('on');});
+    renderProgress();renderMastered();
+  };
+}
+
+function renderProgress(){
+  const tot=QIDX.length, done=QIDX.filter(x=>ST.mastered[x.id]).length;
+  document.getElementById('pbar').style.width=(tot?done/tot*100:0)+'%';
+  document.getElementById('ptxt').textContent=`${done} / ${tot}`;
+  renderMastered();
+}
+function renderMastered(){
+  const list=QIDX.filter(x=>ST.mastered[x.id]);
+  const el=document.getElementById('mastered');
+  if(!list.length){el.innerHTML='还没有标记任何条目。';return}
+  el.innerHTML=list.map(x=>`• <b>${x.m.no}.${x.ii+1}</b> ${x.it.q}`).join('<br>');
+}
+
+/* =========================================================
+   渲染：数字速查
+   ========================================================= */
+const NUM=[
+  ['5','信息系统服务管理的 5 个过程','规—设—运—退 + 改进贯穿','服务战略规划 / 服务设计实现 / 服务运营提升 / 服务退役终止 / 持续改进与监督'],
+  ['5','服务规划设计核心活动（5环）','目录需求级别协议支持','服务目录 → 服务需求识别 → 服务级别设计 → SLA → OLA/UC'],
+  ['6','服务目录管理步骤','组—单—类—详—审—完','成立管理小组 / 列举服务清单 / 确定类别与代码 / 编制服务详述 / 评审并发布 / 完善服务目录'],
+  ['6','服务需求识别内容','可—连—能—安—价—报','可用性 / 连续性 / 服务能力 / 信息安全 / 价格 / 服务报告'],
+  ['5','典型服务报告内容','绩—绩—量—趋—未','服务绩效 / 主要工作绩效 / 工作特点与工作量 / 趋势信息 / 未来计划'],
+  ['5','服务方案设计要素','模式 + PPTR','服务模式 / 人员要素 / 资源要素 / 技术要素 / 过程要素'],
+  ['2','服务模式种类（2类4种）','远程看屏，现场见人','远程服务（远程集中监控、远程技术支持）/ 现场服务（上门技术支持、驻场技术支持）'],
+  ['3','人员要素设计内容','岗—绩—培','人员岗位和职责设计 / 人员绩效方案设计 / 人员培训方案设计'],
+  ['5','人员绩效方案设计活动','依—源—算—周—策','确定绩效指标 / 明确考核信息来源 / 制定计算方法 / 定义考核周期 / 设计考核策略'],
+  ['4','资源要素设计内容','工—台—件—知','服务工具 / 服务台 / 备件库 / 知识库'],
+  ['3','服务工具种类','监—过—其','监控类工具 / 过程管理类工具 / 其他工具'],
+  ['4','备件及备件库设计要点','响—供—出—可','备件响应方式和级别 / 备件供应商管理 / 备件出入库管理 / 备件可用性管理'],
+  ['5','知识库设计要点','建—共—略—能—制','建常见问题知识库 / 组织内可用可共享 / 选择知识管理策略 / 添加更新查询功能 / 管理制度与生命周期'],
+  ['3','技术要素设计内容','研发—发现—解决','技术研发 / 发现问题的技术 / 解决问题的技术'],
+  ['3','过程要素设计内容','目—活—指','目的 / 主要活动 / 关键指标'],
+  ['8','八大服务过程（补充）','级报事件问题 配置变更发布安全','服务级别管理 / 服务报告管理 / 事件管理 / 问题管理 / 配置管理 / 变更管理 / 发布管理 / 安全管理'],
+  ['5','服务运营提升内容','关—营—成—预算—外包','业务关系管理 / 服务营销管理 / 服务成本度量 / 服务项目预算核算和结算 / 服务外包收益'],
+  ['3','业务关系管理内容','客—供—三','客户关系管理 / 供应商关系管理 / 第三方关系管理'],
+  ['7','客户关系管理活动','两沟通 · 一拜访 · 三管理 · 一增值','定期沟通 / 日常沟通 / 高层拜访 / 投诉管理 / 表扬管理 / 满意度调查 / 增值服务'],
+  ['4','增值服务原则','不影响 · 贴合 · 可承受 · 能引申','不影响现有协议约定的服务内容 / 贴合客户需要 / 投入在可接受范围 / 自身有能力引申'],
+  ['5','供应商关系管理活动','选—审—协—争—合','供应商选择推荐 / 供应商审核及管理 / 供应商间协调 / 争议处理 / 支持合同管理'],
+  ['6','供应商审核方面','三能力效率 + 三人和关系','响应能力 / 问题解决能力 / 问题解决效率 / 人员稳定性 / 客户反馈 / 合作氛围'],
+  ['5','第三方关系管理活动','两沟通 + 5W1H + 协调 + 配合','定期沟通 / 日常沟通 / 信息收集分享（5W1H）/ 第三方关系协调 / 配合支持第三方工作'],
+  ['4','服务营销管理阶段','启—调—能—达','启动准备 / 调研交流 / 能力展示 / 服务达成'],
+  ['4','信息系统服务成本类别','直接/间接 × 人力/非人力','直接人力成本 / 直接非人力成本 / 间接人力成本 / 间接非人力成本'],
+  ['8','服务项目预算目的','计意协分，责权控评','形成资金使用计划 / 交流资金使用意图 / 协调资金使用活动 / 便于资源分配 / 提供责任计算框架 / 费用开支授权 / 建立资金控制系统 / 评估资金使用效果'],
+  ['3','服务项目预算制定步骤','项—段—表','识别收入项与开支项 / 划分项目执行阶段 / 形成预算表'],
+  ['4','服务项目核算目的','知盈亏 · 调资源 · 控成本 · 优预算','掌握收支与盈亏状态 / 为调整资源分配提供依据 / 寻找成本控制改进方法 / 改进预算编制方法提高准确性'],
+  ['3','服务项目核算主要工作','表—源—析','编制核算记录表（先流水表再汇总表）/ 资源使用核算 / 核算分析与总结'],
+  ['6','服务外包收益','省—快—稳—专—简—满','成本效益 / 效率提升 / 降低风险 / 专注主营业务 / 管理简单 / 提升满意度'],
+  ['4','沟通管理会议类型','编—审—移—验','服务终止计划编制会议 / 服务终止计划评审会议 / 移交会议 / 经验交流会'],
+  ['12','服务终止计划内容','条件目标时 职责控约束 活动里程标 接口安全决','条件 / 目标与成功要素 / 其他方流程控制 / 角色职责 / 约束风险问题 / 里程碑交付物 / 活动分解 / 完成标准 / 失效与终止时间 / 接口处理 / 信息安全审查 / 未决事项共识'],
+  ['5','服务终止计划评审注意事项','五项都是"定"','定责任 / 定任务分配 / 定需通知的第三方 / 定移交会议部门人员议程 / 定双方高层批准与利益相关方接受'],
+  ['5','移交会议内容（五交）','文—知—技—基—模','文件信息移交 / 知识移交 / 技能移交 / 基线移交 / 模拟环境移交'],
+  ['4','服务退役阶段主要风险','数—连—法—安','数据风险 / 业务连续性风险 / 法律法规风险 / 信息安全风险'],
+  ['4','资源回收类型','文—财—人—基','文件归档 / 财务资源回收 / 人力资源回收 / 基础设施资源回收'],
+  ['5','持续改进与监督主要活动','险—测—质—回—改','服务风险管理 / 服务测量 / 服务质量管理 / 服务回顾 / 服务改进'],
+  ['5','服务风险内容','方案四要素 + 其他','人员风险 / 技术风险 / 资源风险 / 过程风险 / 其他风险'],
+  ['5','服务评价模型一级特性','安—可—响—有—友','安全性 / 可靠性 / 响应性 / 有形性 / 友好性'],
+  ['16','服务评价模型二级特性（3-5-2-3-3）','可完保 / 完连稳有追 / 及互 / 可专合 / 主灵礼','安全(可用完整保密) / 可靠(完备连续稳定有效可追溯) / 响应(及时互动) / 有形(可视专业合规) / 友好(主动灵活礼貌)'],
+  ['4','服务质量评价步骤','需—选—评—级','确定需求 / 指标选型 / 实施评价 / 评价结果分级'],
+  ['3','服务质量管理活动','策—检—改','服务质量策划 / 服务质量检查 / 服务质量改进'],
+  ['4','服务质量策划"四确定"','定目标 · 定职责 · 定频率 · 定发布文件','确定质量目标及活动 / 确定职责和权限 / 确定时间安排或频率 / 确定并正式发布质量策划文件'],
+  ['6','服务质量实施和检查活动','一调查 · 一保证 · 双审 · 双日常','满意度调查 / 项目质量保证工作 / 内审 / 管理评审 / 日常检查 / 质量文化培训'],
+  ['9','与客户回顾（外部回顾）内容','合目满 范绩需 问计回 上行','合同执行情况 / 目标达成 / 满意度调查 / 范围与工作量 / 服务绩效成果 / 客户需求变化 / 问题及行动计划 / 上周期计划回顾 / 上次会议行动计划进展'],
+  ['7','团队内部回顾内容','上周1 + 本周5 + 下周1','上周期计划回顾 / 特殊疑难工单 / 未解决工单 / 各小组简报 / 本周期问题回顾 / 工程师KPI总结 / 下周期计划安排'],
+  ['3','服务改进阶段','设—实—验','服务改进设计 → 服务改进实施 → 服务改进验证'],
+  ['6','服务改进计划内容','介—基—描—方—责—回','文档介绍 / 活动基本信息 / 服务改进描述 / 服务改进方案 / 角色和职责 / 服务改进回顾'],
+  ['4','服务改进实施要素','人员 · 资源 · 技术 · 过程','人员措施 / 资源措施 / 技术措施 / 过程措施']
+];
+{
+  const t=document.getElementById('numtable');
+  t.innerHTML=`<table><thead><tr><th>条数</th><th>考点</th><th>口诀</th><th>标准答案</th></tr></thead><tbody>
+  ${NUM.map(r=>`<tr><td class="c">${r[0]}</td><td><b>${r[1]}</b></td><td class="mn">${r[2]}</td><td style="color:var(--txt2)">${r[3]}</td></tr>`).join('')}
+  </tbody></table>`;
+}
+
+/* =========================================================
+   默写闯关
+   ========================================================= */
+const POOL=QIDX.filter(x=>x.it.a.length>=2);
+let cur=null, curHintOn=false;
+
+function pick(){
+  if(!POOL.length){document.getElementById('qstem').textContent='题库为空（暂无可出题的考点）';return;}
+  let n;
+  if(POOL.length<=1){n=POOL[0];}
+  else{let guard=0;do{n=POOL[Math.floor(Math.random()*POOL.length)];guard++;}while(cur&&n===cur&&guard<50);}
+  cur=n;
+  curHintOn=false;
+  document.getElementById('qstem').textContent=cur.it.q;
+  document.getElementById('qmod').textContent='模块 '+cur.m.no+' · '+cur.m.name;
+  document.getElementById('qcnt').textContent='应写 '+cur.it.a.length+' 条';
+  document.getElementById('qidx').textContent='题库 '+POOL.length+' 题';
+  document.getElementById('uans').value='';
+  document.getElementById('hintbar').classList.remove('on');
+  document.getElementById('res').classList.remove('on');
+  document.getElementById('uans').focus();
+}
+function norm(s){return (s||'').replace(/[\s，。、；：,.;:!?！？（）()【】\[\]'"“”‘’—\-_/\\]/g,'').toLowerCase()}
+function keysOf(t){
+  const clean=t.replace(/^[①②③④⑤⑥⑦⑧⑨⑩⑪⑫\d\.\s]+/,'').split('：')[0].split('，')[0];
+  const out=new Set();
+  const push=v=>{if(v.length>=2)out.add(norm(v))};
+  push(clean);push(clean.slice(0,2));push(clean.slice(0,3));push(clean.slice(0,4));
+  // 逗号/顿号切分的小片段也算
+  t.split(/[、，,；;/]/).forEach(p=>{const q=p.replace(/^[①②③④⑤⑥⑦⑧⑨⑩⑪⑫\d\.\s]+/,'').split('：')[0];push(q);push(q.slice(0,3))});
+  return [...out];
+}
+function judge(){
+  if(!cur)return;
+  const u=norm(document.getElementById('uans').value);
+  const rows=cur.it.a.map(t=>{
+    const ks=keysOf(t);
+    const hit=ks.some(k=>u.includes(k));
+    return{t,hit};
+  });
+  const hits=rows.filter(r=>r.hit).length;
+  const pct=Math.round(hits/rows.length*100);
+  const sc=document.getElementById('score');
+  sc.textContent=pct+'%';
+  sc.className='score '+(pct>=85?'g':pct>=60?'a':'r');
+  document.getElementById('hit').textContent=hits;
+  document.getElementById('tot').textContent=rows.length;
+  document.getElementById('rlist').innerHTML=rows.map(r=>
+    `<div class="ritem ${r.hit?'hit':'miss'}"><span class="tag">${r.hit?'✓ 命中':'✗ 漏写'}</span><span>${r.t}</span></div>`).join('');
+  document.getElementById('res').classList.add('on');
+  ST.attempts.push(pct);
+  if(pct>=100){ST.mastered[cur.id]=true;const card=document.querySelector(`.card[data-id="${cur.id}"]`);
+    if(card){card.classList.add('ok');const b=card.querySelector('.tap');if(b)b.classList.add('on');}}
+  saveState(ST);renderProgress();renderAvg();
+}
+function renderAvg(){
+  const a=ST.attempts||[];
+  document.getElementById('attempts').textContent=a.length;
+  document.getElementById('avg').textContent=a.length?Math.round(a.reduce((x,y)=>x+y,0)/a.length):0;
+}
+document.getElementById('submit').onclick=judge;
+document.getElementById('nex').onclick=pick;
+document.getElementById('showans').onclick=()=>{
+  if(!cur)return;
+  document.getElementById('rlist').innerHTML=cur.it.a.map(t=>
+    `<div class="ritem" style="background:rgba(77,163,255,.08);color:#cfe3ff"><span class="tag">•</span><span>${t}</span></div>`).join('');
+  document.getElementById('res').classList.add('on');
+};
+document.getElementById('hint').onclick=()=>{
+  if(!cur)return;
+  const h=cur.it.a.map((t,i)=>`${i+1}.${t.replace(/^[①②③④⑤⑥⑦⑧⑨⑩⑪⑫\d\.\s]+/,'').slice(0,1)}○○…`).join('　');
+  const bar=document.getElementById('hintbar');
+  bar.textContent=h;bar.classList.add('on');
+};
+document.getElementById('uans').addEventListener('keydown',e=>{
+  if((e.ctrlKey||e.metaKey)&&e.key==='Enter')judge();
+});
+
+/* 页签 */
+document.querySelectorAll('.tab').forEach(t=>{
+  t.onclick=()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+    document.querySelectorAll('.panel').forEach(x=>x.classList.remove('on'));
+    t.classList.add('on');
+    document.getElementById(t.dataset.p).classList.add('on');
+    window.scrollTo({top:0,behavior:'smooth'});
+    if(t.dataset.p==='p4'&&!cur)pick();
+  };
+});
+document.getElementById('reset').onclick=()=>{
+  if(!confirm('确定清空全部掌握进度和答题记录吗？'))return;
+  ST={mastered:{},attempts:[],open:{}};saveState(ST);
+  document.querySelectorAll('#mods .card').forEach(c=>{c.classList.remove('ok');const b=c.querySelector('.tap');if(b)b.classList.remove('on');});
+  renderProgress();renderAvg();
+};
+
+renderProgress();renderAvg();pick();
+</script>
+</body>
+</html>

@@ -3,327 +3,248 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>系规学习中心</title>
+<title>系统规划与管理师 · 默写速记手册总目录</title>
 <style>
-:root {
-  --bg: #0e1116;
-  --bg2: #151a21;
-  --bg3: #1c232c;
-  --line: #2a3340;
-  --txt: #e6eaf0;
-  --txt2: #9aa7b8;
-  --accent: #4da3ff;
-  --accent2: #7c5cff;
-  --green: #2ecc71;
-  --amber: #ffb020;
-  --teal: #00d4aa;
-  --red: #ff5c5c;
+:root{
+  --bg:#0e1116; --bg2:#151a21; --bg3:#1c232c; --line:#2a3340;
+  --txt:#e6eaf0; --txt2:#9aa7b8; --txt3:#6b7889;
+  --accent:#4da3ff; --accent2:#7c5cff;
+  --red:#ff5c5c; --green:#2ecc71; --amber:#ffb020; --teal:#00d4aa;
+  --code:'JetBrains Mono','Cascadia Code',Consolas,'Microsoft YaHei',monospace;
 }
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg);color:var(--txt);
+  font-family:-apple-system,'Segoe UI','Microsoft YaHei',system-ui,sans-serif;
+  font-size:14px;line-height:1.75;padding:0 0 80px;-webkit-font-smoothing:antialiased;
 }
-
-body {
-  background: var(--bg);
-  color: var(--txt);
-  font-family: -apple-system, 'Segoe UI', 'Microsoft YaHei', system-ui, sans-serif;
-  font-size: 14px;
-  line-height: 1.75;
-  min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+header{
+  background:linear-gradient(135deg,#141b26 0%,#101720 60%,#0e1116 100%);
+  border-bottom:1px solid var(--line);padding:38px 0 30px;margin-bottom:30px;
 }
+h1{font-size:25px;font-weight:700;letter-spacing:.4px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+h1 .badge{font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;
+  background:rgba(77,163,255,.14);color:var(--accent);border:1px solid rgba(77,163,255,.35)}
+.sub{color:var(--txt2);font-size:13px;margin-top:8px}
+.stats{display:flex;gap:30px;flex-wrap:wrap;margin-top:22px}
+.stat{display:flex;flex-direction:column}
+.stat b{font-family:var(--code);font-size:24px;font-weight:700;color:var(--accent);line-height:1.2}
+.stat span{font-size:12px;color:var(--txt3)}
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+.toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:26px}
+.search{flex:1;min-width:220px;background:var(--bg2);border:1px solid var(--line);border-radius:9px;
+  color:var(--txt);padding:9px 13px;font-family:inherit;font-size:13px;outline:none}
+.search:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(77,163,255,.12)}
+.tip{font-size:12px;color:var(--txt3)}
+
+h2.sec{font-size:16px;margin:34px 0 14px;color:#fff;display:flex;align-items:center;gap:10px}
+h2.sec::before{content:'';width:3px;height:16px;background:linear-gradient(180deg,var(--accent),var(--accent2));border-radius:2px}
+h2.sec small{font-size:12px;font-weight:400;color:var(--txt3)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(348px,1fr));gap:16px}
+.card{
+  background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:20px;
+  display:flex;flex-direction:column;gap:11px;text-decoration:none;color:inherit;
+  transition:border-color .18s,transform .18s,box-shadow .18s;
 }
+.card:hover{border-color:#3d4c60;transform:translateY(-2px);box-shadow:0 10px 26px rgba(0,0,0,.3)}
+.chead{display:flex;align-items:flex-start;gap:11px}
+.no{font-family:var(--code);font-size:12px;color:#fff;font-weight:700;
+  background:linear-gradient(135deg,#2b6cb0,#4a3ba8);padding:3px 9px;border-radius:7px;flex-shrink:0;letter-spacing:.5px}
+.cname{font-size:16px;font-weight:700;color:#fff;line-height:1.45;flex:1}
+.meta{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--txt3);font-family:var(--code)}
+.meta em{color:var(--txt2);font-style:normal;font-weight:600}
+.skel{font-size:13px;color:var(--txt2);border-left:3px solid var(--accent);padding-left:11px;line-height:1.7}
+.chips{display:flex;gap:7px;flex-wrap:wrap}
+.chip{font-family:var(--code);font-size:11.5px;padding:3px 9px;border-radius:6px;
+  background:rgba(255,176,32,.11);color:var(--amber);border:1px solid rgba(255,176,32,.28);letter-spacing:.3px}
+.chip.t{background:rgba(0,212,170,.09);color:var(--teal);border-color:rgba(0,212,170,.28)}
+.ken{font-size:12px;color:var(--txt3);background:rgba(255,92,92,.06);
+  border-left:3px solid rgba(255,92,92,.5);padding:7px 11px;border-radius:0 7px 7px 0;line-height:1.7}
+.ken b{color:#ffb4b4;font-weight:600}
+.go{margin-top:auto;padding-top:6px;display:flex;align-items:center;gap:7px;
+  font-size:12.5px;color:var(--accent);font-weight:600}
+.go::after{content:'→';transition:transform .18s}
+.card:hover .go::after{transform:translateX(4px)}
 
-/* Header */
-header {
-  background: linear-gradient(135deg, #141b26 0%, #101720 60%, #0e1116 100%);
-  border-bottom: 1px solid var(--line);
-  padding: 30px 0;
-  text-align: center;
-}
+.howto{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin-top:36px}
+.howto h3{font-size:14px;color:var(--accent);margin-bottom:11px;letter-spacing:.4px}
+.howto ol{margin-left:20px;color:var(--txt2);font-size:13px}
+.howto li{margin-bottom:6px}
+.howto b{color:var(--txt)}
+.howto code{font-family:var(--code);color:var(--amber);background:rgba(255,176,32,.1);padding:1px 6px;border-radius:4px;font-size:12px}
+.empty{color:var(--txt3);font-size:13px;padding:24px 0;display:none}
 
-header h1 {
-  font-size: 28px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-header p {
-  color: var(--txt2);
-  font-size: 14px;
-  margin-top: 8px;
-}
-
-/* Stats */
-.stats {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  margin-top: 20px;
-  flex-wrap: wrap;
-}
-
-.stat-item {
-  text-align: center;
-}
-
-.stat-item .num {
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--accent);
-}
-
-.stat-item .label {
-  font-size: 12px;
-  color: var(--txt2);
-  margin-top: 4px;
-}
-
-/* Course Grid */
-.courses {
-  padding: 40px 0 60px;
-}
-
-.courses h2 {
-  font-size: 20px;
-  margin-bottom: 24px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.courses h2::before {
-  content: '';
-  width: 4px;
-  height: 20px;
-  background: linear-gradient(180deg, var(--accent), var(--accent2));
-  border-radius: 2px;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
-}
-
-.card {
-  background: var(--bg2);
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 24px;
-  transition: all 0.2s ease;
-  cursor: pointer;
-  text-decoration: none;
-  color: inherit;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.card:hover {
-  border-color: var(--accent);
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(77, 163, 255, 0.15);
-}
-
-.card-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-}
-
-.card:nth-child(1) .card-icon { background: linear-gradient(135deg, #2b6cb0, #4a3ba8); }
-.card:nth-child(2) .card-icon { background: linear-gradient(135deg, #2b8cb0, #3b7ba8); }
-.card:nth-child(3) .card-icon { background: linear-gradient(135deg, #6cb02b, #7ba83b); }
-.card:nth-child(4) .card-icon { background: linear-gradient(135deg, #b08b2b, #a87b3b); }
-.card:nth-child(5) .card-icon { background: linear-gradient(135deg, #b02b6c, #a83b7b); }
-
-.card h3 {
-  font-size: 16px;
-  font-weight: 600;
-  color: #fff;
-}
-
-.card p {
-  font-size: 13px;
-  color: var(--txt2);
-  flex: 1;
-}
-
-.card-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 12px;
-  color: var(--txt3);
-  margin-top: 8px;
-}
-
-.card-footer .tag {
-  padding: 3px 8px;
-  border-radius: 4px;
-  background: rgba(77, 163, 255, 0.1);
-  color: var(--accent);
-  border: 1px solid rgba(77, 163, 255, 0.2);
-}
-
-/* Footer */
-footer {
-  text-align: center;
-  padding: 20px 0;
-  border-top: 1px solid var(--line);
-  color: var(--txt3);
-  font-size: 12px;
-}
-
-/* Mobile Responsive */
-@media (max-width: 768px) {
-  header {
-    padding: 20px 0;
-  }
-
-  header h1 {
-    font-size: 22px;
-  }
-
-  header p {
-    font-size: 13px;
-  }
-
-  .stats {
-    gap: 20px;
-  }
-
-  .stat-item .num {
-    font-size: 20px;
-  }
-
-  .courses {
-    padding: 24px 0 40px;
-  }
-
-  .courses h2 {
-    font-size: 18px;
-  }
-
-  .grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-
-  .card {
-    padding: 20px;
-  }
-}
-
-@media (min-width: 769px) and (max-width: 1024px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+@media(max-width:640px){
+  h1{font-size:19px} .wrap{padding:0 13px}
+  .grid{grid-template-columns:1fr} .stats{gap:22px}
 }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="container">
-    <h1>📚 系规学习中心</h1>
-    <p>默写速记手册 · 高效学习平台</p>
+  <div class="wrap">
+    <h1>系统规划与管理师 · 默写速记手册 <span class="badge">2026 备考</span></h1>
+    <div class="sub">七册合一 · 骨架定结构，口诀做钩子，默写验成色</div>
     <div class="stats">
-      <div class="stat-item">
-        <div class="num">5</div>
-        <div class="label">课程总数</div>
-      </div>
-      <div class="stat-item">
-        <div class="num">100%</div>
-        <div class="label">免费开放</div>
-      </div>
-      <div class="stat-item">
-        <div class="num">📱</div>
-        <div class="label">全端适配</div>
-      </div>
+      <div class="stat"><b id="sBooks">7</b><span>册手册</span></div>
+      <div class="stat"><b id="sItems">199</b><span>个考点</span></div>
+      <div class="stat"><b id="sNums">205</b><span>行数字速查</span></div>
+      <div class="stat"><b>5</b><span>页签 / 册</span></div>
     </div>
   </div>
 </header>
 
-<main class="courses">
-  <div class="container">
-    <h2>全部课程</h2>
-    <div class="grid">
-      <a href="信息系统规划_默写速记手册.html" class="card">
-        <div class="card-icon">📋</div>
-        <h3>信息系统规划</h3>
-        <p>信息系统规划相关知识点速记手册，涵盖规划方法、战略规划等内容</p>
-        <div class="card-footer">
-          <span class="tag">默写速记</span>
-          <span>点击学习 →</span>
-        </div>
-      </a>
-
-      <a href="信息系统服务管理_默写速记手册.html" class="card">
-        <div class="card-icon">🔧</div>
-        <h3>信息系统服务管理</h3>
-        <p>信息系统服务管理知识点速记，包含IT服务管理、运维管理等内容</p>
-        <div class="card-footer">
-          <span class="tag">默写速记</span>
-          <span>点击学习 →</span>
-        </div>
-      </a>
-
-      <a href="应用系统规划与设计_默写速记手册.html" class="card">
-        <div class="card-icon">💻</div>
-        <h3>应用系统规划与设计</h3>
-        <p>应用系统规划与设计知识点速记，涵盖系统设计、架构设计等内容</p>
-        <div class="card-footer">
-          <span class="tag">默写速记</span>
-          <span>点击学习 →</span>
-        </div>
-      </a>
-
-      <a href="数据资源规划与数据治理_默写速记手册.html" class="card">
-        <div class="card-icon">🗄️</div>
-        <h3>数据资源规划与数据治理</h3>
-        <p>数据资源规划与数据治理知识点速记，包含数据管理、数据治理等内容</p>
-        <div class="card-footer">
-          <span class="tag">默写速记</span>
-          <span>点击学习 →</span>
-        </div>
-      </a>
-
-      <a href="云资源网络与信息安全_默写速记手册.html" class="card">
-        <div class="card-icon">🔒</div>
-        <h3>云资源网络与信息安全</h3>
-        <p>云资源网络与信息安全知识点速记，涵盖网络安全、信息安全等内容</p>
-        <div class="card-footer">
-          <span class="tag">默写速记</span>
-          <span>点击学习 →</span>
-        </div>
-      </a>
-    </div>
+<div class="wrap">
+  <div class="toolbar">
+    <input class="search" id="q" type="search" placeholder="搜索考点、口诀或关键词…… 例如「服务需求」「FCAPS」「BSP」">
+    <span class="tip" id="hit"></span>
   </div>
-</main>
 
-<footer>
-  <div class="container">
-    <p>© 2026 系规学习中心 · 随时随地高效学习</p>
+  <div id="groups"></div>
+  <div class="empty" id="empty">没有匹配的手册，换个关键词试试。</div>
+
+  <div class="howto">
+    <h3>怎么用这套手册</h3>
+    <ol>
+      <li><b>先背骨架，再背口诀，最后靠默写检验。</b>直接从头读是记不住的——它是"答案的集合"，不是"检索的结构"。</li>
+      <li>每册五个页签：<b>骨架+口诀</b>（答案默认折叠，先自己复述再展开）→ <b>数字速查</b>（遮住右两列，看条数秒答）→ <b>易混对比</b>（"看着对但拿不到分"的重灾区）→ <b>默写闯关</b>（按条目命中率判分，≥85% 通过）→ <b>复习计划</b>（Day 1/2/4/7/15 打法）。</li>
+      <li><b>默写闯关是智能抽题</b>：未掌握的考点优先出现，已掌握的降为低频（约 1/6 概率，不会消失），答错过的会自动"回捞"加重。右上角可切三档偏好：<code>正常复习</code> / <code>侧重薄弱</code> / <code>全部随机</code>（考前一天想全盘过一遍时用最后一档）。</li>
+      <li>满分作答会自动把该考点标为"已掌握"，并立即降频；进度存在浏览器本地，换电脑不跟随。</li>
+      <li>手册改动后请按 <b>Ctrl+F5</b> 强制刷新，否则浏览器可能仍用缓存旧版。</li>
+    </ol>
+    <h3 style="margin-top:16px">建议顺序</h3>
+    <ol>
+      <li><b>第一轮（按分组顺序）</b>：先把每册的"骨架"页白纸画一遍，只求条数对，不求逐字。</li>
+      <li><b>第二轮（按薄弱度）</b>：各册打开"默写闯关"，切到<b>侧重薄弱</b>，刷到平均分 85 以上。</li>
+      <li><b>第三轮（考前 1~2 天）</b>：切<b>全部随机</b>，只扫"易混对比"页 + 各册大坑提醒。</li>
+    </ol>
   </div>
-</footer>
+</div>
 
+<script>
+const BOOKS = [
+  {
+    no:'01', group:'规划与设计',
+    file:'信息系统规划_默写速记手册.html',
+    name:'信息系统规划',
+    mods:7, items:22, num:26,
+    skel:'规划什么（7 项）→ 怎么规划（5 步）→ 用什么方法（5 种）',
+    chips:['内·场·深·整·改','用·安·靠·灵·扩·驾','人财技业软硬','SST / BSP / CSF / VCA / Zachman'],
+    ken:'五组清单<b>都是 6 项</b>（技术原则 / 任务步骤 / 资源 / 保障 / 外部需求），最容易串台；<b>BSF→BSP、VAC→VCA</b> 是最常见的缩写笔误。'
+  },
+  {
+    no:'02', group:'规划与设计',
+    file:'数据资源规划与数据治理_默写速记手册.html',
+    name:'数据资源规划与数据治理',
+    mods:9, items:21, num:27,
+    skel:'三种方法（过程法 / 稳定信息结构 / 指标能力）→ 五套步骤 → 四张活动清单',
+    chips:['域·业·数·标·功·模·联','目·初·核·标·模','决·支·体·模·融·检·评·完','案·领·架·策·录'],
+    ken:'五套步骤<b>长得几乎一样</b>，靠<b>步数当防串台锚</b>：3 / 5 / 7 / 8 / 11；数据安全是"<b>先定制度细则 → 再评风险 → 最后实施控制</b>"。'
+  },
+  {
+    no:'03', group:'规划与设计',
+    file:'应用系统规划与设计_默写速记手册.html',
+    name:'应用系统规划与设计',
+    mods:8, items:24, num:28,
+    skel:'定义什么（生·体·接·数·构，由粗到细）→ 怎么走（初·可·详·分·设）',
+    chips:['初可详，分设计','复·研·模·定·评·推·计·文','收·模·优·原·方·审','结·流·码·界·出·入·库·安·配·书'],
+    ken:'初步调研 5 / <b>可行性 8</b> / 详细调研 6 三兄弟内容高度重叠，只能靠<b>标志词反推</b>；<b>可行性研究在详细调研之前</b>；系统设计是<b>输出设计在输入设计之前</b>。'
+  },
+  {
+    no:'04', group:'资源与安全',
+    file:'云资源网络与信息安全_默写速记手册.html',
+    name:'云资源 · 网络 · 信息安全 · 云原生',
+    mods:7, items:27, num:27,
+    skel:'四块拼盘：云资源规划 → 网络规划 → 信息安全 → 云原生（互不相干，靠"板块 + 条数"定位）',
+    chips:['虚·弹·自·多·编','可·安·网·钱','服·池·智·需·绿','微·治·交·基·韧','FCAPS'],
+    ken:'<b>计算资源规划一身三职</b>（范围 6 / 方法技术 7 / 关键步骤 7）；<b>云原生两个"7"</b>（原则 vs 模式）只能靠"带不带架构二字"区分；信息安全实施是"<b>先评风险再选措施</b>"。'
+  },
+  {
+    no:'05', group:'服务与管理',
+    file:'信息系统服务管理_默写速记手册.html',
+    name:'信息系统服务管理',
+    mods:7, items:71, num:66,
+    skel:'五阶段生命周期（战略规划 → 设计实现 → 运营提升 → 退役终止）+ 八大服务过程 + 持续改进与监督',
+    chips:['可怜能安家报','模·人·资·技·过','计意协分，责权控评','级报事件问题，配置变更发布安全'],
+    ken:'全册<b>考点最多（71 个）</b>，条数密集是主要难点；<b>"解决评估"（事件）vs "错误评估"（问题）</b>一字之差必考；服务台是"<b>服务职能</b>"不是服务过程。'
+  },
+  {
+    no:'06', group:'服务与管理',
+    file:'流程管理_默写速记手册.html',
+    name:'流程（过程）管理',
+    mods:7, items:16, num:16,
+    skel:'四阶段闭环：流程规划 → 流程执行 → 流程评价 → 持续改进',
+    chips:['规·执·评·改','定·访·解·梳·补·汇','绘·解·接·访·成','稽·绩·满·审','立·诊·设·IT·切·关'],
+    ken:'<b>"3"和"4"各出现三次</b>（3：流程分类 / 绩效维度 / 优化驱动力；4：管理阶段 / 检查方法 / 结果分析）；<b>「稽绩满审」一个口诀拿两处分</b>——既是检查方法也是评价产出，注意词性。'
+  },
+  {
+    no:'07', group:'服务与管理',
+    file:'技术与研发管理_默写速记手册.html',
+    name:'技术与研发管理',
+    mods:6, items:18, num:15,
+    skel:'管什么（5/6/5/4）→ 五类研发的产出物（3-4-3-5-3）→ 怎么用起来（6/5/6）→ 知识与资产收口（4/3/5）',
+    chips:['运·规·问·工·产','队·程·本·项·绩·险','险·选·验·决·用·踪','3-4-3-5-3'],
+    ken:'五类研发管理的<b>队伍与产出物高度撞车</b>；最强辨识锚是<b>产出物条数序列 3-4-3-5-3</b> + 独有人群（需方服务经理 / 高级运维工程师 / 产品经理）；<b>技术验证在技术决策之前</b>。'
+  }
+];
+
+const GROUPS = [
+  { name:'规划与设计', note:'先把"要建什么"想清楚' },
+  { name:'资源与安全', note:'基础支撑与安全底线' },
+  { name:'服务与管理', note:'交付与运营（考点最密集的一组）' }
+];
+
+function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function cardHTML(b){
+  const chips = b.chips.map((c,i)=>`<span class="chip${i%2?' t':''}">${esc(c)}</span>`).join('');
+  return `<a class="card" href="${encodeURI(b.file)}" data-k="${esc((b.name+' '+b.skel+' '+b.chips.join(' ')).toLowerCase())}">
+    <div class="chead"><span class="no">${b.no}</span><span class="cname">${esc(b.name)}</span></div>
+    <div class="meta"><span><em>${b.mods}</em> 模块</span><span><em>${b.items}</em> 考点</span><span><em>${b.num}</em> 行速查</span></div>
+    <div class="skel">${esc(b.skel)}</div>
+    <div class="chips">${chips}</div>
+    <div class="ken">⚠️ ${b.ken}</div>
+    <div class="go">进入手册 · 默写闯关</div>
+  </a>`;
+}
+
+const box = document.getElementById('groups');
+box.innerHTML = GROUPS.map(g=>{
+  const list = BOOKS.filter(b=>b.group===g.name);
+  if(!list.length) return '';
+  return `<h2 class="sec" data-group="${g.name}">${g.name} <small>${g.note}</small></h2>
+          <div class="grid">${list.map(cardHTML).join('')}</div>`;
+}).join('');
+
+document.getElementById('sBooks').textContent = BOOKS.length;
+document.getElementById('sItems').textContent = BOOKS.reduce((a,b)=>a+b.items,0);
+document.getElementById('sNums').textContent  = BOOKS.reduce((a,b)=>a+b.num,0);
+
+const q = document.getElementById('q');
+const hit = document.getElementById('hit');
+const empty = document.getElementById('empty');
+
+function filter(){
+  const k = q.value.trim().toLowerCase();
+  let shown = 0;
+  document.querySelectorAll('.grid').forEach(grid=>{
+    let n = 0;
+    grid.querySelectorAll('.card').forEach(c=>{
+      const ok = !k || c.dataset.k.includes(k);
+      c.style.display = ok ? '' : 'none';
+      if(ok) n++;
+    });
+    shown += n;
+    const h2 = grid.previousElementSibling;
+    if(h2 && h2.classList.contains('sec')) h2.style.display = n ? '' : 'none';
+  });
+  empty.style.display = shown ? 'none' : 'block';
+  hit.textContent = k ? ('匹配 ' + shown + ' 册') : '';
+}
+q.addEventListener('input', filter);
+</script>
 </body>
 </html>

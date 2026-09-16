@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>技术与研发管理 · 默写速记手册</title>
+<style>
+:root{
+  --bg:#0e1116; --bg2:#151a21; --bg3:#1c232c; --line:#2a3340;
+  --txt:#e6eaf0; --txt2:#9aa7b8; --txt3:#6b7889;
+  --accent:#4da3ff; --accent2:#7c5cff;
+  --red:#ff5c5c; --green:#2ecc71; --amber:#ffb020; --teal:#00d4aa;
+  --code:'JetBrains Mono','Cascadia Code',Consolas,'Microsoft YaHei',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--txt);
+  font-family:-apple-system,'Segoe UI','Microsoft YaHei',system-ui,sans-serif;
+  font-size:14px; line-height:1.75; padding:0 0 80px;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+
+header{
+  background:linear-gradient(135deg,#141b26 0%,#101720 60%,#0e1116 100%);
+  border-bottom:1px solid var(--line); padding:26px 0 20px; margin-bottom:0;
+  position:sticky; top:0; z-index:50; backdrop-filter:blur(8px);
+}
+h1{font-size:21px;font-weight:700;letter-spacing:.5px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+h1 .badge{font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;
+  background:rgba(77,163,255,.14);color:var(--accent);border:1px solid rgba(77,163,255,.35)}
+.sub{color:var(--txt2);font-size:12.5px;margin-top:6px}
+.topbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.tab{
+  padding:7px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;
+  background:var(--bg3);border:1px solid var(--line);color:var(--txt2);transition:.16s;user-select:none;
+}
+.tab:hover{color:var(--txt);border-color:#3a4657}
+.tab.on{background:linear-gradient(135deg,#2b6cb0,#4a3ba8);color:#fff;border-color:transparent;
+  box-shadow:0 3px 14px rgba(77,163,255,.25)}
+.progline{display:flex;align-items:center;gap:12px;margin-top:14px;font-size:12px;color:var(--txt2)}
+.pbar{flex:1;height:6px;background:var(--bg3);border-radius:6px;overflow:hidden;border:1px solid var(--line)}
+.pbar>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--teal));
+  transition:width .35s ease;border-radius:6px}
+.btn{background:var(--bg3);border:1px solid var(--line);color:var(--txt2);border-radius:7px;
+  padding:5px 12px;font-size:12px;cursor:pointer;transition:.15s;font-family:inherit}
+.btn:hover{color:var(--txt);border-color:#455263}
+.btn.pri{background:linear-gradient(135deg,#2b6cb0,#4a3ba8);color:#fff;border-color:transparent}
+
+.panel{display:none;padding-top:26px}
+.panel.on{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+.howto{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:24px}
+.howto h3{font-size:14px;color:var(--accent);margin-bottom:10px;letter-spacing:.5px}
+.howto ol{margin-left:20px;color:var(--txt2);font-size:13px}
+.howto li{margin-bottom:5px}
+.howto b{color:var(--txt)}
+
+.mod{margin-bottom:18px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--bg2)}
+.mod>summary{
+  list-style:none;cursor:pointer;padding:14px 18px;display:flex;align-items:center;gap:12px;
+  background:linear-gradient(90deg,rgba(77,163,255,.07),transparent);font-weight:700;font-size:15px;
+}
+.mod>summary::-webkit-details-marker{display:none}
+.mod>summary .no{
+  font-family:var(--code);font-size:12px;color:#fff;background:linear-gradient(135deg,#2b6cb0,#4a3ba8);
+  padding:2px 8px;border-radius:6px;letter-spacing:.5px
+}
+.mod>summary .cnt{margin-left:auto;font-size:11.5px;color:var(--txt3);font-weight:500}
+.mod>summary .arw{color:var(--txt3);transition:.2s;font-size:12px}
+.mod[open]>summary .arw{transform:rotate(90deg)}
+.modbody{padding:4px 14px 16px}
+
+.card{border:1px solid var(--line);border-radius:10px;margin:12px 0;background:var(--bg3);overflow:hidden}
+.card.ok{border-color:rgba(46,204,113,.45);background:rgba(46,204,113,.05)}
+.chead{padding:11px 14px;display:flex;align-items:flex-start;gap:10px}
+.q{font-weight:650;font-size:13.5px;flex:1;color:#fff}
+.q .n{color:var(--txt3);font-family:var(--code);font-size:11.5px;margin-right:6px}
+.mn{display:flex;gap:7px;flex-wrap:wrap;padding:0 14px 10px}
+.chip{
+  font-family:var(--code);font-size:12px;padding:3px 10px;border-radius:6px;
+  background:rgba(255,176,32,.12);color:var(--amber);border:1px solid rgba(255,176,32,.3);
+  letter-spacing:.6px;white-space:nowrap
+}
+.chip.b{background:rgba(0,212,170,.1);color:var(--teal);border-color:rgba(0,212,170,.3)}
+.chip.p{background:rgba(124,92,255,.13);color:#b39dff;border-color:rgba(124,92,255,.33)}
+.ans{padding:0 14px 14px;display:none}
+.card.open .ans{display:block}
+.ans ol{margin:4px 0 0 22px}
+.ans li{margin-bottom:3px;font-size:13px;color:var(--txt)}
+.ans .note{margin-top:9px;font-size:12.5px;color:var(--txt2);background:rgba(77,163,255,.07);
+  border-left:3px solid var(--accent);padding:7px 11px;border-radius:0 6px 6px 0}
+.cfoot{padding:0 14px 12px;display:flex;gap:8px;align-items:center}
+.mini{font-size:11.5px;padding:4px 10px;border-radius:6px;cursor:pointer;border:1px solid var(--line);
+  background:var(--bg2);color:var(--txt2);font-family:inherit;transition:.15s}
+.mini:hover{color:var(--txt);border-color:#455263}
+.mini.on{background:rgba(46,204,113,.16);color:var(--green);border-color:rgba(46,204,113,.45)}
+
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;
+  background:var(--bg2);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+th{background:var(--bg3);padding:10px 13px;text-align:left;font-size:12.5px;color:var(--accent);
+  font-weight:700;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:9px 13px;border-bottom:1px solid rgba(42,51,64,.6);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:rgba(77,163,255,.045)}
+td.k{font-family:var(--code);color:var(--amber);font-weight:600;white-space:nowrap}
+td.c{font-family:var(--code);color:var(--teal);font-weight:700;text-align:center;white-space:nowrap}
+td.mn{font-family:var(--code);color:#b39dff;white-space:nowrap;font-size:12.5px}
+
+.qbox{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:22px;margin-bottom:16px}
+.qstem{font-size:15.5px;font-weight:700;color:#fff;margin-bottom:6px;line-height:1.6}
+.qmeta{font-size:12px;color:var(--txt3);margin-bottom:14px;display:flex;gap:14px;flex-wrap:wrap}
+.qmeta span{font-family:var(--code)}
+textarea{
+  width:100%;min-height:130px;background:var(--bg);border:1px solid var(--line);border-radius:9px;
+  color:var(--txt);padding:12px;font-family:var(--code);font-size:13px;line-height:1.85;resize:vertical;outline:none
+}
+textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(77,163,255,.13)}
+.qactions{display:flex;gap:9px;margin-top:12px;flex-wrap:wrap;align-items:center}
+.result{margin-top:16px;display:none}
+.result.on{display:block;animation:fade .25s}
+.score{font-size:26px;font-weight:800;font-family:var(--code);letter-spacing:-1px}
+.score.g{color:var(--green)} .score.a{color:var(--amber)} .score.r{color:var(--red)}
+.rlist{margin-top:12px;display:flex;flex-direction:column;gap:5px}
+.ritem{display:flex;gap:9px;align-items:flex-start;font-size:13px;padding:5px 9px;border-radius:6px}
+.ritem.hit{background:rgba(46,204,113,.09);color:#b8f0cf}
+.ritem.miss{background:rgba(255,92,92,.09);color:#ffc0c0}
+.ritem .tag{font-family:var(--code);font-size:11px;flex-shrink:0;margin-top:1px}
+.hintbar{font-family:var(--code);font-size:13px;color:var(--teal);letter-spacing:3px;margin-top:8px;
+  background:rgba(0,212,170,.07);border:1px dashed rgba(0,212,170,.35);border-radius:8px;padding:9px 12px;
+  display:none;word-break:break-all;line-height:2}
+.hintbar.on{display:block}
+.stats{display:flex;gap:18px;flex-wrap:wrap;font-size:12.5px;color:var(--txt2)}
+.stats b{color:var(--txt);font-family:var(--code);font-size:15px}
+
+.legend{font-size:12px;color:var(--txt3);margin:8px 0 16px;line-height:1.9}
+.legend code{font-family:var(--code);color:var(--amber);background:rgba(255,176,32,.1);padding:1px 6px;border-radius:4px}
+h2.sec{font-size:16px;margin:26px 0 10px;color:#fff;display:flex;align-items:center;gap:9px}
+h2.sec::before{content:'';width:3px;height:16px;background:linear-gradient(180deg,var(--accent),var(--accent2));border-radius:2px}
+@media(max-width:640px){
+  body{font-size:13px} h1{font-size:17px} .wrap{padding:0 12px}
+  td.mn{display:none} .tab{padding:6px 11px;font-size:12px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1>技术与研发管理 · 默写速记手册 <span class="badge">系统规划与管理师</span></h1>
+    <div class="sub">6 个模块 · 18 个考点 —— 五类研发定骨架，条数做钩子，默写验成色</div>
+    <div class="topbar">
+      <div class="tab on" data-p="p1">📖 骨架 + 口诀</div>
+      <div class="tab" data-p="p2">🔢 数字速查</div>
+      <div class="tab" data-p="p3">⚖️ 易混对比</div>
+      <div class="tab" data-p="p4">✍️ 默写闯关</div>
+      <div class="tab" data-p="p5">📅 复习计划</div>
+    </div>
+    <div class="progline">
+      <span>掌握进度</span>
+      <div class="pbar"><i id="pbar"></i></div>
+      <span id="ptxt">0 / 0</span>
+      <button class="btn" id="reset">重置进度</button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- ============ P1 ============ -->
+<div class="panel on" id="p1">
+  <div class="howto">
+    <h3>这一章为什么容易"背了但写错"</h3>
+    <ol>
+      <li><b>本章的坑是"五类研发管理的队伍 + 产出物"高度撞车。</b>服务产品、服务规范、服务工具、问题技术、新技术——五类的产出物长得都像"文档 / 工具 / 手册"。只背内容不背归属，考场上就是张冠李戴。</li>
+      <li><b>唯一可靠的两个锚：产出物条数 + 独有人群。</b>产出条数是 <b>3-4-3-5-3</b>（产品 / 规范 / 工具 / 问题 / 新技术），秒判类别；独有人群更好用——<b>产品经理</b>只属服务产品、<b>需方服务经理</b>只属服务规范、<b>高级运维工程师</b>只属问题技术、<b>只有技术专家</b>的就是新技术研究。</li>
+      <li><b>本章"5"和"3"各出现三次以上，数字必须带主题名念。</b>「<b>技术研发范围</b>五项」「<b>组织结构</b>五类角色」「<b>知识产权</b>五项」——不带主题名的数字等于没记。</li>
+      <li><b>默写检验 &gt; 反复阅读。</b>本页答案默认折叠，必须先自己复述再展开对照。</li>
+    </ol>
+  </div>
+  <div class="legend">
+    标记说明：<code>橙底口诀</code> = 核心记忆钩子 &nbsp;|&nbsp; <code>青底</code> = 分组 / 结构钩子 &nbsp;|&nbsp; <code>紫底</code> = 与你原笔记口径的差异提醒
+  </div>
+  <div id="mods"></div>
+</div>
+
+<!-- ============ P2 ============ -->
+<div class="panel" id="p2">
+  <h2 class="sec">数字 → 答案 速查表（最高频失分点）</h2>
+  <div class="legend">用法：遮住右两列，看数字 + 主题名秒答。答不出来就回「骨架+口诀」页定位。</div>
+  <div id="numtable"></div>
+</div>
+
+<!-- ============ P3 ============ -->
+<div class="panel" id="p3">
+  <h2 class="sec">最容易写混的七组对比</h2>
+  <div class="legend">这七组是阅卷时"看起来对但拿不到分"的重灾区，必须逐字区分。</div>
+
+  <h2 class="sec">① 五类研发管理：队伍对比（谁参与）</h2>
+  <table>
+    <thead><tr><th>研发类型</th><th>队伍构成</th><th>独有人群（辨识锚）</th></tr></thead>
+    <tbody>
+      <tr><td class="k">服务产品</td><td>虚拟团队：售前市场 + 售前 + 服务交付 + 质量管理，另设<b>产品经理</b></td><td class="mn">产品经理</td></tr>
+      <tr><td class="k">服务规范</td><td>质量管理负责人 + 资深技术专家 + <b>资深需方服务经理</b></td><td class="mn">需方服务经理</td></tr>
+      <tr><td class="k">服务工具</td><td>过程管理工具：服务交付<b>管理人员</b> + 专业软件人员<br>监控与专用工具：服务交付<b>技术人员</b> + 专业软件开发人员</td><td class="mn">两类工具两支队伍</td></tr>
+      <tr><td class="k">问题技术</td><td><b>高级运维工程师</b> + 技术专家</td><td class="mn">高级运维工程师</td></tr>
+      <tr><td class="k">新技术</td><td>资深技术专家（单独，无交付 / 管理人员）</td><td class="mn">纯技术专家</td></tr>
+    </tbody>
+  </table>
+  <div class="legend">记忆法：<b>越靠近交付，队伍越杂；越靠近前沿，队伍越纯。</b>服务产品要跨部门攒人（虚拟团队），新技术研究只由技术专家探路。</div>
+
+  <h2 class="sec">② 五类研发管理：产出物对比（防串台）</h2>
+  <table>
+    <thead><tr><th>研发类型</th><th>条数</th><th>口诀</th><th>产出物</th></tr></thead>
+    <tbody>
+      <tr><td class="k">服务产品</td><td class="c">3</td><td class="mn">目录 · 交式 · 质管</td><td>服务目录 / 服务交付方式 / 服务质量管理</td></tr>
+      <tr><td class="k">服务规范</td><td class="c">4</td><td class="mn">指 · 规 · 技 · 障</td><td>IT 服务工作指南 / 过程管理规范 / 技术手册 / 故障处理手册</td></tr>
+      <tr><td class="k">服务工具</td><td class="c">3</td><td class="mn">包 · 介 · 源</td><td>工具发布包及使用手册 / 工具介绍文档 / 需求文档、设计文档和源代码</td></tr>
+      <tr><td class="k">问题技术</td><td class="c">5</td><td class="mn">具 · 料 · 书 · 库 · 册</td><td>软硬件工具 / 故障分析诊断文档资料 / 故障诊断作业指导书 / 知识案例库 / 解决问题操作手册</td></tr>
+      <tr><td class="k">新技术</td><td class="c">3</td><td class="mn">告 · 文 · 材</td><td>应用前景分析报告 / 技术文档 / 培训教材</td></tr>
+    </tbody>
+  </table>
+  <div class="legend"><b>条数序列 3-4-3-5-3 是本章最强的一张牌</b>：5 项的唯一是"问题技术"，4 项的唯一是"服务规范"，其余三个都是 3 项。<br>⚠️ 两个"手册"别混：<b>技术手册、故障处理手册属"服务规范"</b>；<b>工具使用手册、作业指导书、操作手册属"工具 / 问题技术"</b>。</div>
+
+  <h2 class="sec">③ 管理对象 6 项 vs 应用管理要点 6 项（都是 6，别串）</h2>
+  <table>
+    <thead><tr><th>对比项</th><th>技术研发管理的管理对象</th><th>技术研发应用的管理要点</th></tr></thead>
+    <tbody>
+      <tr><td class="k">口诀</td><td class="mn">队 · 程 · 本 · 项 · 绩 · 险</td><td class="mn">险 · 选 · 验 · 决 · 用 · 踪</td></tr>
+      <tr><td class="k">回答什么</td><td><b>管什么</b>（管理要素）</td><td><b>怎么把技术用起来</b>（动作序列）</td></tr>
+      <tr><td class="k">关键词特征</td><td>六项<b>全部带"研发"前缀</b>：研发团队、研发过程、研发成本…</td><td>六项是<b>动作式短语</b>：判断与选择、技术验证、技术决策…</td></tr>
+      <tr><td class="k">题干信号</td><td>出现"<b>管理对象 / 包括哪些要素</b>"</td><td>出现"<b>管理要点 / 应用措施 / 步骤</b>"</td></tr>
+    </tbody>
+  </table>
+  <div class="legend">区分就一句话：<b>带"研发"前缀的写"队程本项绩险"，不带前缀的动作写"险选验决用踪"。</b></div>
+
+  <h2 class="sec">④ 技术研发 4 过程 vs 技术研发应用 6 要点</h2>
+  <table>
+    <thead><tr><th>对比项</th><th>技术研发管理的过程（4）</th><th>技术研发应用的管理要点（6）</th></tr></thead>
+    <tbody>
+      <tr><td class="k">层级</td><td>研发<b>管理</b>的宏观闭环</td><td>研发<b>应用</b>的具体动作</td></tr>
+      <tr><td class="k">口诀</td><td class="mn">规 · 实 · 监 · 应</td><td class="mn">险 · 选 · 验 · 决 · 用 · 踪</td></tr>
+      <tr><td class="k">关系</td><td colspan="2">4 过程里的"<b>应用过程</b>"，就是 6 要点的第 ⑤ 项"<b>技术应用</b>"——前者是阶段名，后者是阶段里的工作内容</td></tr>
+      <tr><td class="k">终点</td><td>落在"<b>应用</b>"（不是验收）</td><td>落在"<b>跟踪管理</b>"（含终止不适用技术、处理创新失败）</td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="sec">⑤ 顺序陷阱：技术验证 在 技术决策 之前</h2>
+  <table>
+    <thead><tr><th>要点</th><th>正确顺序</th><th>为什么</th></tr></thead>
+    <tbody>
+      <tr><td class="k">技术研发应用</td><td>风险与机遇 → 判断与选择 → <b>技术验证</b> → <b>技术决策</b> → 技术应用 → 跟踪管理</td><td>先小范围验证（必要时开发技术原型）确认可行，<b>再</b>正式拍板；反过来写就是"先决策后验证"</td></tr>
+      <tr><td class="k">技术手册发布</td><td><b>审核 → 存档 → 发放</b></td><td>没审核就发放、或没存档就发放，都是顺序性错误</td></tr>
+      <tr><td class="k">知识产权管理</td><td>获取 → 维护 → 运用 → 保护 → <b>合规管理</b></td><td>"保护"是防别人侵犯我，"合规"是不侵犯别人，方向相反，合规必须放最后</td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="sec">⑥ 三个"5"防串台</h2>
+  <table>
+    <thead><tr><th>清单</th><th>口诀</th><th>起手词（最强锚）</th></tr></thead>
+    <tbody>
+      <tr><td class="k">技术研发的范围（5）</td><td class="mn">运 · 规 · 问 · 工 · 产</td><td>与系统运行相关的技术研发</td></tr>
+      <tr><td class="k">组织结构 5 类角色</td><td class="mn">决 · 需 · 研 · 质 · 他</td><td>技术研发决策负责人</td></tr>
+      <tr><td class="k">知识产权管理流程（5）</td><td class="mn">取 · 维 · 运 · 保 · 合</td><td>获取</td></tr>
+      <tr><td class="k">技术应用的五个动作（5）</td><td class="mn">人 · 具 · 客 · 新 · 知</td><td>把技术传递给人员</td></tr>
+    </tbody>
+  </table>
+  <div class="legend">⚠️ 其实本章有<b>四个"5"</b>（范围 / 角色 / 知识产权 / 技术应用动作）。唯一解药：<b>念口诀必须带主题名</b>，且先写编号再填词（5 条最长，中间最容易漏）。</div>
+
+  <h2 class="sec">⑦ 跨册撞车：知识转移 4 项 vs 第一册"退役移交 5 项"</h2>
+  <table>
+    <thead><tr><th>对比项</th><th>知识转移的内容（本章）</th><th>移交会议的内容（第一册·服务退役）</th></tr></thead>
+    <tbody>
+      <tr><td class="k">条数</td><td class="c">4</td><td class="c">5</td></tr>
+      <tr><td class="k">口诀</td><td class="mn">史 · 架 · 应 · 业</td><td class="mn">五交：文 · 知 · 技 · 基 · 模</td></tr>
+      <tr><td class="k">条目</td><td>历史运维资料 / 基础架构资料 / 应用系统资料 / 业务资料</td><td>文件信息移交 / 知识移交 / 技能移交 / 基线移交 / 模拟环境移交</td></tr>
+      <tr><td class="k">视角</td><td>转移<b>什么资料</b>（物料清单）</td><td>转移<b>什么形态</b>（动作类型）</td></tr>
+    </tbody>
+  </table>
+  <div class="legend">⚠️ 两处都有"<b>知识</b>"字眼，最易串。辨识锚：<b>本章 4 项全是"XX 资料"（名词），第一册 5 项全是"XX 移交"（动作）</b>。<br>本章的"历史运维资料 + 基础架构资料 + 应用系统资料"正好覆盖第一册"文件信息移交"的具体内容，可互相印证。</div>
+
+</div>
+
+<!-- ============ P4 ============ -->
+<div class="panel" id="p4">
+  <div class="howto">
+    <h3>默写闯关 · 判定规则</h3>
+    <ol>
+      <li><b>智能抽题</b>：未掌握的考点优先出现，已掌握的降为低频（仍会温故，不会消失），答错过的权重最高。</li>
+      <li>提交后按<b>条目命中率</b>给分：每答中一条标准答案中的关键表述即算命中。</li>
+      <li><b>≥85% 通过</b>；60%~85% 需重写；&lt;60% 回「骨架+口诀」页重背。</li>
+      <li>拿到满分的条目会自动在「骨架+口诀」页标为已掌握。</li>
+    </ol>
+  </div>
+  <div class="legend" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+    <span>抽题偏好</span>
+    <button class="mini strbtn" data-mode="smart">正常复习</button>
+    <button class="mini strbtn" data-mode="focus">侧重薄弱</button>
+    <button class="mini strbtn" data-mode="all">全部随机</button>
+    <span id="poolinfo" style="margin-left:auto"></span>
+  </div>
+  <div class="qbox">
+    <div class="qstem" id="qstem">点击「出题」开始</div>
+    <div class="qmeta">
+      <span id="qmod"></span>
+      <span id="qcnt"></span>
+      <span id="qidx"></span>
+      <span id="qtier"></span>
+    </div>
+    <textarea id="uans" placeholder="在这里默写你的答案，一条一行更利于判分……"></textarea>
+    <div class="hintbar" id="hintbar"></div>
+    <div class="qactions">
+      <button class="btn pri" id="submit">提交判分</button>
+      <button class="btn" id="nex">出题 / 换题</button>
+      <button class="btn" id="hint">首字提示</button>
+      <button class="btn" id="showans">看标准答案</button>
+    </div>
+    <div class="result" id="res">
+      <div class="score" id="score">0%</div>
+      <div class="stats" style="margin-top:8px">
+        <span>命中 <b id="hit">0</b>/<b id="tot">0</b> 条</span>
+        <span>累计作答 <b id="attempts">0</b> 次</span>
+        <span>平均分 <b id="avg">0</b>%</span>
+      </div>
+      <div class="rlist" id="rlist"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ P5 ============ -->
+<div class="panel" id="p5">
+  <div class="howto">
+    <h3>这一章的 3 天打法</h3>
+    <ol>
+      <li><b>Day 1 上午（约 30 min）先钉四个总览数字。</b>白纸写「范围 5 / 对象 6 / 角色 5 / 过程 4」，每个数字后面补出条目。这四组是本章的骨架，后面所有内容都挂在这上面。</li>
+      <li><b>Day 1 下午（约 1h）死磕五类研发管理。</b>做一张 5 行 3 列的表（类型 / 队伍 / 产出物），先默写列头再逐行填。<b>重点练"条数反推"</b>：3-4-3-5-3，看到 5 项就写"问题技术"，看到 4 项就写"服务规范"。</li>
+      <li><b>Day 2 上午攻技术研发应用 6 要点。</b>按 "<b>4 + 2</b>" 分两段记：前 4 步（险选验决）解决"要不要上"，后 2 步（用踪）解决"怎么用、怎么跟"。<b>技术验证在技术决策之前</b>是这一步的顺序考点，单独写三遍。</li>
+      <li><b>Day 2 下午收尾三张小清单。</b>知识转移 4 项（史架应业）、技术手册发布 3 步（审存发）、知识产权 5 项（取维运保合），加上技术应用的五个动作（人具客新知）。这四组条数少、容易漏，必须默写到条数全对。</li>
+      <li><b>Day 4 全量默写</b>，专攻顺序分：技术验证 → 技术决策、审核 → 存档 → 发放、获取 → 维护 → 运用 → 保护 → 合规。</li>
+      <li><b>Day 7 / Day 15</b> 各做一次全量默写，只要求"条数全对 + 关键词全中"，不要求逐字一致。</li>
+    </ol>
+    <h3 style="margin-top:16px">考场三个提分技巧（本章专用）</h3>
+    <ol>
+      <li><b>先写编号，再填词。</b>本章 5 条、6 条的清单占比高（范围 5 / 对象 6 / 角色 5 / 应用要点 6 / 知识产权 5 / 技术应用动作 5）。动笔前先在答题区写出 ①②③④⑤⑥，再逐格填——这是防漏条最有效的一招。</li>
+      <li><b>答题开头必须写出主题名。</b>例如"技术研发的范围包括：""五类研发管理中服务规范的产出物包括："。本章数字撞车严重，阅卷人只有看到主题名才知道你在答哪一题；即便条目有出入，定位正确也能保住大部分分。</li>
+      <li><b>多写"动作 + 对象"的完整表述。</b>本章答案多是"把技术传递给人员""对技术应用分级并明确负责人"这类动宾结构，只写"传递""分级"二字基本不给分。<b>宁可多写三个字，不要少写中心词。</b></li>
+    </ol>
+  </div>
+  <h2 class="sec">已掌握清单</h2>
+  <div id="mastered" class="legend">还没有标记任何条目。</div>
+</div>
+
+</div>
+
+<script>
+/* =========================================================
+   数据：题干 q / 口诀 chips / 标准答案 a / 备注 note
+   ========================================================= */
+const MODULES = [
+{
+  no:'00', name:'技术研发管理总览 · 范围 / 对象 / 组织 / 过程',
+  items:[
+    { q:'技术研发的范围（5 项）',
+      chips:[{t:'运·规·问·工·产',c:''},{t:'运行 / 规范 / 问题 / 工具 / 产品',c:'b'}],
+      a:['与系统运行相关的技术研发',
+         '技术规范的研发',
+         '发现问题和解决问题相关技术的研发',
+         '运行维护工具研发',
+         'IT 服务产品研发'],
+      note:'口诀<b>运·规·问·工·产</b>，一字一条、顺序与答案完全一致，可以直接按口诀顺序默写。<br>逻辑线索是"<b>从跑得稳，到定规矩，到能排障，到有工具，最后形成产品</b>"——由内到外、由保障到输出。<br>⚠️ 第 4 条是运行<b>维护工具</b>，第 5 条才是服务<b>产品</b>，别把工具当产品。<br>⚠️ 别与本章"技术研发应用的管理要点 6 项"混：题干问"<b>范围</b>"写这 5 条，问"<b>要点 / 措施</b>"写 6 条。'
+    },
+    { q:'技术研发管理的管理对象（6 项）',
+      chips:[{t:'队·程·本·项·绩·险',c:''},{t:'3 类资源 + 3 类约束',c:'b'}],
+      a:['研发团队',
+         '研发过程',
+         '研发成本',
+         '研发项目',
+         '研发绩效',
+         '研发风险'],
+      note:'口诀<b>队·程·本·项·绩·险</b>（团队 / 过程 / 成本 / 项目 / 绩效 / 风险）。<br>按一句话串起来不容易漏："<b>管谁（团队）→ 怎么管（过程）→ 花多少钱（成本）→ 在哪管（项目）→ 管得怎么样（绩效、风险）</b>"。<br>⚠️ 这 6 项<b>全部带"研发"前缀</b>，默写时不能省字——省掉前缀就与"应用管理 6 要点"混淆（见第三页第 ③ 组）。'
+    },
+    { q:'技术研发管理的组织结构（5 类角色）',
+      chips:[{t:'决·需·研·质·他',c:''},{t:'拍板 → 提需求 → 做研发 → 把质量 → 其他',c:'b'}],
+      a:['技术研发决策负责人：由 IT 服务主管、IT 服务副主管、主管技术负责人等担任',
+         '技术研发需求负责人',
+         '技术研发负责人',
+         '质量管理负责人',
+         '其他参与角色'],
+      note:'口诀<b>决·需·研·质·他</b>，本质是一条"<b>从拍板到执行</b>"的链条：先有人<b>决策</b>，再有人提<b>需求</b>，再有人做<b>研发</b>，由<b>质量</b>把关，最后是其他参与角色。<br>⚠️ 必背采分点：<b>决策负责人由 IT 服务主管 / IT 服务副主管 / 主管技术负责人担任</b>——这三个身份要能一口气答出来。<br>⚠️ 别把"技术研发需求负责人"与"技术研发负责人"合并成一条，这是两个不同角色。'
+    },
+    { q:'技术研发管理的四个过程',
+      chips:[{t:'规·实·监·应',c:''},{t:'规划 → 实施 → 监控 → 应用',c:'b'}],
+      a:['规划过程',
+         '实施过程',
+         '监控过程',
+         '应用过程'],
+      note:'口诀<b>规·实·监·应</b>。这是一条标准的管理闭环（PDCA 的变体）：<b>先规划、再实施、边做边监控、最后落到应用</b>。<br>⚠️ 终点是"<b>应用</b>"而不是"验收"或"结项"——技术研发的价值必须落到服务里才算完成。<br>⚠️ 这 4 个过程与"技术研发应用的管理要点 6 项"是<b>层级不同的两套东西</b>：前者是阶段名，后者是阶段里的动作（详见第三页第 ④ 组）。'
+    }
+  ]
+},
+{
+  no:'01', name:'五类研发管理 · 队伍与产出物',
+  items:[
+    { q:'服务产品研发管理的队伍与产出物',
+      chips:[{t:'虚拟团队 + 产品经理',c:''},{t:'产出 3 项：目录 · 交式 · 质管',c:'b'}],
+      a:['研发队伍：一般为虚拟团队，成员来自售前市场、售前、服务交付、质量管理等不同部门',
+         '通常设置专门的产品经理，负责研发、推广和团队管理',
+         '产出物一：服务目录，包括服务名称、对象、内容、价值、交付形式、SLA 等',
+         '产出物二：服务交付方式，包括服务团队组织、交付文档、交付过程等',
+         '产出物三：服务质量管理，包括 SLA 指标要求及相应的度量方式'],
+      note:'产出物口诀<b>目录 · 交式 · 质管</b>（服务目录 / 服务交付方式 / 服务质量管理）。<br>⚠️ 记忆钩子：<b>五类研发里只有服务产品研发用"虚拟团队 + 专门产品经理"</b>——因为要卖产品，必须跨部门攒人。<br>⚠️ 服务目录的要素（名称 / 对象 / 内容 / 价值 / 交付形式 / SLA）是第一册"服务目录"知识点的直接复用，可互相印证。<br>⚠️ 服务质量管理这一条不要漏掉"<b>及相应的度量方式</b>"——只写"SLA 指标要求"不给满分。'
+    },
+    { q:'IT 服务规范研发管理的队伍与产出物',
+      chips:[{t:'质管 + 技术专家 + 需方服务经理',c:''},{t:'产出 4 项：指 · 规 · 技 · 障',c:'b'}],
+      a:['研发队伍：一般由质量管理负责人、资深技术专家、资深需方服务经理组成',
+         '产出物：IT 服务工作指南',
+         '产出物：过程管理规范',
+         '产出物：技术手册',
+         '产出物：故障处理手册等'],
+      note:'产出物口诀<b>指·规·技·障</b>（工作指南 / 过程管理规范 / 技术手册 / 故障处理手册）。<br>⚠️ 队伍的独有特征：<b>五类里只有本类出现"资深需方服务经理"</b>——因为规范要供需双方都认，必须带上需方视角。<br>⚠️ 本类产出物是"<b>规范类文档</b>"（规定该怎么干），与"服务工具研发"的软件产品严格区分：<b>技术手册、故障处理手册属本类</b>。'
+    },
+    { q:'服务工具研发管理的队伍与产出物',
+      chips:[{t:'两类工具 · 两支队伍',c:''},{t:'产出 3 项：包 · 介 · 源',c:'b'}],
+      a:['过程管理工具的研发队伍：服务交付管理人员 + 专业软件人员',
+         '监控工具和专用工具的研发队伍：服务交付技术人员 + 专业软件开发人员',
+         '产出物通常体现为软件产品，包括工具发布包和使用手册',
+         '产出物包括工具介绍文档',
+         '产出物包括需求文档、设计文档和源代码，用于后续升级开发和维护'],
+      note:'产出物口诀<b>包·介·源</b>（发布包及使用手册 / 介绍文档 / 需求+设计文档+源代码）。<br>⚠️ 两支队伍的区分是本章经典陷阱：<b>过程管理工具配"服务交付管理人员 + 专业软件人员"</b>（偏流程），<b>监控和专用工具配"服务交付技术人员 + 专业软件开发人员"</b>（偏技术）。<br>⚠️ 两个易漏点：①"<b>源代码也是交付物</b>"；②其用途是"<b>用于后续升级开发和维护</b>"——这句常被单独拿出来考。'
+    },
+    { q:'发现问题和解决问题相关技术研发管理的队伍与产出物',
+      chips:[{t:'高级运维工程师 + 技术专家',c:''},{t:'产出 5 项：具 · 料 · 书 · 库 · 册',c:'b'}],
+      a:['研发队伍：一般由高级运维工程师和技术专家组成',
+         '产出物：具备诊断分析和解决问题能力的软硬件工具',
+         '产出物：故障分析诊断技术文档和资料',
+         '产出物：故障诊断作业指导书',
+         '产出物：知识案例库',
+         '产出物：解决问题操作手册'],
+      note:'产出物口诀<b>具·料·书·库·册</b>（工具 / 文档资料 / 作业指导书 / 知识案例库 / 操作手册）。<br>⚠️ <b>五类研发里只有这一类产出 5 项</b>——条数本身就是最强辨识锚。<br>⚠️ 记忆线索：这一类要同时解决"<b>发现</b>问题"和"<b>解决</b>问题"两件事，所以产出既有<b>诊断类</b>（工具、文档、作业指导书），又有<b>解决类</b>（知识案例库、操作手册）。<br>⚠️ 队伍的独有特征：<b>"高级运维工程师"只出现在这一类</b>。'
+    },
+    { q:'新技术研究管理的队伍与产出物',
+      chips:[{t:'资深技术专家（单独）',c:''},{t:'产出 3 项：告 · 文 · 材',c:'b'}],
+      a:['研发队伍：一般由资深技术专家组成',
+         '产出物：应用前景分析报告',
+         '产出物：技术文档',
+         '产出物：培训教材'],
+      note:'产出物口诀<b>告·文·材</b>（应用前景分析报告 / 技术文档 / 培训教材）。<br>⚠️ 记忆钩子：新技术研究的定位是"<b>探路</b>"，不产出可用工具，只产出判断与储备——所以是"<b>报告 + 文档 + 教材</b>"三件套，条数最少（3 项）。<br>⚠️ 队伍里<b>只有资深技术专家，没有交付人员或管理人员</b>——五类中最"纯技术"的一支。'
+    }
+  ]
+},
+{
+  no:'02', name:'五类研发管理 · 对比总览（防串台）',
+  items:[
+    { q:'五类研发管理的队伍与产出物对比（防串台）',
+      chips:[{t:'产出条数 3 · 4 · 3 · 5 · 3',c:''},{t:'队伍看"独有人群"',c:'b'}],
+      a:['服务产品研发：虚拟团队加产品经理，产出 3 项（服务目录、服务交付方式、服务质量管理）',
+         'IT 服务规范研发：质量管理负责人、资深技术专家、资深需方服务经理，产出 4 项（工作指南、过程管理规范、技术手册、故障处理手册）',
+         '服务工具研发：过程管理工具配管理人员与软件人员、监控与专用工具配技术人员与软件开发人员，产出 3 项（发布包及使用手册、介绍文档、需求与设计文档及源代码）',
+         '发现问题和解决问题技术研发：高级运维工程师加技术专家，产出 5 项（软硬件工具、故障分析诊断文档资料、故障诊断作业指导书、知识案例库、解决问题操作手册）',
+         '新技术研究：资深技术专家，产出 3 项（应用前景分析报告、技术文档、培训教材）'],
+      note:'两步定位法：<br>①<b>先看条数</b>——5 项的唯一是"发现问题和解决问题"，4 项的唯一是"服务规范"，其余三个都是 3 项；<br>②<b>再看独有人群</b>——"需方服务经理"→服务规范；"高级运维工程师"→问题技术；"产品经理"→服务产品；只有技术专家→新技术研究。<br>⚠️ 念口诀必须带类名：「<b>服务规范</b>产出：指规技障」——不带类名的口诀等于没记。'
+    }
+  ]
+},
+{
+  no:'03', name:'技术研发应用的管理要点',
+  items:[
+    { q:'技术研发应用的管理要点（6 项）',
+      chips:[{t:'险·选·验·决·用·踪',c:''},{t:'前 4 步"要不要上" + 后 2 步"怎么用"',c:'b'}],
+      a:['技术风险与机遇：分析技术引进与服务创新风险并控制，分析各类潜在有利与不利因素',
+         '判断与选择：科学判断技术应用效果，结构化分析有利与不利因素',
+         '技术验证：对性价比较高但风险较大的技术应用进行验证，必要时开发技术原型',
+         '技术决策：选择技术方向、服务中相关技术、服务工具使用技术，并进行技术可行性分析',
+         '技术应用：把技术传递给人员、转变成服务工具、作为服务的一部分交付客户等',
+         '技术实现跟踪管理：定期评估技术实现状态，持续跟踪并及时终止不适用技术'],
+      note:'口诀<b>险·选·验·决·用·踪</b>。结构是 <b>4 + 2</b>：前 4 步解决"<b>这项技术要不要上</b>"（看风险 → 做选择 → 做验证 → 拍决策），后 2 步解决"<b>上了之后怎么用、怎么跟</b>"。<br>⚠️ 最大顺序陷阱：<b>技术验证在技术决策之前</b>——先小范围验证（必要时开发技术原型）确认可行，<b>再</b>正式拍板。写成"决策 → 验证"直接丢顺序分。<br>⚠️ "<b>技术论证</b>"不是独立一步，它是"技术决策"里的动作（进行技术可行性分析），别另立成第 7 条。<br>⚠️ 不利因素的处理路径要记全：<b>纳入风险管理并降至可接受程度</b>。'
+    },
+    { q:'技术应用（要点⑤）的具体要求 —— 五个动作',
+      chips:[{t:'人·具·客·新·知',c:''},{t:'由内到外的价值链条',c:'b'}],
+      a:['把技术传递给人员，形成服务能力',
+         '把技术转变成服务工具，提升质量和效率',
+         '把技术作为服务的一部分交付客户，实现服务价值',
+         '利用新技术开展服务创新',
+         '将技术知识化、文档化'],
+      note:'口诀<b>人·具·客·新·知</b>（给人 / 变工具 / 交付客户 / 做创新 / 知识文档化）。<br>五条恰好是从内到外的价值链：<b>武装自己 → 变成工具 → 交付客户 → 创造新模式 → 沉淀下来</b>，按这条线推不会漏。<br>⚠️ 最后一条"<b>知识化、文档化</b>"最容易漏，它同时也是"知识转移"的前置动作。<br>⚠️ 每条都要写"<b>把技术…</b>"这个动宾结构，只写"人员、工具、客户"会被判不完整。'
+    },
+    { q:'技术实现跟踪管理（要点⑥）的具体要求',
+      chips:[{t:'评 · 跟 · 终 · 处 · 调 · 责',c:''},{t:'含"敢于止损"',c:'b'}],
+      a:['定期评估技术实现状态',
+         '持续跟踪评估技术实现情况，及时终止不适用的技术',
+         '妥善处理技术创新的失败',
+         '按服务组合管理的要求调整技术应用',
+         '对技术应用分级并明确负责人',
+         '对应用结果负责，并随市场变化及时调整技术规划'],
+      note:'口诀<b>评·跟·终·处·调·责</b>。<br>⚠️ 三个高频采分词：<b>及时终止不适用的技术</b>、<b>妥善处理创新失败</b>、<b>按服务组合管理要求调整</b>——这三条体现"技术管理要敢于止损"，是案例题的标准得分句。<br>⚠️ 措辞陷阱：是"对技术应用<b>分级</b>"并明确负责人，不是"分类"；末条是"随<b>市场变化</b>调整技术规划"，不是随内部需求。'
+    }
+  ]
+},
+{
+  no:'04', name:'知识转移 · 文档管理 · 知识产权',
+  items:[
+    { q:'知识转移的内容（4 项）',
+      chips:[{t:'史·架·应·业',c:''},{t:'由运维到业务，自下而上',c:'b'}],
+      a:['历史运维资料',
+         '基础架构资料',
+         '应用系统资料',
+         '业务资料'],
+      note:'口诀<b>史·架·应·业</b>。顺序是一条"<b>自下而上、由技术到业务</b>"的线索：<b>过去怎么运维 → 底层架构是什么 → 上面跑什么应用 → 业务怎么运转</b>。<br>⚠️ 顺序别乱：基础架构必须在应用系统之前，业务资料永远放最后。<br>⚠️ 跨册撞车提醒：第一册服务退役的"移交会议五交"里有"<b>知识移交</b>"，两处都带"知识"二字。辨识锚：<b>本章 4 项全是"XX 资料"（名词），第一册 5 项全是"XX 移交"（动作）</b>（详见第三页第 ⑦ 组）。'
+    },
+    { q:'技术手册的发布流程',
+      chips:[{t:'审·存·发',c:''},{t:'审核 → 存档 → 发放',c:'b'}],
+      a:['审核：技术手册内容经审核确认',
+         '存档：审核通过后归档保存',
+         '发放：按范围发放到使用人员'],
+      note:'口诀<b>审·存·发</b>。<b>必须先审核、再存档、最后发放</b>——没审核就发放、或没存档就发放，都是顺序性错误。<br>⚠️ 与"知识转移"的关系：技术手册是知识转移的载体之一，真正的转移动作发生在"<b>发放</b>"之后。'
+    },
+    { q:'SOP（标准操作规范）的作用与要点',
+      chips:[{t:'标准化 + 可复制 + 降依赖',c:''},{t:'补充考点（原笔记仅列名称）',c:'p'}],
+      a:['SOP 即标准操作规范，把重复性作业的操作步骤、方法、要求标准化',
+         '作用：保证不同人员执行同一作业时结果一致，降低对个人经验的依赖',
+         'SOP 需经审核批准后发布，并纳入知识管理持续更新',
+         'SOP 是知识转移与技能传承的重要载体，常与作业指导书、操作手册配套使用'],
+      note:'⚠️ 这一条是<b>补充考点</b>——你的原笔记只列了"SOP（标准操作规范）"几个字，没有展开。以上按教材通用口径补齐。<br>考试若只考名称，写出"<b>标准操作规范</b>"即可得分；若考作用，抓住三个关键词：<b>标准化、可复制、降低对个人经验的依赖</b>。<br>⚠️ 别与"技术手册"混：手册是"<b>知识载体</b>"，SOP 是"<b>操作标准</b>"——手册告诉你"是什么"，SOP 告诉你"怎么做、做到什么程度"。'
+    },
+    { q:'知识产权管理的流程（5 项）',
+      chips:[{t:'取·维·运·保·合',c:''},{t:'拿到 → 维持 → 变现 → 防守 → 不越界',c:'b'}],
+      a:['获取：通过申请、登记等方式取得知识产权',
+         '维护：维持权利有效，按期续费与年费管理',
+         '运用：把知识产权转化为服务能力与收益',
+         '保护：防止被侵权，并在被侵权时维权',
+         '合规管理：确保不侵犯他人知识产权'],
+      note:'口诀<b>取·维·运·保·合</b>。<br>⚠️ 顺序逻辑："<b>先拿到 → 再维持 → 再变现 → 再防守 → 最后不越界</b>"。<br>⚠️ 本节最好的区分点：<b>"保护"是防别人侵犯我，"合规管理"是我不侵犯别人</b>，一正一反、方向相反，所以合规管理必然放在最后。<br>⚠️ 五项里"<b>合规管理</b>"最容易被漏掉——因为它不像前四项那样是"对自有资产的动作"。'
+    }
+  ]
+},
+{
+  no:'05', name:'全章数字锚 · 防串台总览',
+  items:[
+    { q:'技术与研发管理全章数字锚一览（防串台）',
+      chips:[{t:'5 · 6 · 5 · 4 · 3-4-3-5-3 · 6 · 4 · 3 · 5',c:''}],
+      a:['技术研发范围 5 项：运行、规范、问题、工具、产品',
+         '技术研发管理对象 6 项：团队、过程、成本、项目、绩效、风险',
+         '组织结构 5 类角色：决策负责人、需求负责人、研发负责人、质量管理负责人、其他参与角色',
+         '技术研发管理过程 4 步：规划、实施、监控、应用',
+         '五类研发产出物条数 3-4-3-5-3：服务产品 3、服务规范 4、服务工具 3、问题技术 5、新技术 3',
+         '技术研发应用管理要点 6 项：风险与机遇、判断与选择、技术验证、技术决策、技术应用、技术实现跟踪管理',
+         '知识转移内容 4 项：历史运维资料、基础架构资料、应用系统资料、业务资料',
+         '技术手册发布 3 步：审核、存档、发放',
+         '知识产权管理流程 5 项：获取、维护、运用、保护、合规管理'],
+      note:'本章最大的坑是"<b>"5"和"3"反复出现</b>"：<br><b>5</b>——技术研发范围、组织结构角色、技术应用五个动作、知识产权流程（共 4 处）；<br><b>3</b>——服务产品产出、服务工具产出、新技术产出、技术手册发布（共 4 处）。<br>念数字必须<b>带主题名</b>：「<b>技术研发范围</b>五项」「<b>组织结构</b>五类角色」——不带主题名的数字等于没记。<br>⚠️ 本章最强的辨识锚是"<b>产出物条数 3-4-3-5-3</b>"：记住这个序列，五类研发管理的产出物就不会串台。'
+    }
+  ]
+}
+
+];
+
+/* =========================================================
+   渲染：骨架 + 口诀
+   ========================================================= */
+const LS='cnp_v7';
+function loadState(){try{return JSON.parse(localStorage.getItem(LS))||{}}catch(e){return{}}}
+function saveState(s){try{localStorage.setItem(LS,JSON.stringify(s))}catch(e){}}
+let ST=loadState();
+if(!ST.mastered)ST.mastered={};
+if(!ST.attempts)ST.attempts=[];
+if(!ST.stats)ST.stats={};
+if(!ST.reviewMode)ST.reviewMode='smart';
+
+let QIDX=[];
+{
+  const box=document.getElementById('mods');
+  MODULES.forEach((m,mi)=>{
+    const d=document.createElement('details');
+    d.className='mod'; d.open=true;
+    const total=m.items.length;
+    d.innerHTML=`<summary><span class="no">${m.no}</span><span>${m.name}</span><span class="cnt">${total} 个考点</span><span class="arw">▶</span></summary><div class="modbody"></div>`;
+    const body=d.querySelector('.modbody');
+    m.items.forEach((it,ii)=>{
+      const id=`${mi}-${ii}`;
+      QIDX.push({id,mi,ii,m,it});
+      const c=document.createElement('div');
+      c.className='card'+(ST.mastered[id]?' ok':'');
+      c.dataset.id=id;
+      c.innerHTML=`
+        <div class="chead"><div class="q"><span class="n">${m.no}.${ii+1}</span>${it.q}</div></div>
+        <div class="mn">${it.chips.map(x=>`<span class="chip ${x.c||''}">${x.t}</span>`).join('')}</div>
+        <div class="ans"><ol>${it.a.map(t=>`<li>${t}</li>`).join('')}</ol>${it.note?`<div class="note">${it.note}</div>`:''}</div>
+        <div class="cfoot">
+          <button class="mini tog">展开答案</button>
+          <button class="mini tap">标记已掌握</button>
+          <span style="font-size:11.5px;color:var(--txt3);margin-left:auto">共 ${it.a.length} 条</span>
+        </div>`;
+      body.appendChild(c);
+    });
+    box.appendChild(d);
+  });
+}
+
+document.addEventListener('click',e=>{
+  const card=e.target.closest('.card'); if(!card)return;
+  if(e.target.classList.contains('tog')){
+    card.classList.toggle('open');
+    e.target.textContent=card.classList.contains('open')?'收起答案':'展开答案';
+  }
+  if(e.target.classList.contains('tap')){
+    const id=card.dataset.id;
+    ST.mastered[id]=!ST.mastered[id];
+    card.classList.toggle('ok',!!ST.mastered[id]);
+    e.target.classList.toggle('on',!!ST.mastered[id]);
+    saveState(ST);renderProgress();renderPoolInfo();
+  }
+});
+{
+  const bar=document.createElement('div');
+  bar.style.cssText='display:flex;gap:8px;margin:0 0 14px';
+  bar.innerHTML=`<button class="btn" id="expandAll">全部展开答案</button>
+                 <button class="btn" id="collapseAll">全部折叠（纯回忆模式）</button>
+                 <button class="btn" id="markAll">全部标记已掌握</button>`;
+  document.getElementById('mods').before(bar);
+  bar.querySelector('#expandAll').onclick=()=>document.querySelectorAll('#mods .card').forEach(c=>{c.classList.add('open');const b=c.querySelector('.tog');if(b)b.textContent='收起答案';});
+  bar.querySelector('#collapseAll').onclick=()=>document.querySelectorAll('#mods .card').forEach(c=>{c.classList.remove('open');const b=c.querySelector('.tog');if(b)b.textContent='展开答案';});
+  bar.querySelector('#markAll').onclick=()=>{
+    QIDX.forEach(x=>ST.mastered[x.id]=true);saveState(ST);
+    document.querySelectorAll('#mods .card').forEach(c=>{c.classList.add('ok');const b=c.querySelector('.tap');if(b)b.classList.add('on');});
+    renderProgress();renderMastered();
+  };
+}
+
+function renderProgress(){
+  const tot=QIDX.length, done=QIDX.filter(x=>ST.mastered[x.id]).length;
+  document.getElementById('pbar').style.width=(tot?done/tot*100:0)+'%';
+  document.getElementById('ptxt').textContent=`${done} / ${tot}`;
+  renderMastered();
+}
+function renderMastered(){
+  const list=QIDX.filter(x=>ST.mastered[x.id]);
+  const el=document.getElementById('mastered');
+  if(!list.length){el.innerHTML='还没有标记任何条目。';return}
+  el.innerHTML=list.map(x=>`• <b>${x.m.no}.${x.ii+1}</b> ${x.it.q}`).join('<br>');
+}
+
+/* =========================================================
+   渲染：数字速查
+   ========================================================= */
+const NUM=[
+  ['5','技术研发范围','运规问工产','与系统运行相关的技术研发 / 技术规范的研发 / 发现和解决问题相关技术的研发 / 运行维护工具研发 / IT 服务产品研发'],
+  ['6','技术研发管理对象','队程本项绩险','研发团队 / 研发过程 / 研发成本 / 研发项目 / 研发绩效 / 研发风险'],
+  ['5','技术研发组织结构','决需研质他','技术研发决策负责人 / 技术研发需求负责人 / 技术研发负责人 / 质量管理负责人 / 其他参与角色'],
+  ['4','技术研发管理过程','规实监应','规划过程 / 实施过程 / 监控过程 / 应用过程'],
+  ['3','服务产品研发出产物','目录交式质管','服务目录 / 服务交付方式 / 服务质量管理'],
+  ['4','服务规范研发出产物','指规技障','IT 服务工作指南 / 过程管理规范 / 技术手册 / 故障处理手册'],
+  ['3','服务工具研发出产物','包介源','工具发布包及使用手册 / 工具介绍文档 / 需求文档、设计文档和源代码'],
+  ['5','问题技术研发出产物','具料书库册','软硬件工具 / 故障分析诊断技术文档和资料 / 故障诊断作业指导书 / 知识案例库 / 解决问题操作手册'],
+  ['3','新技术研究产出物','告文材','应用前景分析报告 / 技术文档 / 培训教材'],
+  ['6','技术研发应用管理要点','险选验决用踪','技术风险与机遇 / 判断与选择 / 技术验证 / 技术决策 / 技术应用 / 技术实现跟踪管理'],
+  ['5','技术应用的五个动作','人具客新知','把技术传递给人员形成服务能力 / 把技术转变成服务工具 / 把技术作为服务的一部分交付客户 / 利用新技术开展服务创新 / 将技术知识化文档化'],
+  ['6','技术实现跟踪管理要求','评跟终处调责','定期评估技术实现状态 / 持续跟踪并及时终止不适用技术 / 妥善处理技术创新失败 / 按服务组合管理要求调整技术应用 / 对技术应用分级并明确负责人 / 对应用结果负责并随市场变化调整技术规划'],
+  ['4','知识转移内容','史架应业','历史运维资料 / 基础架构资料 / 应用系统资料 / 业务资料'],
+  ['3','技术手册发布流程','审存发','审核 / 存档 / 发放'],
+  ['5','知识产权管理流程','取维运保合','获取 / 维护 / 运用 / 保护 / 合规管理']
+
+];
+{
+  const t=document.getElementById('numtable');
+  t.innerHTML=`<table><thead><tr><th>条数</th><th>考点</th><th>口诀</th><th>标准答案</th></tr></thead><tbody>
+  ${NUM.map(r=>`<tr><td class="c">${r[0]}</td><td><b>${r[1]}</b></td><td class="mn">${r[2]}</td><td style="color:var(--txt2)">${r[3]}</td></tr>`).join('')}
+  </tbody></table>`;
+}
+
+/* =========================================================
+   默写闯关
+   ========================================================= */
+const POOL=QIDX.filter(x=>x.it.a.length>=2);
+let cur=null;
+
+function weightOf(x){
+  const mode=ST.reviewMode||'smart';
+  if(mode==='all')return 1;
+  const s=ST.stats[x.id];
+  if(ST.mastered[x.id]){
+    if(s&&s.last<85)return 3;
+    return mode==='focus'?0.2:1.2;
+  }
+  if(!s)return 10;
+  const acc=s.tot/s.n;
+  if(acc<60)return 22;
+  if(acc<85)return 12;
+  return 5;
+}
+function tierOf(x){
+  const mode=ST.reviewMode||'smart';
+  if(mode==='all')return '全部随机';
+  const s=ST.stats[x.id];
+  if(ST.mastered[x.id])return (s&&s.last<85)?'已掌握·回捞':'已掌握·低频';
+  if(!s)return '新题·优先';
+  const acc=s.tot/s.n;
+  if(acc<60)return '薄弱·最高频';
+  if(acc<85)return '待巩固·较高频';
+  return '已熟练·低频';
+}
+function pickWeighted(){
+  let list=POOL;
+  if(POOL.length>1&&cur)list=POOL.filter(x=>x!==cur);
+  const ws=list.map(weightOf);
+  const tot=ws.reduce((a,b)=>a+b,0);
+  if(tot<=0)return list[Math.floor(Math.random()*list.length)];
+  let r=Math.random()*tot;
+  for(let i=0;i<list.length;i++){r-=ws[i];if(r<=0)return list[i];}
+  return list[list.length-1];
+}
+function pick(){
+  if(!POOL.length){document.getElementById('qstem').textContent='题库为空（暂无可出题的考点）';return;}
+  cur=pickWeighted();
+  document.getElementById('qstem').textContent=cur.it.q;
+  document.getElementById('qmod').textContent='模块 '+cur.m.no+' · '+cur.m.name;
+  document.getElementById('qcnt').textContent='应写 '+cur.it.a.length+' 条';
+  document.getElementById('qidx').textContent='题库 '+POOL.length+' 题';
+  const qt=document.getElementById('qtier');
+  if(qt)qt.textContent='档位 '+tierOf(cur);
+  document.getElementById('uans').value='';
+  document.getElementById('hintbar').classList.remove('on');
+  document.getElementById('res').classList.remove('on');
+  document.getElementById('uans').focus();
+}
+function norm(s){return (s||'').replace(/[\s，。、；：,.;:!?！？（）()【】\[\]'"“”‘’—\-_/\\]/g,'').toLowerCase()}
+function keysOf(t){
+  const clean=t.replace(/^[①②③④⑤⑥⑦⑧⑨⑩⑪⑫\d\.\s]+/,'').split('：')[0].split('，')[0];
+  const out=new Set();
+  const push=v=>{if(v.length>=2)out.add(norm(v))};
+  push(clean);push(clean.slice(0,2));push(clean.slice(0,3));push(clean.slice(0,4));
+  t.split(/[、，,；;/]/).forEach(p=>{const q=p.replace(/^[①②③④⑤⑥⑦⑧⑨⑩⑪⑫\d\.\s]+/,'').split('：')[0];push(q);push(q.slice(0,3))});
+  return [...out];
+}
+function judge(){
+  if(!cur)return;
+  const u=norm(document.getElementById('uans').value);
+  const rows=cur.it.a.map(t=>{
+    const ks=keysOf(t);
+    const hit=ks.some(k=>u.includes(k));
+    return{t,hit};
+  });
+  const hits=rows.filter(r=>r.hit).length;
+  const pct=Math.round(hits/rows.length*100);
+  const sc=document.getElementById('score');
+  sc.textContent=pct+'%';
+  sc.className='score '+(pct>=85?'g':pct>=60?'a':'r');
+  document.getElementById('hit').textContent=hits;
+  document.getElementById('tot').textContent=rows.length;
+  document.getElementById('rlist').innerHTML=rows.map(r=>
+    `<div class="ritem ${r.hit?'hit':'miss'}"><span class="tag">${r.hit?'✓ 命中':'✗ 漏写'}</span><span>${r.t}</span></div>`).join('');
+  document.getElementById('res').classList.add('on');
+  ST.attempts.push({id:cur.id,pct,ts:Date.now()});
+  if(ST.attempts.length>400)ST.attempts=ST.attempts.slice(-400);
+  const st=ST.stats[cur.id]||(ST.stats[cur.id]={n:0,tot:0,last:0});
+  st.n++;st.tot+=pct;st.last=pct;
+  if(pct>=100){ST.mastered[cur.id]=true;const card=document.querySelector(`.card[data-id="${cur.id}"]`);
+    if(card){card.classList.add('ok');const b=card.querySelector('.tap');if(b)b.classList.add('on');}}
+  saveState(ST);renderProgress();renderAvg();renderPoolInfo();
+}
+function renderAvg(){
+  const a=(ST.attempts||[]).map(v=>typeof v==='number'?v:v.pct).filter(v=>typeof v==='number');
+  document.getElementById('attempts').textContent=a.length;
+  document.getElementById('avg').textContent=a.length?Math.round(a.reduce((x,y)=>x+y,0)/a.length):0;
+}
+function renderPoolInfo(){
+  const el=document.getElementById('poolinfo');if(!el)return;
+  const nm=POOL.filter(x=>ST.mastered[x.id]).length;
+  el.textContent='题库 '+POOL.length+' 题 · 已掌握 '+nm+' 题（低频）';
+}
+document.getElementById('submit').onclick=judge;
+document.getElementById('nex').onclick=pick;
+document.getElementById('showans').onclick=()=>{
+  if(!cur)return;
+  document.getElementById('rlist').innerHTML=cur.it.a.map(t=>
+    `<div class="ritem" style="background:rgba(77,163,255,.08);color:#cfe3ff"><span class="tag">•</span><span>${t}</span></div>`).join('');
+  document.getElementById('res').classList.add('on');
+};
+document.getElementById('hint').onclick=()=>{
+  if(!cur)return;
+  const h=cur.it.a.map((t,i)=>`${i+1}.${t.replace(/^[①②③④⑤⑥⑦⑧⑨⑩⑪⑫\d\.\s]+/,'').slice(0,1)}○○…`).join('　');
+  const bar=document.getElementById('hintbar');
+  bar.textContent=h;bar.classList.add('on');
+};
+document.getElementById('uans').addEventListener('keydown',e=>{
+  if((e.ctrlKey||e.metaKey)&&e.key==='Enter')judge();
+});
+
+/* 抽题偏好 */
+document.querySelectorAll('#strategy .strbtn').forEach(b=>{
+  b.classList.toggle('on',b.dataset.mode===(ST.reviewMode||'smart'));
+  b.onclick=()=>{
+    ST.reviewMode=b.dataset.mode;saveState(ST);
+    document.querySelectorAll('#strategy .strbtn').forEach(x=>x.classList.toggle('on',x===b));
+    renderPoolInfo();
+  };
+});
+
+/* 页签 */
+document.querySelectorAll('.tab').forEach(t=>{
+  t.onclick=()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+    document.querySelectorAll('.panel').forEach(x=>x.classList.remove('on'));
+    t.classList.add('on');
+    document.getElementById(t.dataset.p).classList.add('on');
+    window.scrollTo({top:0,behavior:'smooth'});
+    if(t.dataset.p==='p4'&&!cur)pick();
+  };
+});
+document.getElementById('reset').onclick=()=>{
+  if(!confirm('确定清空全部掌握进度和答题记录吗？'))return;
+  ST={mastered:{},attempts:[],stats:{},reviewMode:ST.reviewMode||'smart'};saveState(ST);
+  document.querySelectorAll('#mods .card').forEach(c=>{c.classList.remove('ok');const b=c.querySelector('.tap');if(b)b.classList.remove('on');});
+  renderProgress();renderAvg();
+};
+
+renderProgress();renderAvg();renderPoolInfo();pick();
+</script>
+</body>
+</html>

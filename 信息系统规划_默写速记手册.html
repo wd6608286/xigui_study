@@ -271,11 +271,18 @@ h2.sec::before{content:'';width:3px;height:16px;background:linear-gradient(180de
   <div class="howto">
     <h3>默写闯关 · 判定规则</h3>
     <ol>
-      <li>系统随机出题，你独立默写，<b>不看答案</b>。</li>
+      <li><b>智能抽题</b>：未掌握的考点优先出现，已掌握的降为低频（仍会温故，不会消失），答错过的权重最高。</li>
       <li>提交后按<b>条目命中率</b>给分：每答中一条标准答案中的关键表述即算命中。</li>
       <li><b>≥85% 通过</b>；60%~85% 需重写；&lt;60% 回「骨架+口诀」页重背。</li>
       <li>拿到满分的条目会自动在「骨架+口诀」页标为已掌握。</li>
     </ol>
+  </div>
+  <div class="legend" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+    <span>抽题偏好</span>
+    <button class="mini strbtn" data-mode="smart">正常复习</button>
+    <button class="mini strbtn" data-mode="focus">侧重薄弱</button>
+    <button class="mini strbtn" data-mode="all">全部随机</button>
+    <span id="poolinfo" style="margin-left:auto"></span>
   </div>
   <div class="qbox">
     <div class="qstem" id="qstem">点击「出题」开始</div>
@@ -283,6 +290,7 @@ h2.sec::before{content:'';width:3px;height:16px;background:linear-gradient(180de
       <span id="qmod"></span>
       <span id="qcnt"></span>
       <span id="qidx"></span>
+      <span id="qtier"></span>
     </div>
     <textarea id="uans" placeholder="在这里默写你的答案，一条一行更利于判分……"></textarea>
     <div class="hintbar" id="hintbar"></div>
@@ -354,7 +362,7 @@ const MODULES = [
          '深度诊断与评估',
          '整体与专项规划',
          '持续改进'],
-      note:'口诀「<b>内场深整改</b>」谐音"内场需要深整改"：内=内外部需求挖掘，场=场景化模型分析，深=深度诊断与评估，整=整体与专项规划，改=持续改进。<br>逻辑链：<b>挖需求 → 建场景 → 做诊断 → 出规划 → 持续改</b>。顺序不能乱——先挖需求才谈得上建模，先诊断才谈得上规划。'
+      note:'口诀「<b>内场深整改</b>」谐音"内场需要深整改"：内=内外部需求挖掘，场=场景化模型分析，深=深度诊断与评估，整=整体与专项规划，改=持续改进。<br>逻辑链：<b>挖需求 → 建场景 → 做诊断 → 出规划 → 持续改</b>。顺序不能乱——先挖需求才谈得上建模，先诊断才谈得上规划。<br><b>官方口诀</b>：<b>需求 → 场景 → 诊断 → 规划 → 改进</b>。<br><b>补充·第 4 步「整体与专项规划」的具体内容</b>：该阶段主要包括对各类需求进行整合与确认、<b>整体规划、专项规划</b>和<b>一致性检查</b>。<br>· <b>整体规划</b>重点关注：①确保信息系统与组织战略目标的一致性；②提高信息系统的协同性和一体化程度；③优化资源配置和投资回报。<br>· <b>专项规划</b>重点关注：①清晰明确信息系统的管理和使用主体（部门/团队）及关键责任人或岗位；②强调单项领域的规划系统性，可不考虑较长时间周期，以管理和使用主体可理解、可接受为主；③技术路线和技术属性需进一步明确和强化，进行细致的科学推理；④配套更细致的实施路径或计划，往往不以阶段划分，而以时间为主轴。<br>· <b>一致性检查</b>内容：①规划成果与需求之间的对应关系、规划成果与组织战略的一致性；②规划内容之间的协调一致性（组织、框架、人员、技术、资源和任务等）；③规划内容的科学性和可行性；④规划内容与组织干系人理解的一致性。'
     }
   ]
 },
@@ -369,7 +377,7 @@ const MODULES = [
          '灵活性',
          '可扩展性',
          '可驾驭性'],
-      note:'谐音句：<b>"用着安全靠得住，灵活扩展驾得住"</b>。<br>结构钩子：<b>前 3 项 = 稳态品质（用·安·靠，跑得稳）；后 3 项 = 动态能力（灵·扩·驾，变得动）</b>。<br>易漏项：最后一条"<b>可驾驭性</b>"最容易被写成"可管理性""可控性"，务必写准。'
+      note:'谐音句：<b>"用着安全靠得住，灵活扩展驾得住"</b>。<br>结构钩子：<b>前 3 项 = 稳态品质（用·安·靠，跑得稳）；后 3 项 = 动态能力（灵·扩·驾，变得动）</b>。<br>易漏项：最后一条"<b>可驾驭性</b>"最容易被写成"可管理性""可控性"，务必写准。<br><b>官方口诀</b>：<b>「可—安—可—靠—灵—扩—驾」</b>（与上表一致，可用 / 安全 / 可靠 / 灵活 / 可扩展 / 可驾驭）。<br><b>配套考点·分系统划分四原则</b>（口诀「职—技—工—数」，与本节常同题出现）：①<b>职能一致性</b>（按组织职能划分分系统）②<b>技术一致性</b>（按技术类别划分，如云计算、物联网，保证技术架构和选型一致）③<b>工程一致性</b>（针对相对独立、持续建设的工程划分，如智慧园区工程）④<b>数据一致性</b>（将数据活动作为相对独立、完整的系统进行规划）。'
     },
     { q:'任务体系的 6 个步骤',
       chips:[{t:'拆·标·组·策·计·控',c:''},{t:'结构：3 对',c:'b'}],
@@ -379,7 +387,7 @@ const MODULES = [
          '制定策略',
          '定义计划',
          '监控实施'],
-      note:'结构钩子（三对，非常好记）：<br>① <b>拆解任务 ↔ 确定目标</b>（做什么 / 做到什么程度）<br>② <b>匹配组织 ↔ 制定策略</b>（谁来做 / 怎么做）<br>③ <b>定义计划 ↔ 监控实施</b>（排期 / 盯执行）<br>注意三个"定"分别管<b>目标、策略、计划</b>，收尾动词是"<b>监控</b>"。'
+      note:'结构钩子（三对，非常好记）：<br>① <b>拆解任务 ↔ 确定目标</b>（做什么 / 做到什么程度）<br>② <b>匹配组织 ↔ 制定策略</b>（谁来做 / 怎么做）<br>③ <b>定义计划 ↔ 监控实施</b>（排期 / 盯执行）<br>注意三个"定"分别管<b>目标、策略、计划</b>，收尾动词是"<b>监控</b>"。<br><b>官方展开</b>：①任务拆解——<b>领域 → 工程 → 项目 → 活动</b>逐级分解；②明确目标——明确任务目标及衡量指标；③匹配组织——明确责任部门、责任人和干系团队；④制定策略——针对技术、人员、资金、时间、资源和风险制定策略；⑤定义计划——明确任务、责任人、时间、优先级、依赖关系和评价指标；⑥监控实施——通过监测、评估、报告、沟通等机制控制实施。<br>官方口诀：<b>拆任务、明目标、配组织、定策略、做计划、抓监控</b>。'
     }
   ]
 },
@@ -394,7 +402,7 @@ const MODULES = [
          '业务资源',
          '软件资源',
          '硬件资源'],
-      note:'口诀「<b>人财技业软硬</b>」= 人 + 财 + 技 + 业 + 软 + 硬。<br>结构钩子：<b>人/财（投入）+ 技/业（能力）+ 软/硬（资产）</b>。<br>本质记法：资源 = <b>规划要花出去的家底</b>。'
+      note:'口诀「<b>人财技业软硬</b>」= 人 + 财 + 技 + 业 + 软 + 硬。<br>结构钩子：<b>人/财（投入）+ 技/业（能力）+ 软/硬（资产）</b>。<br>本质记法：资源 = <b>规划要花出去的家底</b>。<br><b>官方说明</b>：资源体系是<b>对人、财、物、技术、数据等资源进行识别、配置和调度</b>。<br>资源调度四项的官方展开：①资源<b>识别与评估</b>——明确资源需求，分析容量、性能和可用性；②资源<b>关系与控制</b>——分析资源依赖和冲突，确定优先级；③资源<b>分配与调度</b>——根据任务和资源情况配置，关注正常、异常和应急场景；④资源<b>风险与优化</b>——分析容量、持续供应中断、质量和能力等风险，并制定替代、纠正和预防措施。'
     },
     { q:'资源调度的内容（4 项）',
       chips:[{t:'识·控·分·优',c:''}],
@@ -412,7 +420,7 @@ const MODULES = [
          '资源保障',
          '数据保障',
          '安全保障'],
-      note:'口诀「<b>组人技资数安</b>」= 组 + 人 + 技 + 资 + 数 + 安。<br><b>⚠️ 与"资源 6 项"共用"技术"二字</b>，这是唯一的交集，不能作为区分线索。真正的区别在本质：<b>资源 = 投入要素（家底），保障 = 支撑条件（靠山）</b>。<br>保障独有项是"<b>组织、数据、安全</b>"三项，资源独有项是"<b>财务、业务、软件、硬件</b>"四项。'
+      note:'口诀「<b>组人技资数安</b>」= 组 + 人 + 技 + 资 + 数 + 安。<br><b>⚠️ 与"资源 6 项"共用"技术"二字</b>，这是唯一的交集，不能作为区分线索。真正的区别在本质：<b>资源 = 投入要素（家底），保障 = 支撑条件（靠山）</b>。<br>保障独有项是"<b>组织、数据、安全</b>"三项，资源独有项是"<b>财务、业务、软件、硬件</b>"四项。<br><b>官方展开</b>：①<b>组织保障</b>——决策层和管理层的决策与承诺，推动组织变革；②<b>人员保障</b>——培养信息技术人才，提高业务人员数字能力和全员数字素养；③<b>技术保障</b>——技术储备、技术预研、技术创新和标准化建设；④<b>资源保障</b>——合理配置资源，提高资源利用率，保证持续投入；⑤<b>数据保障</b>——数据管理、数据治理、数据质量、数据标准化和数据价值利用；⑥<b>安全保障</b>——提高全员安全意识，完善安全管理体系，提升安全知识技能，采用安全技术和设备。'
     }
   ]
 },
@@ -426,7 +434,7 @@ const MODULES = [
          '现有系统勘查',
          '业务现场勘查',
          '案头研究'],
-      note:'分组钩子（比首字链更牢）：<b>两文书</b>（收集资料、案头研究）+ <b>一访谈</b>（交流访谈）+ <b>两勘查</b>（现有系统勘查、业务现场勘查）。<br>两个勘查要分清对象：<b>"现有系统"勘查看的是系统</b>，<b>"业务现场"勘查看的是人怎么干活</b>。'
+      note:'分组钩子（比首字链更牢）：<b>两文书</b>（收集资料、案头研究）+ <b>一访谈</b>（交流访谈）+ <b>两勘查</b>（现有系统勘查、业务现场勘查）。<br>两个勘查要分清对象：<b>"现有系统"勘查看的是系统</b>，<b>"业务现场"勘查看的是人怎么干活</b>。<br><b>补充·内部需求挖掘的注意事项</b>：以原始信息获取为主、避免直接给出解决方案、及时开展引导性培训、谨慎信息交叉传递、关注隐性需求的推演。<br><b>补充·外部需求挖掘的注意事项</b>：国家战略与政策引用、定性内容转定量对比、避免信息安全事件。<br><b>补充·需求整合与分析要确定的 9 方面内容</b>：①组织信息系统发展过程中的主要矛盾及各种矛盾之间的关系；②整体或分领域的主要需求，以及它们之间的冲突、联系及优先级；③关键干系人和干系群体的内在需求；④外部对组织相关建设的要求及引导性内容；⑤组织创新环境、数字环境的基本状态；⑥组织数字化发展所处的大致水平及目标水平；⑦组织治理与文化的基本模式及发展突破的历程；⑧信息系统规划可能面临的重大风险；⑨进一步开展工作的主要策略。'
     },
     { q:'内部需求挖掘的主要任务（5 项）',
       chips:[{t:'战·流·需·系·境',c:''},{t:'由内向外扩散',c:'b'}],
@@ -481,7 +489,7 @@ const MODULES = [
          '优点：提高系统适应性',
          '缺点：数据采集与分析困难',
          '缺点：可行性受限'],
-      note:'合起来记：<b>三优"贴·导·适"，两缺"数难 + 可行性受限"</b>。<br>优点三词对应三个层面：<b>贴</b>合需求（对不对）、提供<b>导</b>向（能不能用）、提高<b>适</b>应性（能不能变）。<br>缺点只有 2 条，别写多——"数据采集与分析困难"是输入端问题，"可行性受限"是落地端问题。'
+      note:'合起来记：<b>三优"贴·导·适"，两缺"数难 + 可行性受限"</b>。<br>优点三词对应三个层面：<b>贴</b>合需求（对不对）、提供<b>导</b>向（能不能用）、提高<b>适</b>应性（能不能变）。<br>缺点只有 2 条，别写多——"数据采集与分析困难"是输入端问题，"可行性受限"是落地端问题。<br><b>补充·场景化模型分析的关键价值（4 项）</b>：①提高规划决策的科学性和实践性；②确保规划与组织发展的衔接；③降低规划风险和成本；④促进信息系统规划的共识和沟通。'
     }
   ]
 },
@@ -493,7 +501,7 @@ const MODULES = [
       a:['成熟度与需求控制',
          '诊断与评估模型确立',
          '诊断与评估实施'],
-      note:'口诀「<b>熟·模·施</b>」。<br>逻辑链（非常好记）：<b>先看成熟度（摸底，现在什么水平）→ 再确立诊断评估模型（定尺子，按什么量）→ 最后实施诊断与评估（量一量，量出什么结果）</b>。<br>顺序不能反：没模型就去实施，等于没尺子量长度。'
+      note:'口诀「<b>熟·模·施</b>」。<br>逻辑链（非常好记）：<b>先看成熟度（摸底，现在什么水平）→ 再确立诊断评估模型（定尺子，按什么量）→ 最后实施诊断与评估（量一量，量出什么结果）</b>。<br>顺序不能反：没模型就去实施，等于没尺子量长度。<br>官方表述与三项内容一致（成熟度与需求控制 / 诊断与评估模型确立 / 诊断与评估实施）。'
     },
     { q:'持续改进的关注内容（5 项）',
       chips:[{t:'追·感·数·用·机',c:''}],
@@ -516,7 +524,7 @@ const MODULES = [
          'CSF 关键成功因素法 —— 看关键因素',
          'VCA 价值链分析法 —— 看价值',
          'Zachman 框架 —— 看架构'],
-      note:'定位口诀「<b>战·结·关·价·架</b>」。<br>英文名锚点：S<b>S</b>T = Strategy Set Transformation（战略集转移）；B<b>S</b>P = Business System Planning（中间 S 联想 Structure 结构）；CS<b>F</b> = Critical Success Factors（因素）；VC<b>A</b> = Value Chain Analysis（分析）。<br><b>⚠️ 写法纠偏</b>：是 <b>BSP</b> 不是 BSF，是 <b>VCA</b> 不是 VAC。'
+      note:'定位口诀「<b>战·结·关·价·架</b>」。<br>英文名锚点：S<b>S</b>T = Strategy Set Transformation（战略集转移）；B<b>S</b>P = Business System Planning（中间 S 联想 Structure 结构）；CS<b>F</b> = Critical Success Factors（因素）；VC<b>A</b> = Value Chain Analysis（分析）。<br><b>⚠️ 写法纠偏</b>：是 <b>BSP</b> 不是 BSF，是 <b>VCA</b> 不是 VAC。<br><b>官方对比（核心出发点 / 核心问题 / 关键词）</b>：<br>· <b>SST</b>：出发点=组织战略；核心问题=信息系统战略从哪里来；关键词=<b>战略转换</b><br>· <b>BSP</b>：出发点=企业整体；核心问题=系统应该如何组织；关键词=<b>目标 → 功能 → 数据 → 结构</b><br>· <b>CSF</b>：出发点=关键成功因素；核心问题=什么因素决定成败；关键词=<b>关键因素 + 指标</b><br>· <b>VCA</b>：出发点=价值链；核心问题=IT 重点支持哪里；关键词=<b>价值创造</b><br>· <b>Zachman</b>：出发点=企业架构；核心问题=如何全面描述架构；关键词=<b>6 问题 × 6 层次</b><br><b>案例题用法</b>：题干出现“把组织使命/目标/战略转换为系统目标”→ SST；出现“基本活动 + 支持性活动、增值/减值环节”→ VCA；出现“少数关键因素及其绩效指标”→ CSF；出现“定义管理目标/功能/数据类/信息结构”→ BSP。'
     },
     { q:'SST 战略目标集转移法：核心思想与步骤',
       chips:[{t:'组织战略集 → 信息系统战略集',c:''},{t:'关键词：转移',c:'b'}],
@@ -525,7 +533,7 @@ const MODULES = [
          '明确诉求',
          '定义任务战略',
          '验证战略集'],
-      note:'一句话记：<b>SST 就是"翻译"——把组织战略集翻译成信息系统战略集</b>。<br>步骤逻辑：<b>找人（识别利益相关方）→ 听诉求（明确诉求）→ 定战略（定义任务战略）→ 回头验（验证战略集）</b>。<br>核心采分词是"<b>转换 / 转移</b>"和"<b>相关联一致</b>"。'
+      note:'一句话记：<b>SST 就是"翻译"——把组织战略集翻译成信息系统战略集</b>。<br>步骤逻辑：<b>找人（识别利益相关方）→ 听诉求（明确诉求）→ 定战略（定义任务战略）→ 回头验（验证战略集）</b>。<br>核心采分词是"<b>转换 / 转移</b>"和"<b>相关联一致</b>"。<br><b>补充·官方考点“战略目标集转移法的内容包括”</b>（3 项）：①<b>组织战略集</b> ②<b>信息系统战略集</b> ③<b>信息系统战略规划过程</b>。<br>也就是说：<b>先把组织战略看成一个战略集，再映射/转移到信息系统战略集，中间的转移过程本身就是信息系统战略规划过程</b>。'
     },
     { q:'BSP 企业信息系统规划法：四个"定义"',
       chips:[{t:'目·功·数·构',c:''},{t:'四个都是"定义"',c:'b'}],
@@ -543,22 +551,21 @@ const MODULES = [
          '确定关键成功因素的绩效指标及标准和评估绩效使用的数据'],
       note:'口诀「<b>战·所·关·标</b>」= 战略目标 → 所有因素 → 关键因素 → 绩效指标。<br>逻辑钩子（必记）：<b>层层收窄</b>——目标(1个) → 所有因素(很多) → 关键因素(少数) → 指标(可度量)。最后一定要落到"<b>可度量</b>"上，这是 CSF 的落点。<br>第 4 步最长，别漏掉"<b>及标准和评估绩效使用的数据</b>"这个尾巴。'
     },
-    { q:'关键成功因素的主要来源（5 个）',
-      chips:[{t:'结·策·位·环·暂',c:''},{t:'⚠️ 另有 4 来源口径',c:'p'}],
-      a:['个别产业结构',
-         '竞争策略',
-         '产业地位与地理环境',
+        { q:'关键成功因素的主要来源（官方 4 个）',
+      chips:[{t:'结构·策略区位·环境·暂时',c:''},{t:'官方口径为 4 个来源',c:'b'},{t:'另有 5 项拆法',c:'p'}],
+      a:['个别产业的结构',
+         '竞争策略、产业地位及地理位置',
          '环境因素',
          '暂时因素'],
-      note:'口诀「<b>结·策·位·环·暂</b>」= 产业结构 → 竞争策略 → 产业地位与地理环境 → 环境因素 → 暂时因素。<br>谐音句：<b>"结构策略定位，环境暂时两条"</b>。<br><b>⚠️ 口径提醒</b>：部分资料把第 2、3 条合并为"竞争策略与区位"，写成 <b>4 个来源</b>。若考场上题干给了 4 个空就写合并版，5 个空就写拆分版。'
+      note:'<b>官方口径为 4 个来源</b>：①个别产业的结构 ②竞争策略、产业地位及地理位置 ③环境因素 ④暂时因素。<br><b>⚠️ 口径说明</b>：你原笔记把第 2 条拆成“竞争策略”“产业地位与地理环境”两条，于是成了 5 个来源。两种写法内容都不错，<b>按空格数决定：题干给 4 个空就写官方 4 来源，给 5 个空就写拆分版</b>。<br>记住它属于 <b>CSF</b> 方法，与“CSF 实施 4 步”（战—所—关—标）不是一回事。'
     },
-    { q:'VCA 价值链分析法：实施步骤（4 步）',
-      chips:[{t:'识别·加·减·支撑',c:''},{t:'唯一有"减"的方法',c:'b'}],
+        { q:'VCA 价值链分析法：实施步骤（4 步）',
+      chips:[{t:'识别·加·减·支持',c:''},{t:'唯一有“减”的方法',c:'b'}],
       a:['识别组织价值链',
          '确定关键价值增加环节',
          '确定关键价值减少环节',
-         '明确信息技术对关键价值环节的支撑'],
-      note:'口诀「<b>识别·加·减·支撑</b>」：先识别价值链，再找<b>增</b>值环节，再找<b>减</b>值环节，最后 IT 上场支撑。<br><b>唯一标志词</b>：五个方法里<b>只有 VCA 有"减少"</b>——看到"确定关键价值减少环节"直接锁定 VCA。<br>核心思想（采分词）：让<b>好钢用在刀刃上</b>，通过分析价值链找到最需要信息技术支撑的环节。'
+         '明确信息技术对关键价值环节的支持'],
+      note:'口诀「<b>识别·加·减·支持</b>」：先识别价值链，再找<b>增</b>值环节，再找<b>减</b>值环节，最后 IT 上场支持。<br><b>⚠️ 用词纠偏</b>：官方表述是“<b>支持</b>”，不是你笔记里的“支撑”——阅卷按关键词给分，写“支持”更稳。<br><b>唯一标志词</b>：五个方法里<b>只有 VCA 有“减少”</b>——看到“确定关键价值减少环节”直接锁定 VCA。<br>核心思想：让<b>好钢用在刀刃上</b>，通过分析价值链找到最需要信息技术支持的环节。'
     },
     { q:'Zachman 框架：实施步骤（6 步）',
       chips:[{t:'原·现·目·差·计·优',c:''},{t:'愿景→现状→目标→差距→计划→优化',c:'b'}],
@@ -568,7 +575,7 @@ const MODULES = [
          '差距与改进点分析',
          '制订实施计划',
          '持续改进优化'],
-      note:'口诀「<b>原·现·目·差·计·优</b>」，谐音句：<b>"原则现状目标差，计划优化六步走"</b>。<br>逻辑链（这是所有架构方法的通用套路，记住一次受用三处）：<b>定愿景 → 描现状 → 定目标 → 找差距 → 做计划 → 持续优化</b>。<br>补充考点：Zachman 是<b>二维矩阵</b>——横向 <b>6W</b>（What / How / Where / Who / When / Why），纵向 <b>6 层</b>角色（规划人员、系统所有者、架构师、构造人员、集成者、最终用户）。'
+      note:'口诀「<b>原·现·目·差·计·优</b>」，谐音句：<b>"原则现状目标差，计划优化六步走"</b>。<br>逻辑链（这是所有架构方法的通用套路，记住一次受用三处）：<b>定愿景 → 描现状 → 定目标 → 找差距 → 做计划 → 持续优化</b>。<br>补充考点：Zachman 是<b>二维矩阵</b>——横向 <b>6W</b>（What / How / Where / Who / When / Why），纵向 <b>6 层</b>角色（规划人员、系统所有者、架构师、构造人员、集成者、最终用户）。<br><b>官方坐标（6 问题 × 6 层次）</b>：<br>· 横向<b>六个问题</b>：<b>What</b>=数据 / <b>How</b>=功能 / <b>Where</b>=网络 / <b>Who</b>=人员 / <b>When</b>=时间 / <b>Why</b>=动机。<br>· 纵向<b>六个层次</b>：范围 → 企业 → 系统 → 技术 → 详细 → 功能。<br>· 对应<b>六个角色</b>：规划者 → 所有者 → 设计者 → 构造者 → 集成者 → 使用者。<br>一句话定位：Zachman 是<b>企业架构框架</b>，用“<b>6 问题 × 6 层次</b>”的二维矩阵全面描述架构。'
     }
   ]
 }
@@ -583,6 +590,8 @@ function saveState(s){try{localStorage.setItem(LS,JSON.stringify(s))}catch(e){}}
 let ST=loadState();
 if(!ST.mastered)ST.mastered={};
 if(!ST.attempts)ST.attempts=[];
+if(!ST.stats)ST.stats={};
+if(!ST.reviewMode)ST.reviewMode='smart';
 
 let QIDX=[];
 {
@@ -625,7 +634,7 @@ document.addEventListener('click',e=>{
     ST.mastered[id]=!ST.mastered[id];
     card.classList.toggle('ok',!!ST.mastered[id]);
     e.target.classList.toggle('on',!!ST.mastered[id]);
-    saveState(ST);renderProgress();
+    saveState(ST);renderProgress();renderPoolInfo();
   }
 });
 {
@@ -680,9 +689,13 @@ const NUM=[
   ['5','规划方法数量','战·结·关·价·架','SST 看战略 / BSP 看结构 / CSF 看关键 / VCA 看价值 / Zachman 看架构'],
   ['4','BSP 四个定义','目·功·数·构','定义管理目标 / 定义管理功能 / 定义数据类 / 定义信息结构'],
   ['4','CSF 实施步骤','战·所·关·标','确定组织战略目标 / 识别所有成功因素 / 确定关键成功因素 / 确定绩效指标及标准和数据'],
-  ['5','关键成功因素来源','结·策·位·环·暂','个别产业结构 / 竞争策略 / 产业地位与地理环境 / 环境因素 / 暂时因素'],
-  ['4','VCA 实施步骤','识别·加·减·支撑','识别组织价值链 / 确定关键价值增加环节 / 确定关键价值减少环节 / 明确信息技术对关键价值环节的支撑'],
-  ['6','Zachman 实施步骤','原·现·目·差·计·优','确定愿景和原则 / 现状描述分析 / 目标架构定义 / 差距与改进点分析 / 制订实施计划 / 持续改进优化']
+  ['4','关键成功因素来源（官方）','结构·策略区位·环境·暂时','个别产业的结构 / 竞争策略、产业地位及地理位置 / 环境因素 / 暂时因素'],
+  ['4','VCA 实施步骤','识别·加·减·支持','识别组织价值链 / 确定关键价值增加环节 / 确定关键价值减少环节 / 明确信息技术对关键价值环节的支持'],
+  ['6','Zachman 实施步骤','原·现·目·差·计·优','确定愿景和原则 / 现状描述分析 / 目标架构定义 / 差距与改进点分析 / 制订实施计划 / 持续改进优化'],
+  ['4','分系统划分原则','职·技·工·数','职能一致性 / 技术一致性 / 工程一致性 / 数据一致性'],
+  ['3','SST 内容','组织战略集 · 信息系统战略集 · 规划过程','组织战略集 / 信息系统战略集 / 信息系统战略规划过程'],
+  ['4','场景化模型分析关键价值','科实·衔接·降险·共识','提高规划决策的科学性和实践性 / 确保规划与组织发展的衔接 / 降低规划风险和成本 / 促进规划的共识和沟通'],
+  ['3','整体与专项规划构成','整合确认 · 整体 · 专项 · 一致性检查','对各类需求整合与确认 / 整体规划 / 专项规划 / 一致性检查']
 ];
 {
   const t=document.getElementById('numtable');
@@ -697,16 +710,50 @@ const NUM=[
 const POOL=QIDX.filter(x=>x.it.a.length>=2);
 let cur=null;
 
+function weightOf(x){
+  const mode=ST.reviewMode||'smart';
+  if(mode==='all')return 1;
+  const s=ST.stats[x.id];
+  if(ST.mastered[x.id]){
+    if(s&&s.last<85)return 3;
+    return mode==='focus'?0.2:1.2;
+  }
+  if(!s)return 10;
+  const acc=s.tot/s.n;
+  if(acc<60)return 22;
+  if(acc<85)return 12;
+  return 5;
+}
+function tierOf(x){
+  const mode=ST.reviewMode||'smart';
+  if(mode==='all')return '全部随机';
+  const s=ST.stats[x.id];
+  if(ST.mastered[x.id])return (s&&s.last<85)?'已掌握·回捞':'已掌握·低频';
+  if(!s)return '新题·优先';
+  const acc=s.tot/s.n;
+  if(acc<60)return '薄弱·最高频';
+  if(acc<85)return '待巩固·较高频';
+  return '已熟练·低频';
+}
+function pickWeighted(){
+  let list=POOL;
+  if(POOL.length>1&&cur)list=POOL.filter(x=>x!==cur);
+  const ws=list.map(weightOf);
+  const tot=ws.reduce((a,b)=>a+b,0);
+  if(tot<=0)return list[Math.floor(Math.random()*list.length)];
+  let r=Math.random()*tot;
+  for(let i=0;i<list.length;i++){r-=ws[i];if(r<=0)return list[i];}
+  return list[list.length-1];
+}
 function pick(){
   if(!POOL.length){document.getElementById('qstem').textContent='题库为空（暂无可出题的考点）';return;}
-  let n;
-  if(POOL.length<=1){n=POOL[0];}
-  else{let guard=0;do{n=POOL[Math.floor(Math.random()*POOL.length)];guard++;}while(cur&&n===cur&&guard<50);}
-  cur=n;
+  cur=pickWeighted();
   document.getElementById('qstem').textContent=cur.it.q;
   document.getElementById('qmod').textContent='模块 '+cur.m.no+' · '+cur.m.name;
   document.getElementById('qcnt').textContent='应写 '+cur.it.a.length+' 条';
   document.getElementById('qidx').textContent='题库 '+POOL.length+' 题';
+  const qt=document.getElementById('qtier');
+  if(qt)qt.textContent='档位 '+tierOf(cur);
   document.getElementById('uans').value='';
   document.getElementById('hintbar').classList.remove('on');
   document.getElementById('res').classList.remove('on');
@@ -739,15 +786,23 @@ function judge(){
   document.getElementById('rlist').innerHTML=rows.map(r=>
     `<div class="ritem ${r.hit?'hit':'miss'}"><span class="tag">${r.hit?'✓ 命中':'✗ 漏写'}</span><span>${r.t}</span></div>`).join('');
   document.getElementById('res').classList.add('on');
-  ST.attempts.push(pct);
+  ST.attempts.push({id:cur.id,pct,ts:Date.now()});
+  if(ST.attempts.length>400)ST.attempts=ST.attempts.slice(-400);
+  const st=ST.stats[cur.id]||(ST.stats[cur.id]={n:0,tot:0,last:0});
+  st.n++;st.tot+=pct;st.last=pct;
   if(pct>=100){ST.mastered[cur.id]=true;const card=document.querySelector(`.card[data-id="${cur.id}"]`);
     if(card){card.classList.add('ok');const b=card.querySelector('.tap');if(b)b.classList.add('on');}}
-  saveState(ST);renderProgress();renderAvg();
+  saveState(ST);renderProgress();renderAvg();renderPoolInfo();
 }
 function renderAvg(){
-  const a=ST.attempts||[];
+  const a=(ST.attempts||[]).map(v=>typeof v==='number'?v:v.pct).filter(v=>typeof v==='number');
   document.getElementById('attempts').textContent=a.length;
   document.getElementById('avg').textContent=a.length?Math.round(a.reduce((x,y)=>x+y,0)/a.length):0;
+}
+function renderPoolInfo(){
+  const el=document.getElementById('poolinfo');if(!el)return;
+  const nm=POOL.filter(x=>ST.mastered[x.id]).length;
+  el.textContent='题库 '+POOL.length+' 题 · 已掌握 '+nm+' 题（低频）';
 }
 document.getElementById('submit').onclick=judge;
 document.getElementById('nex').onclick=pick;
@@ -767,6 +822,16 @@ document.getElementById('uans').addEventListener('keydown',e=>{
   if((e.ctrlKey||e.metaKey)&&e.key==='Enter')judge();
 });
 
+/* 抽题偏好 */
+document.querySelectorAll('#strategy .strbtn').forEach(b=>{
+  b.classList.toggle('on',b.dataset.mode===(ST.reviewMode||'smart'));
+  b.onclick=()=>{
+    ST.reviewMode=b.dataset.mode;saveState(ST);
+    document.querySelectorAll('#strategy .strbtn').forEach(x=>x.classList.toggle('on',x===b));
+    renderPoolInfo();
+  };
+});
+
 /* 页签 */
 document.querySelectorAll('.tab').forEach(t=>{
   t.onclick=()=>{
@@ -780,12 +845,12 @@ document.querySelectorAll('.tab').forEach(t=>{
 });
 document.getElementById('reset').onclick=()=>{
   if(!confirm('确定清空全部掌握进度和答题记录吗？'))return;
-  ST={mastered:{},attempts:[]};saveState(ST);
+  ST={mastered:{},attempts:[],stats:{},reviewMode:ST.reviewMode||'smart'};saveState(ST);
   document.querySelectorAll('#mods .card').forEach(c=>{c.classList.remove('ok');const b=c.querySelector('.tap');if(b)b.classList.remove('on');});
   renderProgress();renderAvg();
 };
 
-renderProgress();renderAvg();pick();
+renderProgress();renderAvg();renderPoolInfo();pick();
 </script>
 </body>
 </html>
